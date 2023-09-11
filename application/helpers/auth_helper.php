@@ -1,4 +1,5 @@
 <?php
+
 use MiladRahimi\Jwt\Generator;
 use MiladRahimi\Jwt\Parser;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
@@ -26,7 +27,7 @@ use MiladRahimi\Jwt\Validator\Rules\NewerThan;
 	try {
 		$parser = new Parser($signer, $validator);
 		$claims = $parser->parse($jwt);
-		print_r($claims);
+		//ret($claims);
 	} catch (ValidationException $e) {
 		header("HTTP/1.1 401 Unauthorized");
 		echo json_encode([
@@ -36,3 +37,14 @@ use MiladRahimi\Jwt\Validator\Rules\NewerThan;
 	}
 }
 
+
+function getTokenInfo(){
+	require 'vendor/autoload.php';
+	$ci =& get_instance();
+	$headers = $ci->input->request_headers();
+	$jwt = $headers['Authorization'];
+	$jwt = str_ireplace("Bearer " , "", $jwt);
+	$signer = new HS256($ci->config->item('HS256KEY'));
+	$parser = new Parser($signer);
+	return $parser->parse($jwt);
+}
