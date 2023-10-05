@@ -33,7 +33,7 @@ function checkToken(){
     try {
         $parser = new Parser($signer, $validator);
         $claims = $parser->parse($jwt);
-        //ret($claims);
+        var_dump($claims);
     } catch (ValidationException $e) {
         header("HTTP/1.1 401 Unauthorized");
         echo json_encode([
