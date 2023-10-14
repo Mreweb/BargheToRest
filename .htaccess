@@ -1,9 +1,9 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /BargheToRest/
+    RewriteBase /BargheToApi/
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule . /BargheToRest/index.php [L]
+    RewriteRule . /BargheToApi/index.php [L]
     RewriteRule ^(application|system) - [F,L]
 </IfModule>
 

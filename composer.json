@@ -14,7 +14,8 @@
   "require": {
 	"php": ">=7.2",
 	"web-token/jwt-core": "*",
-	"miladrahimi/php-jwt": "2.*"
+	"miladrahimi/php-jwt": "2.*",
+    "ext-gd": "*"
   },
   "suggest": {
 	"paragonie/random_compat": "Provides better randomness in PHP 5.x"

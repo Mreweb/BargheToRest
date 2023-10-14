@@ -1,0 +1,166 @@
+<?php
+
+class ModelAccount extends CI_Model{
+    public function doSubmitPhone($inputs){
+        $code = randomString('nozero',4);
+
+        $url = 'http://api.kavenegar.com/v1/'.getSMSAPI().'/verify/lookup.json?receptor='.$inputs['inputPhone'].'&token='.$code.'&template=MobileVerification&type=sms';
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_exec($curl);
+        curl_close($curl);
+
+        $this->session->set_userdata('PersonPhone',$inputs['inputPhone']);
+        $this->db->select('*');
+        $this->db->from('person');
+        $this->db->where(array('PersonPhone' => $inputs['inputPhone']));
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            $result = $query->result_array()[0];
+            $this->doSetActivationCode($result['PersonId'] , $code);
+            $arr = array(
+                'type' => "green",
+				'userId' => $result['PersonId'],
+                'content' => "کد تایید ارسال شد",
+                'success' => true
+            );
+            return $arr;
+        }
+        else{
+            $userArray = array(
+                'PersonPhone' => $inputs['inputPhone'],
+                'Password' => md5($inputs['inputPhone']),
+                'ActivationCode' => $code,
+                'CreateDateTime' => time(),
+                'ModifyDatetime' => time()
+            );
+            $this->db->insert('person', $userArray);
+            $personId = $this->db->insert_id();
+            $this->doSetActivationCode($personId,$code , false);
+            /*$userArray = array(
+                'PersonId' => $personId,
+                'AccountBalance' => 0,
+                'CreateDateTime' => time(),
+                'CreatePersonId' => $personId
+            );
+            $this->db->insert('person_account_balance', $userArray);*/
+
+            $arr = array(
+                'type' => "green",
+				'userId' => $personId,
+                'content' => "کد تایید ارسال شد",
+                'success' => true
+            );
+            return $arr;
+        }
+    }
+    public function doSetActivationCode($personId , $code , $update = true){
+        if($update){
+            $userArray = array('ActivationCode' => $code);
+            $this->db->where('PersonId', $personId);
+            $this->db->update('person', $userArray);
+        }
+        $this->session->set_userdata('VerifyPersonId',$personId);
+        $this->session->set_userdata('ActivationCode',$code);
+    }
+    public function doVerifyPhone($inputs){
+        $this->db->select('*');
+        $this->db->from('person');
+        $this->db->where(array(
+            'ActivationCode' => $inputs['inputVerifyCode'],
+            'PersonPhone' => $inputs['inputPhone']
+        ));
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            $userArray = array('IsActive' => 1);
+            $this->db->where('PersonPhone', $inputs['inputPhone']);
+            $this->db->update('person', $userArray);
+
+            $this->db->select('*');
+            $this->db->from('person');
+            $this->db->where(array('PersonPhone' => $inputs['inputPhone']));
+            $query = $this->db->get();
+            $this->session->set_userdata('LoginInfo' , $query->result_array()[0]);
+            $this->session->set_userdata('IsLogged' , TRUE);
+            $arr = array(
+                'type' => "green",
+                'personId' => $query->result_array()[0]['PersonId'],
+                'content' => "ورود موفق...لطفا صبر کنید",
+                'success' => true
+            );
+            return $arr;
+        }
+        else{
+            $arr = array(
+                'type' => "red",
+                'content' => "کد ورود نامعتبر است",
+                'success' => false
+            );
+            return $arr;
+        }
+    }
+    public function doSubmitNewPhone($inputs){
+        $code = randomString('nozero',4);
+
+        $url = 'http://api.kavenegar.com/v1/'.getSMSAPI().'/verify/lookup.json?receptor='.$inputs['inputPhone'].'&token='.$code.'&template=MobileVerification&type=sms';
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_exec($curl);
+        curl_close($curl);
+
+
+        $this->doSetActivationCode($inputs['inputPersonId'] , $code);
+        $arr = array(
+            'type' => "green",
+            'content' => "کد تایید ارسال شد",
+            'success' => true
+        );
+        return $arr;
+
+    }
+    public function doVerifyNewPhone($inputs){
+        $this->db->select('*');
+        $this->db->from('person');
+        $this->db->where(array(
+            'ActivationCode' => $inputs['inputVerifyCode'],
+            'PersonId' => $inputs['inputPersonId']
+        ));
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            $userArray = array(
+                'IsActive' => 1,
+                'PersonPhone ' => $inputs['inputPhone']
+            );
+            $this->db->where('PersonId', $inputs['inputPersonId']);
+            $this->db->update('person', $userArray);
+
+            $this->db->select('*');
+            $this->db->from('person');
+            $this->db->where(array('PersonId' => $inputs['inputPersonId']));
+            $query = $this->db->get();
+            $this->session->set_userdata('LoginInfo' , $query->result_array()[0]);
+            $this->session->set_userdata('IsLogged' , TRUE);
+            $arr = array(
+                'type' => "green",
+                'personId' => $query->result_array()[0]['PersonId'],
+                'content' => "ورود موفق...لطفا صبر کنید",
+                'success' => true
+            );
+            return $arr;
+        }
+        else{
+            $arr = array(
+                'type' => "red",
+                'content' => "کد ورود نامعتبر است",
+                'success' => true
+            );
+            return $arr;
+        }
+    }
+}
+
+?>

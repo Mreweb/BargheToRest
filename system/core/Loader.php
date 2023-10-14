@@ -51,6 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_Loader {
 
+
 	// All these are set automatically. Don't mess with them.
 	/**
 	 * Nesting level of the output buffering mechanism
@@ -124,6 +125,23 @@ class CI_Loader {
 		'unit_test' => 'unit',
 		'user_agent' => 'agent'
 	);
+
+
+	public $load;
+	public $benchmark;
+	public $config;
+	public $log;
+	public $hooks;
+	public $utf8;
+	public $uri;
+	public $router;
+	public $exceptions;
+	public $output;
+	public $security;
+	public $input;
+	public $lang;
+
+
 
 	// --------------------------------------------------------------------
 

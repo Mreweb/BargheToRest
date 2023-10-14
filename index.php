@@ -1,5 +1,5 @@
 <?php
-define('ENVIRONMENT',  'production');
+define('ENVIRONMENT',  'development');
 switch (ENVIRONMENT) {
     case 'development':
         error_reporting(-1);
