@@ -1,0 +1,77 @@
+//@address = http://localhost:5502/api
+@address = http://api.hsfind.ir/auth
+@lang = fa
+@version = v1
+
+##################################### مشتریان ########################################
+
+### ثبت نام مشتری جدید
+POST {{address}}/{{version}}/customers/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "alireza",
+    "userName": "alireza",
+    "phoneNumber": "09123456789",
+    "email": "alireza@google.com",
+    "password": "very_secure_password",
+    "confirmPassword": "very_secure_password",
+    "personType": "Individual"
+}
+
+
+### ثبت نام مشتریان کانورتی (قدیمی)
+POST {{address}}/{{version}}/customers/register/convert HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": "b173827b-843a-42b7-95bb-d36f9ffd9228",
+    "name": "alireza",
+    "userName": "alireza",
+    "phoneNumber": "09123456789",
+    "email": "alireza@google.com",
+    "password": "very_secure_password",
+    "confirmPassword": "very_secure_password",
+    "personType": "Individual"
+}
+
+
+### آپدیت شماره تماس مشتری
+PUT {{address}}/{{version}}/customers/9adb7ac3-94f9-4918-9ac9-8d0092e5a6f7/update-phoneNumber HTTP/1.1
+Content-Type: application/json
+
+{
+    "phoneNumber": "09123456789",
+}
+
+
+### آپدیت اطلاعات مشتری
+PUT {{address}}/{{version}}/customers/9adb7ac3-94f9-4918-9ac9-8d0092e5a6f7/update-info HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "alireza",
+    "phoneNumber": "09123456789",
+}
+
+
+### ارسال مجدد کد فعال سازی حساب کاربری
+POST {{address}}/{{version}}/customers/9adb7ac3-94f9-4918-9ac9-8d0092e5a6f7/activation/resend HTTP/1.1
+Content-Type: application/json
+
+{
+    "captchaId": "a1c3ba755fbe4345b44b811cd71e1609",
+    "captchaCode": "123456"
+}
+
+
+### تایید کد فعال سازی حساب کاربری
+POST {{address}}/{{version}}/customers/9adb7ac3-94f9-4918-9ac9-8d0092e5a6f7/activation/verify HTTP/1.1
+Content-Type: application/json
+
+{
+    "code": "123456",
+    "captchaId": "a1c3ba755fbe4345b44b811cd71e1609",
+    "captchaCode": "123456"
+}
+

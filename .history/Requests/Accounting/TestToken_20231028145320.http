@@ -1,0 +1,17 @@
+@address = http://localhost:8080/BargheToApi
+//@address = https://api.bargheto.ir/auth
+@lang = fa
+@version = v1
+##################################### تست توکن ########################################
+GET  {{address}}/Home/generate HTTP/1.1
+Content-Type: application/json
+
+{
+    /*"name": "alireza",
+    "userName": "alireza",
+    "phoneNumber": "09123456789",
+    "email": "alireza@google.com",
+    "password": "very_secure_password",
+    "confirmPassword": "very_secure_password",
+    "personType": "Individual"*/
+}

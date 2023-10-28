@@ -1,0 +1,26 @@
+@address = http://localhost:8080/BargheToApi
+//@address = https://api.bargheto.ir/auth
+@version = v1
+##################################### تست توکن ########################################
+GET  {{address}}/Auth/generate HTTP/1.1
+Content-Type: application/json
+
+{
+
+}
+################################# رمزگشایی ##########################
+GET {{address}}/Auth/is_ok
+Authorization: Bearer eyJhb5GciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjY2LCJpcy1hZG1pbiI6dHJ1ZSwicm9sZXMiOlsiQURNSU4iLCJBR0VOQ1kiXSwiZXhwaXJlX3RpbWUiOjE2OTg0OTU4NTV9.5ioHwT6kDIuBcsYHGXkZ10u_xorhpzVt7mjuDwHfI3g
+Content-Type: application/json
+
+{
+
+}
+################################# دریافت اطلاعات توکن ##########################
+GET {{address}}/Auth/get_info
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjY2LCJpcy1hZG1pbiI6dHJ1ZSwicm9sZXMiOlsiQURNSU4iLCJBR0VOQ1kiXSwiZXhwaXJlX3RpbWUiOjE2OTg0OTU2NDd9.IpvBhe_2B1tyq8PVaL-RKcrD35DjcAn4ZlNV7zcwiYE
+Content-Type: application/json
+
+{
+
+}
