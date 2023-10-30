@@ -128,6 +128,29 @@ function response($array, $code = null){
     echo json_encode($array, JSON_UNESCAPED_UNICODE);
 }
 
+function get_req_message($key , $custom_message = null , $additionalArray = array()){
+    $ci =& get_instance();
+    $msg = $ci->config->item('DBMessages')[$key];
+    if($custom_message != null){
+        $msg['content'] = $custom_message;
+    }
+    foreach($additionalArray as $key => $value){
+        $msg[$key] = $value;
+    }
+    return $msg;
+}
+
+function getVisitorInfo(){
+    $ci =& get_instance();
+    $data['IpAddress'] = $ci->input->ip_address();
+    $data['Browser'] = $ci->agent->browser();
+    $data['BrowserVersion'] = $ci->agent->version();
+    $data['Platform'] = $ci->agent->platform();
+    $data['FullUserAgentString'] = $_SERVER['HTTP_USER_AGENT'];
+    return $data;
+}
+
+
 function sendSMS($method, $to, $inputs)
 {
 

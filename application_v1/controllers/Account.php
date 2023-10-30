@@ -1,16 +1,15 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-
-include APPPATH.'helpers/cors.php';
-
-
-class Account extends CI_Controller{
-    public function __construct(){
+defined('BASEPATH') or exit('No direct script access allowed');
+include APPPATH . 'helpers/cors.php';
+class Account extends CI_Controller
+{
+    public function __construct()
+    {
         parent::__construct();
         $this->load->model('ModelAccount');
     }
-    public function auto(){
+    public function auto()
+    {
         /*$this->db->select('*');
         $this->db->from('person');
         $this->db->where(array('PersonPhone' => '09120572107'));
@@ -18,53 +17,46 @@ class Account extends CI_Controller{
         $this->session->set_userdata('LoginInfo' , $query->result_array()[0]);
         $this->session->set_userdata('IsLogged' , TRUE);*/
     }
-	public function index(){}
-    public function submit_phone(){
-		$json = file_get_contents('php://input');
-		$inputs = json_decode($json, true);
-		var_dump($inputs);
-        $inputs = array_map(function ($v) {
-            return strip_tags($v);
-        }, $inputs);
-        $inputs = array_map(function ($v) {
-            return remove_invisible_characters($v);
-        }, $inputs);
-        $inputs = mapArray('makeSafeInput' , $inputs);
-        //$result = $this->ModelAccount->doSubmitPhone($inputs);
-        echo json_encode($inputs);
+    public function index()
+    {
+        //slient
     }
-    public function verify_phone(){
-        $inputs = $this->input->post(NULL, TRUE);
-        $inputs = array_map(function ($v) {
-            return strip_tags($v);
-        }, $inputs);
-        $inputs = array_map(function ($v) {
-            return remove_invisible_characters($v);
-        }, $inputs);
-        $inputs = mapArray('makeSafeInput' , $inputs);
-       if ($this->session->userdata('CSRF') !== $inputs['inputCSRF']) {
-            $arr = array(
-                'type' => "red",
-                'content' => "درخواست نامعتبر است"
-            );
-            echo json_encode($arr);
-            die();
+    public function submit_phone() {
+        $inputs = json_decode($this->input->raw_input_stream, true);
+        $inputs = custom_filter_input($inputs);
+        /* Check Request Method */
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            /* Validate Comming Data */
+            $this->form_validation->set_data($inputs);
+            $this->form_validation->set_rules('inputPhone', 'تلفن همراه', 'trim|required|min_length[11]|max_length[13]');
+            $this->form_validation->set_rules('inputCaptcha', 'کد امنیتی', 'trim|required|exact_length[5]');
+            if ($this->form_validation->run() == FALSE){
+                response(get_req_message('ErrorAction' , validation_errors() ), 400 );
+            }
+            else{
+                $result = $this->ModelAccount->do_submit_phone($inputs);
+                response($result, 200 ); 
+            }
+        } else{
+            response(get_req_message('MethodNotAllowed'), 405 );
         }
-        $inputs['inputPhone'] = $this->session->userdata('PersonPhone');
-        $result = $this->ModelAccount->doVerifyPhone($inputs);
-
+    }
+    public function verify_phone() {
+        $inputs = json_decode($this->input->raw_input_stream, true);
+        $inputs = custom_filter_input($inputs);
+        $result = $this->ModelAccount->do_verify_phone($inputs);
         /* Log Action */
-        if($result['success']) {
+        /*if ($result['success']) {
             $logArray = getVisitorInfo();
             $logArray['Action'] = $this->router->fetch_class() . "_" . $this->router->fetch_method();
             $logArray['Description'] = json_encode($inputs);
             $logArray['LogPersonId'] = $result['personId'];
             $this->ModelLog->doAdd($logArray);
             $this->session->unset_userdata('PersonPhone');
-        }
+        }*/
         /* End Log Action */
-
-        echo json_encode($result);
+        response($result , 200 );
+ 
     }
 
 }

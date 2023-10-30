@@ -4,7 +4,7 @@ $config['base_url'] = 'http://localhost:8080/BargheToApi';
 $config['index_page'] = '';
 $config['uri_protocol']	= 'REQUEST_URI';
 $config['url_suffix'] = '';
-$config['language']	= 'english';
+$config['language']	= 'persian';
 $config['charset'] = 'UTF-8';
 $config['enable_hooks'] = FALSE;
 $config['subclass_prefix'] = 'MY_';
@@ -51,6 +51,45 @@ $config['time_reference'] = 'local';
 $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';
 $config['HS256KEY'] = '5HFQjMFJe9bn0u6lZzAo_IY1GOSk1Q5b18fFtitXNfc';
+$config['SMSAPI'] = '644751304D5155772B626847312B637A4862343438472B766C6762456841316C7A7A656F6B7757432B61633D';
+$config['DBMessages'] = array(
+    'SuccessAction' => array(
+        'code' => 'SERVICE.SUCCESS',
+        'type' => "green",
+        'content' => "عملیات با موفقیت انجام شد",
+        'success' => true
+    ),
+    'ErrorAction' => array(
+        'code' => 'SERVICE.ERROR',
+        'type' => "red",
+        'content' => "عملیات با خطا مواجه شد",
+        'success' => false
+    ),
+    'RequiredFields' => array(
+        'code' => 'SERVICE.REQUIREDFIELD',
+        'type' => "red",
+        'content' => 'تمامی مقادیر الزامی را وارد کنید',
+        'success' => false
+    ),
+    'DuplicateInfo' => array(
+        'code' => 'SERVICE.DUPLICATE',
+        'type' => "yellow",
+        'content' => 'اطلاعات قبلا در سامانه ثبت شده است',
+        'success' => false
+    ),
+    'MethodNotAllowed' => array(
+        'code' => 'SERVICE.NOTALLOWED',
+        'type' => "yellow",
+        'content' => 'متد فراخوانی معتبر نیست',
+        'success' => false
+    ),
+    'AccessAction' => array(
+        'code' => 'SERVICE.NOACCESS',
+        'type' => "yellow",
+        'content' => 'دسترسی به این منبع محدود شده است',
+        'success' => false
+    )
+);
 $config['ENUM'] = [
     'PersonType'=> [
         'NORMAL' => 'عادی',

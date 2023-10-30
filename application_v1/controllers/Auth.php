@@ -14,7 +14,7 @@ class Auth extends CI_Controller{
 		$this->load->helper('captcha');
 	}
 	public function index(){
-		$this->load->view('welcome_message');
+		//slient
 	}
 	public function generate(){
 		require 'vendor/autoload.php';

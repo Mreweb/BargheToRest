@@ -7,8 +7,7 @@ use MiladRahimi\Jwt\Validator\DefaultValidator;
 use MiladRahimi\Jwt\Validator\Rules\EqualsTo;
 use MiladRahimi\Jwt\Validator\Rules\NewerThan;
 
-function checkToken()
-{
+function checkToken(){
     require 'vendor/autoload.php';
     $ci =& get_instance();
     $headers = $ci->input->request_headers();
@@ -55,8 +54,7 @@ function checkToken()
     } 
 
 }
-function getTokenInfo()
-{
+function getTokenInfo(){
     require 'vendor/autoload.php';
     $ci =& get_instance();
     $headers = $ci->input->request_headers();
@@ -87,12 +85,7 @@ function getTokenInfo()
     try {
         $parser = new Parser($signer);
         $claims = $parser->parse($jwt);
-        $data['content'] = $claims;
-        response([
-            'data' => $data,
-            'success' => true,
-            'message' => 'درخواست با موفقیت انجام شد'
-        ], 200);
+        response($claims, 200);
     } catch (Exception $e) {
         response([
             'code' => 'SERVICE.INVALIDTOKEN',

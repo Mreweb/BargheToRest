@@ -1,1 +1,15 @@
-<?phpfunction loginRecord($UserArray){    $ci =& get_instance();    $ci->db->insert('login_records', $UserArray);}function getGrades(){    $ci =& get_instance();    $ci->db->select('*');    $ci->db->from('grade');    $ci->db->order_by('grade.GradeId', 'DESC');    return $ci->db->get()->result_array();}function getGradeClassRooms($gradeId){    $ci =& get_instance();    $ci->db->select('*');    $ci->db->from('classroom');    $ci->db->where('classroom.GradeId', $gradeId);    $ci->db->order_by('classroom.GradeId', 'DESC');    return $ci->db->get()->result_array();}function getTaxCategories(){    $ci =& get_instance();    $ci->db->select('*');    $ci->db->from('tax_category');    $ci->db->where('IsActive', 1);    $ci->db->order_by('TaxCategoryId', 'DESC');    return $ci->db->get()->result_array();}?>
+<?php
+function loginRecord($UserArray){
+    $ci =& get_instance();
+    $ci->db->insert('login_records', $UserArray);
+}
+
+/*function getTaxCategories(){
+    $ci =& get_instance();
+    $ci->db->select('*');
+    $ci->db->from('tax_category');
+    $ci->db->where('IsActive', 1);
+    $ci->db->order_by('TaxCategoryId', 'DESC');
+    return $ci->db->get()->result_array();
+}*/
+?>
