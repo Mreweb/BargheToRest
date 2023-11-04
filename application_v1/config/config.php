@@ -51,6 +51,8 @@ $config['time_reference'] = 'local';
 $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';
 $config['HS256KEY'] = '5HFQjMFJe9bn0u6lZzAo_IY1GOSk1Q5b18fFtitXNfc';
+$config['defaultPageSize'] = 10;
+
 $config['SMSAPI'] = '644751304D5155772B626847312B637A4862343438472B766C6762456841316C7A7A656F6B7757432B61633D';
 $config['DBMessages'] = array(
     'SuccessAction' => array(

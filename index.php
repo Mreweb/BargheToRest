@@ -19,7 +19,7 @@ switch (ENVIRONMENT) {
         echo 'The application environment is not set correctly.';
         exit(1);
 }
-$system_path = 'system';
+$system_path = 'system_v1';
 $application_folder = 'application_v1';
 $view_folder = '';
 if (defined('STDIN')) {

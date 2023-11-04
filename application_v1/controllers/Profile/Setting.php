@@ -32,16 +32,6 @@ class Setting extends CI_Controller
                 response($result, 200);
                 die();
             }
-
-            /* Log Action */
-            if ($result['success']) {
-                $logArray = getVisitorInfo();
-                $logArray['Action'] = $this->router->fetch_class() . "_" . $this->router->fetch_method();
-                $logArray['Description'] = json_encode($inputs);
-                $logArray['LogPersonId'] = $this->loginInfo['Info']['PersonId'];
-                $this->ModelLog->doAdd($logArray);
-            }
-            /* End Log Action */
         }
 
     }
@@ -70,18 +60,10 @@ class Setting extends CI_Controller
                 response($result, 200);
                 die();
             }
-            /* Log Action */
-            if ($result['success']) {
-                $logArray = getVisitorInfo();
-                $logArray['Action'] = $this->router->fetch_class() . "_" . $this->router->fetch_method();
-                $logArray['Description'] = json_encode($inputs);
-                $logArray['LogPersonId'] = $this->loginInfo['Info']['PersonId'];
-                $this->ModelLog->doAdd($logArray);
-            }
-            /* End Log Action */
         }
 
     }
+    
     public function doSubmitNewPhone()
     {
         $inputs = $this->input->post(NULL, TRUE);

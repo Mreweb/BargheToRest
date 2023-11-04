@@ -1,0 +1,14 @@
+  ########## ویرایش اطلاعات کاربر #################################################################################             
+GET   {{address}}/Profile/Bills/get_list?page=1&inputBillTitle=&inputBillNumberID=&inputPersonLastName&inputPersonLastName=&inputPersonNationalCode=&inputPersonPhone= HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+ 
+ ########## ویرایش اطلاعات کاربر #################################################################################             
+POST   {{address}}/Profile/Bills/add_bill HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "inputBillTitle": "قبض خانه شماره 1",
+    "inputBillNumberID": "2254210233"
+}
