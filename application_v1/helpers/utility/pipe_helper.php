@@ -126,7 +126,6 @@ function response($array, $code = null){
         http_response_code($code);
     }
     echo json_encode($array, JSON_UNESCAPED_UNICODE);
-    die();
 }
 
 function get_req_message($key , $custom_message = null , $additionalArray = array()){
@@ -146,7 +145,8 @@ function check_request_method($method){
     if($method == $ci->input->server('REQUEST_METHOD')){
         return TRUE;
     }
-    return FALSE;
+    response(get_req_message('MethodNotAllowed'), 405);
+
 }
 
 function check_captcha($captcha){

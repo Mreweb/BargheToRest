@@ -26,8 +26,6 @@ class Account extends CI_Controller{
                 $result = $this->ModelAccount->do_submit_phone($inputs);
                 response($result, 200);
             }
-        } else {
-            response(get_req_message('MethodNotAllowed'), 405);
         }
     }
     public function verify_phone(){
@@ -36,8 +34,6 @@ class Account extends CI_Controller{
             $inputs = custom_filter_input($inputs);
             $result = $this->ModelAccount->do_verify_phone($inputs);
             response($result, 200);
-        } else {
-            response(get_req_message('MethodNotAllowed'), 405);
         }
     }
 

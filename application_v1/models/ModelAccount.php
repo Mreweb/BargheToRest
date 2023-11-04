@@ -46,11 +46,18 @@ class ModelAccount extends CI_Model{
                 'CreatePersonId' => $personId
             );
             $this->db->insert('person_account_balance', $userArray);
+
+            $userArray = array(
+                'PersonId' => $personId,
+                'CreateDateTime' => time(),
+                'CreatePersonId' => $personId
+            );
+            $this->db->insert('person_legal_info', $userArray);
+
             return get_req_message('SuccessAction' , "کد تایید ارسال شد" , ['personId' => $personId] );
 
         }
     }
-
 
     public function do_verify_phone($inputs){
         $this->db->select('*');

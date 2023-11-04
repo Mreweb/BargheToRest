@@ -3,7 +3,6 @@
 class ModelProfile extends CI_Model{
 
     /* Setting */
-
     public function do_change_info($inputs){
         if ($inputs['inputNationalCode'] != '' && $inputs['inputNationalCode'] != null) {
             $this->db->select('*');
@@ -24,7 +23,7 @@ class ModelProfile extends CI_Model{
             'PersonLastName' => $inputs['inputLastName'], 
             'PersonNationalCode' => $inputs['inputNationalCode'],
             'PersonAddress' => $inputs['inputAddress'],
-            'ModifyDatetime' => time(),
+            'ModifyDateTime' => time(),
             'ModifyPersonId' => $inputs['inputPersonId']
         );
         $this->db->where('PersonId', $inputs['inputPersonId']);
@@ -33,20 +32,24 @@ class ModelProfile extends CI_Model{
 
     }
 
-    public function doChangeCompanyInfo($inputs)
-    {
+    public function do_change_user_legal_info($inputs){
+        
         $userArray = array(
-            'LegalInvoiceCompanyName' => $inputs['inputLegalInvoiceCompanyName'],
-            'LegalInvoiceCompanyId' => $inputs['inputLegalInvoiceCompanyId'],
-            'LegalInvoiceCompanyFinanceCode' => $inputs['inputLegalInvoiceCompanyFinanceCode'],
-            'LegalInvoiceCompanyPostalCode' => $inputs['inputLegalInvoiceCompanyPostalCode'],
-            'LegalInvoiceCompanyAddress' => $inputs['inputLegalInvoiceCompanyAddress'],
-            'ModifyDatetime' => time(),
-            'ModifyPersonId' => $inputs['inputModifyPersonId']
+            'LegalOrganizationName' => $inputs['inputLegalOrganizationName'],
+            'LegalFinanceCode' => $inputs['inputLegalFinanceCode'],
+            'LegalCompanyId' => $inputs['inputLegalCompanyId'],
+            'LegalRegisterNumber' => $inputs['inputLegalRegisterNumber'],
+            'LegalPhone' => $inputs['inputLegalPhone'],
+            'LegalProvinceId' => $inputs['inputLegalProvinceId'],
+            'LegalCityId' => $inputs['inputLegalCityId'],
+            'LegalAddress' => $inputs['inputLegalAddress'],
+            'ModifyDateTime' => time(),
+            'ModifyPersonId' => $inputs['inputPersonId']
         );
-        $this->db->where('PersonId', $inputs['inputModifyPersonId']);
-        $this->db->update('person_invoice_info', $userArray);
-        return $this->config->item('DBMessages')['SuccessAction'];
+        $this->db->where('PersonId', $inputs['inputPersonId']);
+        $this->db->update('person_legal_info', $userArray);
+        return get_req_message('SuccessAction');
+
     }
 
     /* End Setting */
