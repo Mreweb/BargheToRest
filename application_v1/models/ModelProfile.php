@@ -1,7 +1,6 @@
 <?php
 
-class ModelProfile extends CI_Model
-{
+class ModelProfile extends CI_Model{
 
     /* Setting */
     public function do_change_info($inputs)
@@ -68,9 +67,9 @@ class ModelProfile extends CI_Model
             $this->db->like('BillTitle', $inputs['inputBillTitle']);
             $this->db->group_end();
         }
-        if ($inputs['inputBillNumberID'] != '') {
+        if ($inputs['inputBillNumberId'] != '') {
             $this->db->group_start();
-            $this->db->like('BillNumberID', $inputs['inputBillNumberID']);
+            $this->db->like('BillNumberId', $inputs['inputBillNumberId']);
             $this->db->group_end();
         }
         if ($inputs['inputPersonLastName'] != '') {
@@ -104,13 +103,11 @@ class ModelProfile extends CI_Model
 
     }
 
-
-
-    public function do_add_bill($inputs)
-    {
+    public function do_add_bill($inputs){
         $this->db->select('*');
         $this->db->from('person_bill');
-        $this->db->where('BillNumberID', $inputs['inputBillNumberID']);
+        $this->db->where('BillPersonId', $inputs['inputPersonId']);
+        $this->db->where('BillNumberId', $inputs['inputBillNumberId']);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return get_req_message('DuplicateInfo', null);
@@ -118,7 +115,7 @@ class ModelProfile extends CI_Model
         $userArray = array(
             'BillGUID' => $this->uuid->v4(),
             'BillTitle' => $inputs['inputBillTitle'],
-            'BillNumberID' => $inputs['inputBillNumberID'],
+            'BillNumberID' => $inputs['inputBillNumberId'],
             'BillPersonId' => $inputs['inputPersonId'],
             'CreateDateTime' => time(),
             'CreatePersonId' => $inputs['inputPersonId']
@@ -126,6 +123,29 @@ class ModelProfile extends CI_Model
         $this->db->insert('person_bill', $userArray);
         return get_req_message('SuccessAction');
     }
+
+    public function do_edit_bill($inputs){
+
+        $this->db->select('*');
+        $this->db->from('person_bill');
+        $this->db->where('BillPersonId', $inputs['inputPersonId']);
+        $this->db->where('BillNumberId', $inputs['inputBillNumberId']);
+        $this->db->where('BillGUID !=', $inputs['inputBillGUID']);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return get_req_message('DuplicateInfo', null);
+        }
+        $userArray = array(
+            'BillTitle' => $inputs['inputBillTitle'],
+            'BillNumberID' => $inputs['inputBillNumberId'],
+            'ModifyDateTime' => time(),
+            'ModifyPersonId' => $inputs['inputPersonId']
+        );
+        $this->db->where('BillGUID', $inputs['inputBillGUID']);
+        $this->db->update('person_bill', $userArray);
+        return get_req_message('SuccessAction');
+    }
+    
 
 }
 
