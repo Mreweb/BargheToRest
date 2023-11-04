@@ -126,18 +126,35 @@ function response($array, $code = null){
         http_response_code($code);
     }
     echo json_encode($array, JSON_UNESCAPED_UNICODE);
+    die();
 }
 
 function get_req_message($key , $custom_message = null , $additionalArray = array()){
     $ci =& get_instance();
     $msg = $ci->config->item('DBMessages')[$key];
     if($custom_message != null){
-        $msg['content'] = $custom_message;
+        $msg['message'] = $custom_message;
     }
     foreach($additionalArray as $key => $value){
         $msg[$key] = $value;
     }
     return $msg;
+}
+
+function check_request_method($method){
+    $ci =& get_instance();
+    if($method == $ci->input->server('REQUEST_METHOD')){
+        return TRUE;
+    }
+    return FALSE;
+}
+
+function check_captcha($captcha){
+    $ci =& get_instance();
+    if ($ci->session->userdata('CaptchaCode') !== $captcha) {
+        response(get_req_message('ErrorAction', 'کد امنیتی صحیح نیست'), 400);
+        die();
+    }
 }
 
 function getVisitorInfo(){

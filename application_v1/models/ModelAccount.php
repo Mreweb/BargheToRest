@@ -17,7 +17,6 @@ class ModelAccount extends CI_Model{
         curl_setopt($curl, CURLOPT_HEADER, false);
         curl_exec($curl);
         curl_close($curl);
-
         $this->session->set_userdata('PersonPhone',$inputs['inputPhone']);
         $this->db->select('*');
         $this->db->from('person');
@@ -25,8 +24,10 @@ class ModelAccount extends CI_Model{
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             $result = $query->result_array()[0];
-            $this->doSetActivationCode($result['PersonId'] , $code);
-            return get_req_message('SuccessAction' , "کد تایید ارسال شد" , ['userId' => $result['PersonId']] );
+            $userArray = array('ActivationCode' => $code);
+            $this->db->where('PersonId', $result['PersonId']);
+            $this->db->update('person', $userArray);
+            return get_req_message('SuccessAction' , "کد تایید ارسال شد" , ['personId' => $result['PersonId']] );
         }
         else{
             $userArray = array(
@@ -38,7 +39,6 @@ class ModelAccount extends CI_Model{
             );
             $this->db->insert('person', $userArray);
             $personId = $this->db->insert_id();
-            $this->doSetActivationCode($personId,$code , false);
             $userArray = array(
                 'PersonId' => $personId,
                 'AccountBalance' => 0,
@@ -46,25 +46,28 @@ class ModelAccount extends CI_Model{
                 'CreatePersonId' => $personId
             );
             $this->db->insert('person_account_balance', $userArray);
-            return get_req_message('SuccessAction' , "کد تایید ارسال شد" , ['userId' => $personId] );
+            return get_req_message('SuccessAction' , "کد تایید ارسال شد" , ['personId' => $personId] );
 
         }
     }
+
+
     public function do_verify_phone($inputs){
         $this->db->select('*');
         $this->db->from('person');
         $this->db->where(array(
             'ActivationCode' => $inputs['inputVerifyCode'],
-            'PersonPhone' => $inputs['inputPhone']
+            'PersonId' => $inputs['inputPersonId']
         ));
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             $userArray = array('IsActive' => 1);
-            $this->db->where('PersonPhone', $inputs['inputPhone']);
+            $this->db->where('PersonId', $inputs['inputPersonId']);
             $this->db->update('person', $userArray);
+
             $this->db->select('*');
             $this->db->from('person');
-            $this->db->where(array('PersonPhone' => $inputs['inputPhone']));
+            $this->db->where(array('PersonId' => $inputs['inputPersonId']));
             $query = $this->db->get();
             require 'vendor/autoload.php';
             $signer = new HS256($this->config->item('HS256KEY'));
@@ -74,7 +77,7 @@ class ModelAccount extends CI_Model{
                 'IsLogged' => true ,
                 'expire_time' =>time()+43200
             ]);
-            return get_req_message('SuccessAction' , "فعال سازی با موفقیت انجام گرفت" , ['accessToken' => $jwt ] );
+            return get_req_message('SuccessAction' , null , ['accessToken' => $jwt ] );
         }
         else{
             return get_req_message('ErrorAction' , "کد ورود صحیح نیست" );

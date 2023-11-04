@@ -31,10 +31,8 @@ class Auth extends CI_Controller{
 			'message' => 'دریافت شناسه با موفقیت انجام شد',
 			'token' => $jwt
 		], 200);
-	}
-	public function is_ok(){
-		checkToken();
-	}
+	}	
+
 	public function get_info(){
 		$info = getTokenInfo();
 		print_r($info);

@@ -47,6 +47,8 @@
       <path value="$PROJECT_DIR$/vendor/web-token/jwt-core" />
       <path value="$PROJECT_DIR$/vendor/brick/math" />
       <path value="$PROJECT_DIR$/vendor/miladrahimi/php-jwt" />
+      <path value="$PROJECT_DIR$/vendor/spomky-labs/base64url" />
+      <path value="$PROJECT_DIR$/vendor/fgrosse/phpasn1" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.2">

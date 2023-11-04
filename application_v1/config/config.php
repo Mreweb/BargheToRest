@@ -55,38 +55,32 @@ $config['SMSAPI'] = '644751304D5155772B626847312B637A4862343438472B766C676245684
 $config['DBMessages'] = array(
     'SuccessAction' => array(
         'code' => 'SERVICE.SUCCESS',
-        'type' => "green",
-        'content' => "عملیات با موفقیت انجام شد",
+        'message' => "عملیات با موفقیت انجام شد",
         'success' => true
     ),
     'ErrorAction' => array(
         'code' => 'SERVICE.ERROR',
-        'type' => "red",
-        'content' => "عملیات با خطا مواجه شد",
+        'message' => "عملیات با خطا مواجه شد",
         'success' => false
     ),
     'RequiredFields' => array(
         'code' => 'SERVICE.REQUIREDFIELD',
-        'type' => "red",
-        'content' => 'تمامی مقادیر الزامی را وارد کنید',
+        'message' => 'تمامی مقادیر الزامی را وارد کنید',
         'success' => false
     ),
     'DuplicateInfo' => array(
         'code' => 'SERVICE.DUPLICATE',
-        'type' => "yellow",
-        'content' => 'اطلاعات قبلا در سامانه ثبت شده است',
+        'message' => 'اطلاعات قبلا در سامانه ثبت شده است',
         'success' => false
     ),
     'MethodNotAllowed' => array(
         'code' => 'SERVICE.NOTALLOWED',
-        'type' => "yellow",
-        'content' => 'متد فراخوانی معتبر نیست',
+        'message' => 'متد فراخوانی معتبر نیست',
         'success' => false
     ),
     'AccessAction' => array(
         'code' => 'SERVICE.NOACCESS',
-        'type' => "yellow",
-        'content' => 'دسترسی به این منبع محدود شده است',
+        'message' => 'دسترسی به این منبع محدود شده است',
         'success' => false
     )
 );

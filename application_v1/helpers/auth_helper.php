@@ -7,58 +7,10 @@ use MiladRahimi\Jwt\Validator\DefaultValidator;
 use MiladRahimi\Jwt\Validator\Rules\EqualsTo;
 use MiladRahimi\Jwt\Validator\Rules\NewerThan;
 
-function checkToken(){
+function getTokenInfo($return = false){
     require 'vendor/autoload.php';
     $ci =& get_instance();
-    $headers = $ci->input->request_headers();
-    if (isset($headers['authorization'])) {
-        $jwt = $headers['authorization'];
-        if ($jwt == null | $jwt == '') {
-            response([
-                'code' => 'SERVICE.INVALIDTOKEN',
-                'success' => false,
-                'message' => 'درخواست نامعتبر است'
-            ], 401);
-            die();
-        }
-    } else {
-        response([
-            'code' => 'SERVICE.NOTFOUNDTOKEN',
-            'success' => false,
-            'message' => 'درخواست منقضی شده است'
-        ], 401);
-        die();
-    }
-    $jwt = str_ireplace("Bearer ", "", $jwt);
-    $signer = new HS256($ci->config->item('HS256KEY'));
-    $validator = new DefaultValidator();
-    $validator->addRule('is-admin', new EqualsTo(true));
-    $validator->addRule('expire_time', new NewerThan(time()));
-
-    $parser = new Parser($signer, $validator); 
-    try {
-        $claims = $parser->parse($jwt);
-        $data['content'] = $claims;
-        response([
-            'data' => $data,
-            'success' => true,
-            'message' => 'درخواست با موفقیت انجام شد'
-        ], 200);
-    } catch (Exception $e) {
-        response([
-            'code' => 'SERVICE.INVALIDTOKEN',
-            'success' => false,
-            'message' => 'درخواست نامعتبر است'
-        ], 401);
-        die();
-    } 
-
-}
-function getTokenInfo(){
-    require 'vendor/autoload.php';
-    $ci =& get_instance();
-    $headers = $ci->input->request_headers();
-    
+    $headers = $ci->input->request_headers(); 
     if (isset($headers['authorization'])) {
         $jwt = $headers['authorization'];
         if ($jwt == null | $jwt == '') {
@@ -85,12 +37,17 @@ function getTokenInfo(){
     try {
         $parser = new Parser($signer);
         $claims = $parser->parse($jwt);
-        response($claims, 200);
+        if($return){
+            return $claims;
+        } else{
+            response($claims, 200);
+        }
     } catch (Exception $e) {
         response([
             'code' => 'SERVICE.INVALIDTOKEN',
             'success' => false,
-            'message' => 'invalidToken'
-        ], 200);
+            'message' => 'درخواست نامعتبر است'
+        ], 400);
+        die();
     }
 }
