@@ -1,0 +1,38 @@
+########## دریافت فهرست استان ها #################################################################################
+GET   {{address}}/Country/get_province_list HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+}
+
+########## دریافت استان  #################################################################################
+GET   {{address}}/Country/get_province_list/10 HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+}
+
+########## دریافت فهرست شهر ها #################################################################################
+GET   {{address}}/Country/get_city_list HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+}
+
+########## دریافت  شهر  #################################################################################
+GET   {{address}}/Country/get_city_list/450 HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+}
+########## دریافت فهرست شهرهای یک استان #################################################################################
+GET   {{address}}/Country/get_city_by_province_id/8 HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+}

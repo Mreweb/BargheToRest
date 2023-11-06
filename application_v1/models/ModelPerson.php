@@ -115,13 +115,6 @@ class ModelPerson extends CI_Model{
 
     }
 
-    public function getAdmin()
-    {
-        $this->db->select('*');
-        $this->db->from('person');
-        $this->db->where(array('PersonId' => 1));
-        return $this->db->get()->result_array();
-    }
 
 }
 
