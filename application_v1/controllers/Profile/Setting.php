@@ -13,8 +13,7 @@ class Setting extends CI_Controller
         $this->loginInfo = getTokenInfo(true);
         $this->enum = $this->config->item('Enum');
     }
-    public function change_user_info()
-    {
+    public function change_user_info(){
         if (check_request_method('POST')) {
             $inputs = json_decode($this->input->raw_input_stream, true);
             $inputs = custom_filter_input($inputs);
@@ -33,12 +32,8 @@ class Setting extends CI_Controller
                 die();
             }
         }
-
     }
-    public function change_user_legal_info()
-    {
-
-
+    public function change_user_legal_info(){
         if (check_request_method('POST')) {
             $inputs = json_decode($this->input->raw_input_stream, true);
             $inputs = custom_filter_input($inputs);
@@ -61,200 +56,53 @@ class Setting extends CI_Controller
                 die();
             }
         }
-
     }
     
-    public function doSubmitNewPhone()
-    {
-        $inputs = $this->input->post(NULL, TRUE);
-        $inputs = array_map(function ($v) {
-            return strip_tags($v);
-        }, $inputs);
-        $inputs = array_map(function ($v) {
-            return remove_invisible_characters($v);
-        }, $inputs);
-        $inputs = mapArray('makeSafeInput', $inputs);
-
-        if ($this->loginInfo['PersonPhone'] == $inputs['inputPhone']) {
-            $arr = array(
-                'success' => false,
-                'type' => "red",
-                'content' => "شماره جدید تکراری ست"
-            );
-            echo json_encode($arr);
-            die();
+    public function submit_new_phone(){
+        if (check_request_method('POST')) {
+            $inputs = json_decode($this->input->raw_input_stream, true);
+            $inputs = custom_filter_input($inputs);
+            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
+            $this->form_validation->set_data($inputs);
+            $this->form_validation->set_rules('inputPhone', 'تلفن همراه', 'trim|required|min_length[11]|max_length[13]');
+            if ($this->form_validation->run() == FALSE) {
+                response(get_req_message('ErrorAction', validation_errors()), 400);
+                die();
+            } else {
+                $result = $this->ModelProfile->do_submit_new_phone($inputs);
+                response($result, 200);
+                die();
+            }
         }
-
-        /*if ($this->session->userdata('CSRF') !== $inputs['inputCSRF']) {
-            $arr = array(
-                'type' => "red",
-                'content' => "درخواست نامعتبر است"
-            );
-            echo json_encode($arr);
-            die();
-        }*/
-
-        $this->session->set_userdata('PersonPhone', $inputs['inputPhone']);
-
-        $inputs['inputPersonId'] = $this->loginInfo['PersonId'];
-        $inputs['inputPhone'] = $this->session->userdata('PersonPhone');
-        $result = $this->ModelAccount->doSubmitNewPhone($inputs);
-        /* Log Action */
-        $logArray = getVisitorInfo();
-        $logArray['Action'] = $this->router->fetch_class() . "_" . $this->router->fetch_method();
-        $logArray['Description'] = json_encode($inputs);
-        $logArray['LogPersonId'] = $this->loginInfo['PersonId'];
-        $this->ModelLog->doAdd($logArray);
-        /* End Log Action */
-        echo json_encode($result);
-
     }
-    public function doVerifyNewPhone()
-    {
-        $inputs = $this->input->post(NULL, TRUE);
-        $inputs = array_map(function ($v) {
-            return strip_tags($v);
-        }, $inputs);
-        $inputs = array_map(function ($v) {
-            return remove_invisible_characters($v);
-        }, $inputs);
-        $inputs = mapArray('makeSafeInput', $inputs);
-        /* if ($this->session->userdata('CSRF') !== $inputs['inputCSRF']) {
-             $arr = array(
-                 'type' => "red",
-                 'content' => "درخواست نامعتبر است"
-             );
-             echo json_encode($arr);
-             die();
-         }*/
-
-        if ($this->session->userdata('ActivationCode') !== $inputs['inputVerifyCode']) {
-            $arr = array(
-                'type' => "red",
-                'content' => "کد تاییدیه نامعتبر است"
-            );
-            echo json_encode($arr);
-            die();
+    public function verify_new_phone(){
+        if (check_request_method('POST')) {
+            $inputs = json_decode($this->input->raw_input_stream, true);
+            $inputs = custom_filter_input($inputs);
+            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
+            $this->form_validation->set_data($inputs);
+            $this->form_validation->set_rules('inputVerifyCode', 'کد تایید', 'trim|required|min_length[4]|max_length[4]');
+            if ($this->form_validation->run() == FALSE) {
+                response(get_req_message('ErrorAction', validation_errors()), 400);
+                die();
+            } else {
+                $result = $this->ModelProfile->do_verify_new_phone($inputs);
+                response($result, 200);
+                die();
+            }
         }
-
-        $inputs['inputPhone'] = $this->session->userdata('PersonPhone');
-        $inputs['inputPersonId'] = $this->loginInfo['PersonId'];
-        $result = $this->ModelAccount->doVerifyNewPhone($inputs);
-        /* Log Action */
-        if ($result['success']) {
-            $logArray = getVisitorInfo();
-            $logArray['Action'] = $this->router->fetch_class() . "_" . $this->router->fetch_method();
-            $logArray['Description'] = json_encode($inputs);
-            $logArray['LogPersonId'] = $this->loginInfo['PersonId'];
-            $this->ModelLog->doAdd($logArray);
-        }
-        /* End Log Action */
-
-        echo json_encode($result);
     }
-    public function doAddAddress()
-    {
-        $inputs = $this->input->post(NULL, TRUE);
-        /*if ($this->session->userdata('CSRF') !== $inputs['inputCSRF']) {
-            $arr = array(
-                'type' => "red",
-                'content' => "درخواست نامعتبر است"
-            );
-            echo json_encode($arr);
-            die();
-        }*/
-        $inputs['inputPersonId'] = $this->loginInfo['PersonId'];
-        $inputs = array_map(function ($v) {
-            return strip_tags($v);
-        }, $inputs);
-        $inputs = array_map(function ($v) {
-            return remove_invisible_characters($v);
-        }, $inputs);
-        $inputs = array_map(function ($v) {
-            return makeSafeInput($v);
-        }, $inputs);
-        $result = $this->ModelProfile->doAddAddress($inputs);
-        /* Log Action */
-        if ($result['success']) {
-            $logArray = getVisitorInfo();
-            $logArray['Action'] = $this->router->fetch_class() . "_" . $this->router->fetch_method();
-            $logArray['Description'] = json_encode($inputs);
-            $logArray['LogPersonId'] = $this->loginInfo['PersonId'];
-            $this->ModelLog->doAdd($logArray);
+
+
+    public function get_user_info(){
+        if (check_request_method('GET')) {
+            $inputs = json_decode($this->input->raw_input_stream, true);
+            $inputs = custom_filter_input($inputs);
+            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
+            $result = $this->ModelPerson->get_person_all_info_by_person_id( $inputs['inputPersonId']);
+            response($result, 200);
         }
-        /* End Log Action */
-
-        echo json_encode($result);
-
     }
-    public function doEditAddress()
-    {
-        $inputs = $this->input->post(NULL, TRUE);
-        /*if ($this->session->userdata('CSRF') !== $inputs['inputCSRF']) {
-            $arr = array(
-                'type' => "red",
-                'content' => "درخواست نامعتبر است"
-            );
-            echo json_encode($arr);
-            die();
-        }*/
-        $inputs['inputPersonId'] = $this->loginInfo['PersonId'];
-        $inputs = array_map(function ($v) {
-            return strip_tags($v);
-        }, $inputs);
-        $inputs = array_map(function ($v) {
-            return remove_invisible_characters($v);
-        }, $inputs);
-        $inputs = array_map(function ($v) {
-            return makeSafeInput($v);
-        }, $inputs);
-        $result = $this->ModelProfile->doEditAddress($inputs);
-        /* Log Action */
-        if ($result['success']) {
-            $logArray = getVisitorInfo();
-            $logArray['Action'] = $this->router->fetch_class() . "_" . $this->router->fetch_method();
-            $logArray['Description'] = json_encode($inputs);
-            $logArray['LogPersonId'] = $this->loginInfo['PersonId'];
-            $this->ModelLog->doAdd($logArray);
-        }
-        /* End Log Action */
 
-        echo json_encode($result);
 
-    }
-    public function doDeleteAddress()
-    {
-        $inputs = $this->input->post(NULL, TRUE);
-        /*if ($this->session->userdata('CSRF') !== $inputs['inputCSRF']) {
-            $arr = array(
-                'type' => "red",
-                'content' => "درخواست نامعتبر است"
-            );
-            echo json_encode($arr);
-            die();
-        }*/
-        $inputs['inputPersonId'] = $this->loginInfo['PersonId'];
-        $inputs = array_map(function ($v) {
-            return strip_tags($v);
-        }, $inputs);
-        $inputs = array_map(function ($v) {
-            return remove_invisible_characters($v);
-        }, $inputs);
-        $inputs = array_map(function ($v) {
-            return makeSafeInput($v);
-        }, $inputs);
-        $result = $this->ModelProfile->doDeleteAddress($inputs);
-        /* Log Action */
-        if ($result['success']) {
-            $logArray = getVisitorInfo();
-            $logArray['Action'] = $this->router->fetch_class() . "_" . $this->router->fetch_method();
-            $logArray['Description'] = json_encode($inputs);
-            $logArray['LogPersonId'] = $this->loginInfo['PersonId'];
-            $this->ModelLog->doAdd($logArray);
-        }
-        /* End Log Action */
-
-        echo json_encode($result);
-
-    }
 }

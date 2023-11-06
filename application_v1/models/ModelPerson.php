@@ -92,31 +92,25 @@ class ModelPerson extends CI_Model{
         return $this->db->get()->result_array();
     }
 
-    public function getPersonAllInfo($personId){
+    public function get_person_all_info_by_person_id($personId){
         $this->db->select('*');
         $this->db->from('person');
         $this->db->where(array('PersonId' => $personId));
-        $data = $this->db->get()->result_array()[0];
+        $data['info'] = $this->db->get()->result_array()[0];
         $this->db->reset_query();
 
         $this->db->select('*');
-        $this->db->from('person_address');
+        $this->db->from('person_account_balance');
         $this->db->where(array('PersonId' => $personId));
-        $data['address'] = $this->db->get()->result_array()[0];
+        $data['account_balance'] = $this->db->get()->result_array()[0];
         $this->db->reset_query();
 
         $this->db->select('*');
-        $this->db->from('person_invoice_info');
+        $this->db->from('person_legal_info');
+        $this->db->join('province' , 'province.ProvinceId = person_legal_info.LegalProvinceId');
+        $this->db->join('city' , 'city.CityId = person_legal_info.LegalCityId');
         $this->db->where(array('PersonId' => $personId));
-        $data['invoice'] = $this->db->get()->result_array()[0];
-
-        $this->db->reset_query();
-
-        $this->db->select('*');
-        $this->db->from('person_roles');
-        $this->db->where(array('PersonId' => $personId));
-        $data['roles'] = $this->db->get()->result_array();
-
+        $data['legal_info'] = $this->db->get()->result_array()[0];
         return $data;
 
     }

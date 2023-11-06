@@ -10,7 +10,7 @@ Content-Type: application/json
     "inputAddress": "تهران خیابان ولیعصر روبروی پارک ملت"
 }
 
-########## ویرایش اطلاعات حقوقی کاربر #################################################################################
+########## ویرایش اطلاعات حقوقی کاربر ###########################################################################
 POST   {{address}}/Profile/Setting/change_user_legal_info HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
@@ -24,4 +24,30 @@ Content-Type: application/json
     "inputLegalProvinceId": "1",            
     "inputLegalCityId": "459",                  
     "inputLegalAddress": "تهران خیابان نیایش جنب پاساژ مرکزی" 
+}
+########## تغییر تلفن همراه #####################################################################################
+POST   {{address}}/Profile/Setting/submit_new_phone HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "inputPhone": "09120570000"
+}
+
+########## تایید تغییر تلفن همراه ###############################################################################
+POST   {{address}}/Profile/Setting/verify_new_phone HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "inputPhone": "09120570000",
+    "inputVerifyCode": "2196"
+}
+
+########## دریافت اطلاعات فرد ####################################################################################
+GET   {{address}}/Profile/Setting/get_user_info HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
 }
