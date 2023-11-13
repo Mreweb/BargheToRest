@@ -1,0 +1,43 @@
+##########  دریافت فهرست تعرفه استان ها #################################################################################             
+GET   {{address}}/Admin/ProvinceTariff?page=1&inputProvinceName=&inputProvinceId= HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+##########  درج تعرفه یک استان #################################################################################             
+POST   {{address}}/Admin/ProvinceTariff HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ 
+    "inputProvinceId": "1",
+    "inputLowPowerFromHour": "7",
+    "inputLowPowerToHour": "10",
+    "inputMiddlePowerFromHour": "14",
+    "inputMiddlePowerToHour": "17",
+    "inputPeakPowerFromHour": "20",
+    "inputPeakPowerToHour": "22"
+}
+########## ویرایش تعرفه یک استان #################################################################################             
+PUT   {{address}}/Admin/ProvinceTariff HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "inputProvinceTariffId": "1",
+    "inputLowPowerFromHour": "7",
+    "inputLowPowerToHour": "100",
+    "inputMiddlePowerFromHour": "140",
+    "inputMiddlePowerToHour": "170",
+    "inputPeakPowerFromHour": "200",
+    "inputPeakPowerToHour": "220"
+}
+########## حذف تعرفه استان #################################################################################             
+DELETE   {{address}}/Admin/ProvinceTariff HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "inputProvinceTariffId" : "11"
+}
+
+  

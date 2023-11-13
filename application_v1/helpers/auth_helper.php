@@ -47,7 +47,7 @@ function getTokenInfo($return = false){
             'code' => 'SERVICE.INVALIDTOKEN',
             'success' => false,
             'message' => 'درخواست نامعتبر است'
-        ], 400);
+        ], 401);
         die();
     }
 }

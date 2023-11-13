@@ -11,7 +11,7 @@ POST   {{address}}/Account/submit_phone HTTP/1.1
 Content-Type: application/json
 
 {
-    "inputPhone": "09215544568",
+    "inputPhone": "09120572107",
     "inputCaptcha" : "59958"
 }
 ########## تایید کد ارسال شده ########################################################################
@@ -19,13 +19,6 @@ POST {{address}}/Account/verify_phone
 Content-Type: application/json
 
 {
-    "inputPersonId": "1821", /* OR GUID */
-    "inputVerifyCode" : "9281"
-}
-########## دریافت اطلاعات توکن ######################################################################
-GET {{address}}/Auth/get_info
-Authorization: Bearer {{token}}
-
-{
-
+    "inputPersonId": "1821",
+    "inputVerifyCode" : "9281" 
 }

@@ -25,8 +25,7 @@ class ModelPerson extends CI_Model{
             return $this->db->insert_id();
         }
     }
-    public function doEditByColumn($inputs)
-    {
+    public function doEditByColumn($inputs){
         $userArray = array(
             $inputs['inputColumn'] => $inputs['inputValue']
         );
@@ -34,37 +33,32 @@ class ModelPerson extends CI_Model{
         $this->db->update('person', $userArray);
 
     }
-    public function getPersonById($personId)
-    {
+    public function getPersonById($personId){
         $this->db->select('*');
         $this->db->from('person');
         $this->db->where(array('PersonId' => $personId));
         return $this->db->get()->result_array();
     }
-    public function getPersonByOrderId($orderId)
-    {
+    public function getPersonByOrderId($orderId){
         $this->db->select('*');
         $this->db->from('orders');
         $this->db->join('person' , 'person.PersonId = orders.OrderPersonId');
         $this->db->where(array('orderId' => $orderId));
         return $this->db->get()->result_array();
     }
-    public function getPersonByNationalCode($NationalCode)
-    {
+    public function getPersonByNationalCode($NationalCode){
         $this->db->select('*');
         $this->db->from('person');
         $this->db->where(array('PersonNationalCode' => $NationalCode));
         return $this->db->get()->result_array();
     }
-    public function getPersonRolesById($personId)
-    {
+    public function getPersonRolesById($personId){
         $this->db->select('Role');
         $this->db->from('person_roles');
         $this->db->where(array('PersonId' => $personId));
         return $this->db->get()->result_array();
     }
-    public function getAddressByPersonId($personId)
-    {
+    public function getAddressByPersonId($personId){
         $this->db->select('*');
         $this->db->from('person_address');
         $this->db->join('state' , 'state.StateId = person_address.StateId');
@@ -73,8 +67,7 @@ class ModelPerson extends CI_Model{
         $this->db->order_by('AddressId', 'DESC');
         return $this->db->get()->result_array();
     }
-    public function getAddressByAddressPersonId($addressId, $personId)
-    {
+    public function getAddressByAddressPersonId($addressId, $personId){
         $this->db->select('*');
         $this->db->from('person_address');
         $this->db->where(array('AddressId' => $addressId));

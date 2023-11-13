@@ -75,6 +75,11 @@ $config['DBMessages'] = array(
         'message' => 'اطلاعات قبلا در سامانه ثبت شده است',
         'success' => false
     ),
+    'NotFound' => array(
+        'code' => 'SERVICE.NotFound',
+        'message' => 'موردی یافت نشد',
+        'success' => false
+    ),
     'MethodNotAllowed' => array(
         'code' => 'SERVICE.NOTALLOWED',
         'message' => 'متد فراخوانی معتبر نیست',

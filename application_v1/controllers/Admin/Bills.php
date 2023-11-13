@@ -34,15 +34,15 @@ class Bills extends CI_Controller{
             $inputs = $this->input->get();
             $inputs = custom_filter_input($inputs);
             $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
-            $result = $this->ModelBill->get_user_bill_list($inputs);
+            $result = $this->ModelBill->get_bill_list($inputs);
             response(get_req_message('SuccessAction', null, $result), 200);
         }
     }
-    public function add_bill() {
+    public function add_bill(){
         if (check_request_method('POST')) {
             $inputs = json_decode($this->input->raw_input_stream, true);
             $inputs = custom_filter_input($inputs);
-            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
+            $inputs['inputAdminPersonId'] = $this->loginInfo['Info']['PersonId'];
             $this->form_validation->set_data($inputs);
             $this->form_validation->set_rules('inputBillTitle', 'عنوان قبض', 'trim|required|min_length[2]|max_length[50]');
             $this->form_validation->set_rules('inputBillNumberId', 'شناسه قبض', 'trim|required|numeric|min_length[2]|max_length[50]');
@@ -50,42 +50,45 @@ class Bills extends CI_Controller{
                 response(get_req_message('ErrorAction', validation_errors()), 400);
                 die();
             } else {
-                $result = $this->ModelBill->do_add_bill($inputs);
-                response($result, 200);
-                die();
-            }
-        }
-    }
-    public function edit_bill(){
-        if (check_request_method('PUT')) {
-            $inputs = json_decode($this->input->raw_input_stream, true);
-            $inputs = custom_filter_input($inputs);
-            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
-            $this->form_validation->set_data($inputs);
-            $this->form_validation->set_rules('inputBillTitle', 'عنوان قبض', 'trim|required|min_length[2]|max_length[50]');
-            $this->form_validation->set_rules('inputBillNumberId', 'شناسه قبض', 'trim|required|numeric|min_length[2]|max_length[50]');
-            if ($this->form_validation->run() == FALSE) {
-                response(get_req_message('ErrorAction', validation_errors()), 400);
-                die();
-            } else {
-                $result = $this->ModelBill->do_edit_bill($inputs);
+                
+                $result = $this->ModelBill->do_add_bill_by_admin($inputs);
                 response($result, 200);
                 die();
             }
         }
 
     }
-    public function delete_bill(){
+    public function edit_bill()
+    {
+        if (check_request_method('PUT')) {
+            $inputs = json_decode($this->input->raw_input_stream, true);
+            $inputs = custom_filter_input($inputs);
+            $inputs['inputAdminPersonId'] = $this->loginInfo['Info']['PersonId'];
+            $this->form_validation->set_data($inputs);
+            $this->form_validation->set_rules('inputBillTitle', 'عنوان قبض', 'trim|required|min_length[2]|max_length[50]');
+            $this->form_validation->set_rules('inputBillNumberId', 'شناسه قبض', 'trim|required|numeric|min_length[2]|max_length[50]');
+            if ($this->form_validation->run() == FALSE) {
+                response(get_req_message('ErrorAction', validation_errors()), 400);
+                die();
+            } else {
+                $result = $this->ModelBill->do_edit_bill_by_admin($inputs);
+                response($result, 200);
+                die();
+            }
+        }
+
+    }
+    public function delete_bill()
+    {
         if (check_request_method('DELETE')) {
             $inputs = json_decode($this->input->raw_input_stream, true);
             $inputs = custom_filter_input($inputs);
-            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
-            $result = $this->ModelBill->do_delete_bill($inputs);
+            $inputs['inputAdminPersonId'] = $this->loginInfo['Info']['PersonId'];
+            $result = $this->ModelBill->do_delete_bill_by_admin($inputs);
             response($result, 200);
             die();
         }
     }
-
     public function add_legal_info(){
         if (check_request_method('POST')) {
             $inputs = json_decode($this->input->raw_input_stream, true);
@@ -102,9 +105,8 @@ class Bills extends CI_Controller{
                 die();
             }
         }
+
     }
-
-
     
 
 }

@@ -1,33 +1,36 @@
-  ########## دریافت فهرست قبض های کاربر #################################################################################             
-GET   {{address}}/Profile/Bills?page=1&inputBillTitle=&inputBillNumberId=&inputPersonLastName&inputPersonLastName=&inputPersonNationalCode=&inputPersonPhone= HTTP/1.1
+  ########## دریافت فهرست قبض ها #################################################################################             
+GET   {{address}}/Admin/Bills?page=1&inputBillTitle=&inputBillNumberId=&inputPersonLastName&inputPersonLastName=&inputPersonNationalCode=&inputPersonPhone=&inputShowDeleted= HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 ########## افزودن قبض #################################################################################             
-POST   {{address}}/Profile/Bills HTTP/1.1
+POST   {{address}}/Admin/Bills HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
     "inputBillTitle": "قبض خانه شماره 1",
-    "inputBillNumberId": "2254210233"
+    "inputPersonId" : "1820",
+    "inputBillNumberId": "2254210234"
 }
 ########## ویرایش قبض #################################################################################             
-PUT   {{address}}/Profile/Bills HTTP/1.1
+PUT   {{address}}/Admin/Bills HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "inputBillGUID": "3302d7e2-0717-405b-9367-60fadf46a573",
+    "inputPersonId" : "1820",
+    "inputBillGUID": "98461e6f-cf9d-49a5-bc7e-2fc097dd507b",
     "inputBillTitle": "قبض خانه شماره 21",
     "inputBillNumberId": "2254210234"
 }
 ########## حذف قبض #################################################################################             
-DELETE   {{address}}/Profile/Bills HTTP/1.1
+DELETE   {{address}}/Admin/Bills HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
+    "inputPersonId" : "1820",
     "inputBillGUID": "3302d7e2-0717-405b-9367-60fadf46a573"
 }
 

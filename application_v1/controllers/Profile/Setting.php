@@ -5,8 +5,7 @@ class Setting extends CI_Controller
 {
     private $loginInfo;
     private $enum;
-    public function __construct()
-    {
+    public function __construct(){
         parent::__construct();
         $this->load->model('ModelAccount');
         $this->load->model('ModelCountry');
