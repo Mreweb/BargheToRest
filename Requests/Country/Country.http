@@ -6,7 +6,7 @@ Content-Type: application/json
 {
 }
 
-########## دریافت استان  #################################################################################
+########## دریافت اطلاعات استان  #################################################################################
 GET   {{address}}/Country/get_province_list/10 HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
@@ -14,7 +14,7 @@ Content-Type: application/json
 {
 }
 
-########## دریافت فهرست شهر ها ##########################################################################
+########## دریافت فهرست شهرها ##########################################################################
 GET   {{address}}/Country/get_city_list HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
@@ -22,7 +22,7 @@ Content-Type: application/json
 {
 }
 
-########## دریافت  شهر  #################################################################################
+########## دریافت اطلاعات یک شهر  #################################################################################
 GET   {{address}}/Country/get_city_list/450 HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json

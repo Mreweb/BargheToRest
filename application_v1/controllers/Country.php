@@ -7,7 +7,7 @@ class Country extends CI_Controller{
         $this->load->model('ModelCountry');
         $this->load->model('admin/ModelCountry');
     }
-    public function get_province_list($id =null){
+    public function get_province_list($id =null){ 
         if (check_request_method('GET')) {
             $result['data']['content'] = $this->ModelCountry->get_province_list($id);
             response(get_req_message('SuccessAction', null, $result), 200);
