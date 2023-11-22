@@ -45,13 +45,19 @@ function makeSafeInput($string)
 function custom_filter_input($inputs, $strip_tag = true, $remove_invisible = true, $custom_security = true )
 {
     if ($strip_tag) {
-        $inputs = array_map(function ($v) { return strip_tags($v); }, $inputs);
+        if(!is_array($inputs)){
+            $inputs = array_map(function ($v) { return strip_tags($v); }, $inputs);
+        }
     }
     if ($remove_invisible) {
-        $inputs = array_map(function ($v) { return remove_invisible_characters($v); }, $inputs);
+        if(!is_array($inputs)){
+            $inputs = array_map(function ($v) { return remove_invisible_characters($v); }, $inputs);
+        }
     }
     if ($custom_security) {
-        $inputs = array_map('makeSafeInput', $inputs);
+        if(!is_array($inputs)){
+            $inputs = array_map('makeSafeInput', $inputs);
+        }
     }
     return $inputs;
 }

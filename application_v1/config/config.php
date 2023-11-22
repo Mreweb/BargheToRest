@@ -75,7 +75,7 @@ $config['DBMessages'] = array(
         'message' => 'اطلاعات قبلا در سامانه ثبت شده است',
         'success' => false
     ),
-    'NotFound' => array(
+    'NOTFOUND' => array(
         'code' => 'SERVICE.NotFound',
         'message' => 'موردی یافت نشد',
         'success' => false
@@ -96,4 +96,13 @@ $config['ENUM'] = [
         'NORMAL' => 'عادی',
         'ORGANIZATION' => 'سازمانی'
     ],
+    'WeekDays'=> [
+        '1' => 'شنبه',
+        '2' => 'یکشنبه',
+        '3' => 'دوشنبه',
+        '4' => 'سه شنبه',
+        '5' => 'چهارشنبه',
+        '6' => 'پنجشنبه',
+        '7' => 'جمعه'
+    ]
 ];

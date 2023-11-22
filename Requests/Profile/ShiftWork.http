@@ -1,0 +1,93 @@
+########## شبفت های کاری #################################################################################             
+GET   {{address}}/Profile/ShiftWork?page=1&inputShiftWorkTitle HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+########## افزودن شیفت کاری جهت خرید قبض ###############################################################       
+POST   {{address}}/Profile/ShiftWork HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "inputShiftWorkTitle": "شیفت کاری شماره 1",
+    "inputShiftWorkBillGUID": "3302d7e2-0717-405b-9367-60fadf46a573",
+    "inputShiftWorkFromDate": "1402/08/01",
+    "inputShiftWorkToDate": "1402/09/01", 
+    "inputShiftWorkDays": 
+    [
+            {
+                "DayTitle" : "شنبه",
+                "DayValue" : "1",
+                "Hour" :[
+                            {  "FromHour" : "8",  "ToHour" : "10" },
+                            {  "FromHour" : "12",  "ToHour" : "14" },
+                            {  "FromHour" : "16",  "ToHour" : "20" }
+                        ]
+            },
+            {
+                "DayTitle" : "دوشنبه",
+                "DayValue" : "3",
+                "Hour" :[
+                            {  "FromHour" : "8",  "ToHour" : "10" },
+                            {  "FromHour" : "12",  "ToHour" : "14" },
+                            {  "FromHour" : "16",  "ToHour" : "20" }
+                        ]
+            },
+            {
+                "DayTitle" : "چهارشنبه",
+                "DayValue" : "5",
+                "Hour" :[
+                            {  "FromHour" : "8",  "ToHour" : "10" },
+                            {  "FromHour" : "12",  "ToHour" : "14" },
+                            {  "FromHour" : "16",  "ToHour" : "20" }
+                        ]
+            }
+    ]
+}
+########## ویرایش قبض #################################################################################             
+PUT   {{address}}/Profile/Bills HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "inputBillGUID": "3302d7e2-0717-405b-9367-60fadf46a573",
+    "inputBillTitle": "قبض خانه شماره 21",
+    "inputBillNumberId": "2254210234"
+}
+########## حذف قبض #################################################################################             
+DELETE   {{address}}/Profile/Bills HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "inputBillGUID": "3302d7e2-0717-405b-9367-60fadf46a573"
+}
+
+########## درج اطلاعات حقوقی و حقیقی قبض #################################################################################             
+POST   {{address}}/Profile/Bills/add_legal_info HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "inputPersonId": "1821",
+    "inputBillGUID": "3302d7e2-0717-405b-9367-60fadf46a573",
+    "inputRealName": "پدرام",
+    "inputRealLastName": "محمدی",
+    "inputRealNationalCode": "2541224518",
+    "inputRealPhone": "09125745214",
+    "inputRealProvinceId": "8",
+    "inputRealCityId": "450",
+    "inputRealAddress": "تهران شهریار خیابان ولیعصر عج الله تعالی فرجه الشریف",
+    "inputLegalOrganizationName": "سازمان آب و فاضله ی آب",
+    "inputLegalFinanceCode": "5541245",
+    "inputLegalCompanyId": "12355001",
+    "inputLegalRegisterNumber": "2258",
+    "inputLegalPhone": "02155442211",
+    "inputLegalProvinceId": "1",
+    "inputLegalCityId": "459", 
+    "inputLegalAddress": "تهران شهریار خیابان ", 
+    "CreateDateTime": "1699089990",
+    "CreatePersonId": "1821"
+}
+
+  

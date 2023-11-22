@@ -1,14 +1,14 @@
 <?php            
 defined('BASEPATH') or exit('No direct script access allowed');
 include APPPATH . 'helpers/cors.php';
-class Bills extends CI_Controller{
+class ShiftWork extends CI_Controller{
     private $loginInfo;
     private $enum;
     public function __construct(){
         parent::__construct();
         $this->loginInfo = getTokenInfo(true);
         $this->enum = $this->config->item('Enum');
-        $this->load->model('admin/ModelBill');
+        $this->load->model('admin/ModelShiftWork');
     }
     public function index(){
         switch ($this->input->server('REQUEST_METHOD')) {
@@ -16,13 +16,13 @@ class Bills extends CI_Controller{
                 $this->get_list();
                 break;
             case 'POST':
-                $this->add_bill();
+                $this->add_shift_work();
                 break;
             case 'PUT':
-                $this->edit_bill();
+                $this->edit_whift_work();
                 break;
             case 'DELETE':
-                $this->delete_bill();
+                $this->delete_shift_work();
                 break;
             default:
                 check_request_method('NONE');
@@ -34,23 +34,26 @@ class Bills extends CI_Controller{
             $inputs = $this->input->get();
             $inputs = custom_filter_input($inputs);
             $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
-            $result = $this->ModelBill->get_user_bill_list($inputs);
+            $result = $this->ModelShiftWork->get_user_bill_list($inputs);
             response(get_req_message('SuccessAction', null, $result), 200);
         }
     }
-    public function add_bill() {
+    public function add_shift_work() {
         if (check_request_method('POST')) {
-            $inputs = json_decode($this->input->raw_input_stream, true);
+            $inputs = json_decode($this->input->raw_input_stream, true); 
             $inputs = custom_filter_input($inputs);
             $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
             $this->form_validation->set_data($inputs);
-            $this->form_validation->set_rules('inputBillTitle', 'عنوان قبض', 'trim|required|min_length[2]|max_length[50]');
-            $this->form_validation->set_rules('inputBillNumberId', 'شناسه قبض', 'trim|required|numeric|min_length[2]|max_length[50]');
+            $this->form_validation->set_rules('inputShiftWorkTitle', 'عنوان شیفت کاری', 'trim|required|min_length[2]|max_length[80]');
+            $this->form_validation->set_rules('inputShiftWorkBillGUID', 'شناسه قبض', 'trim|required');
+            $this->form_validation->set_rules('inputShiftWorkFromDate', 'بازه شروع شیفت کاری', 'trim|required');
+            $this->form_validation->set_rules('inputShiftWorkToDate', 'بازه پایان شیفت کاری', 'trim|required');
+            $this->form_validation->set_rules('inputShiftWorkDays[]', 'شیفت های کاری', 'required');
             if ($this->form_validation->run() == FALSE) {
                 response(get_req_message('ErrorAction', validation_errors()), 400);
                 die();
             } else {
-                $result = $this->ModelBill->do_add_bill($inputs);
+                $result = $this->ModelShiftWork->add_shift_work($inputs);
                 response($result, 200);
                 die();
             }
@@ -68,7 +71,7 @@ class Bills extends CI_Controller{
                 response(get_req_message('ErrorAction', validation_errors()), 400);
                 die();
             } else {
-                $result = $this->ModelBill->do_edit_bill($inputs);
+                $result = $this->ModelShiftWork->do_edit_bill($inputs);
                 response($result, 200);
                 die();
             }
@@ -79,7 +82,7 @@ class Bills extends CI_Controller{
             $inputs = json_decode($this->input->raw_input_stream, true);
             $inputs = custom_filter_input($inputs);
             $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
-            $result = $this->ModelBill->do_delete_bill($inputs);
+            $result = $this->ModelShiftWork->do_delete_bill($inputs);
             response($result, 200);
             die();
         }
@@ -96,7 +99,7 @@ class Bills extends CI_Controller{
                 response(get_req_message('ErrorAction', validation_errors()), 400);
                 die();
             } else {
-                $result = $this->ModelBill->do_add_legal_info($inputs);
+                $result = $this->ModelShiftWork->do_add_legal_info($inputs);
                 response($result, 200);
                 die();
             }
