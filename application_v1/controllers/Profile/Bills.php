@@ -119,7 +119,6 @@ class Bills extends CI_Controller{
             response(get_req_message('SuccessAction', null, $result), 200);
         }
     }
-
     public function sale_data($guid){
         if (check_request_method('GET')) {   
             $inputs['guid'] = $guid;
@@ -128,6 +127,16 @@ class Bills extends CI_Controller{
             response(get_req_message('SuccessAction', null, $result), 200);
         }
     }
+    public function get_plans($guid){
+        if (check_request_method('GET')) {   
+            $inputs['guid'] = $guid;
+            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
+            $result = $this->ModelBill->get_bill_plans($inputs);
+            response(get_req_message('SuccessAction', null, $result), 200);
+        }
+    }
+    
+
     
 
 }

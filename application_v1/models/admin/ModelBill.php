@@ -351,6 +351,8 @@ class ModelBill extends CI_Model{
 
 
 
+
+
     /* Public */
     public function get_bill_power_data($inputs){
         $this->db->select('BillGUID , person_bill.BillNumberId , company_name , contract_demand , customer_name , customer_family , serial_number , payment_dead_line');
@@ -374,6 +376,39 @@ class ModelBill extends CI_Model{
         $result['data']['content'] = $query;
         return $result;
     }
+ 
+    public function get_bill_plans($inputs){
+
+        
+        $this->db->select('id');
+        $this->db->from('person_bill');
+        $this->db->join('bargheto_bill_sale_data_detail', 'bargheto_bill_sale_data_detail.BillNumberId = person_bill.BillNumberId');
+        $this->db->where('person_bill.SoftDelete', 0);
+        $this->db->where('person_bill.BillGUID', $inputs['guid']); 
+        $this->db->where('person_bill.BillPersonId', $inputs['inputPersonId']); 
+        $this->db->order_by('sale_year' , 'DESC'); 
+        $this->db->limit(12); 
+        $query = $this->db->get()->result_array();
+        $ids = [];
+        foreach($query as $id){
+            $ids[] = $id['id'];
+        } 
+
+
+        $this->db->select('SUM(normal_cons) AS SUM_NORMAL , SUM(total_days) SUM_TOTAL_DAYS');
+        $this->db->from('bargheto_bill_sale_data_detail');
+        $this->db->where_in('id', $ids); 
+        $query = $this->db->get()->result_array()[0];
+        $temp = ($query['SUM_NORMAL'] / $query['SUM_TOTAL_DAYS']) / 24 ;
+        $data = array(
+            'avg' => $temp , 
+            'SUM_NORMAL' => $query['SUM_NORMAL'] , 
+            'SUM_TOTAL_DAYS' => $query['SUM_TOTAL_DAYS'] , 
+        );
+        $result['data']['content'] = $data;
+        return $result;
+    }
+    
     /* End Public */
 
 
