@@ -1,5 +1,6 @@
 <?php
 class ModelBill extends CI_Model{
+
     /* For Single User */
     public function get_user_bill_list($inputs){
         $limit = $inputs['page'];
@@ -49,6 +50,21 @@ class ModelBill extends CI_Model{
 
 
     }
+    public function get_user_all_bill_list($inputs){
+        $this->db->select('*');
+        $this->db->from('person_bill');
+        $this->db->join('person', 'person.PersonId = person_bill.BillPersonId');
+        $this->db->where('person_bill.SoftDelete', 0);
+        $this->db->where('BillPersonId', $inputs['inputPersonId']);
+        $this->db->order_by('person_bill.CreateDateTime', 'DESC');
+        $this->db->group_by('person_bill.BillGUID');
+        $query = $this->db->get()->result_array();
+        $result['data']['content'] = $query;
+        return $result;
+
+
+    }
+    
     public function do_add_bill($inputs){
         $this->db->select('*');
         $this->db->from('person_bill');
@@ -332,6 +348,33 @@ class ModelBill extends CI_Model{
         return get_req_message('SuccessAction');
     }
     /* End For Admin */
+
+
+
+    /* Public */
+    public function get_bill_power_data($inputs){
+        $this->db->select('BillGUID , person_bill.BillNumberId , company_name , contract_demand , customer_name , customer_family , serial_number , payment_dead_line');
+        $this->db->from('person_bill');
+        $this->db->join('bargheto_bill_power_data_detail', 'bargheto_bill_power_data_detail.bill_identifier = person_bill.BillNumberId');
+        $this->db->where('person_bill.SoftDelete', 0);
+        $this->db->where('person_bill.BillGUID', $inputs['guid']); 
+        $this->db->where('person_bill.BillPersonId', $inputs['inputPersonId']); 
+        $query = $this->db->get()->result_array();
+        $result['data']['content'] = $query;
+        return $result;
+    }
+    public function get_bill_sale_data($inputs){
+        $this->db->select('*');
+        $this->db->from('person_bill');
+        $this->db->join('bargheto_bill_sale_data_detail', 'bargheto_bill_sale_data_detail.BillNumberId = person_bill.BillNumberId');
+        $this->db->where('person_bill.SoftDelete', 0);
+        $this->db->where('person_bill.BillGUID', $inputs['guid']); 
+        $this->db->where('person_bill.BillPersonId', $inputs['inputPersonId']); 
+        $query = $this->db->get()->result_array();
+        $result['data']['content'] = $query;
+        return $result;
+    }
+    /* End Public */
 
 
 }

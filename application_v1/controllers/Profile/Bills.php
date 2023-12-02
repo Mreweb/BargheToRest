@@ -38,6 +38,15 @@ class Bills extends CI_Controller{
             response(get_req_message('SuccessAction', null, $result), 200);
         }
     }
+    public function get_all(){
+        if (check_request_method('GET')) {
+            $inputs = $this->input->get();
+            $inputs = custom_filter_input($inputs);
+            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
+            $result = $this->ModelBill->get_user_all_bill_list($inputs);
+            response(get_req_message('SuccessAction', null, $result), 200);
+        }
+    }
     public function add_bill() {
         if (check_request_method('POST')) {
             $inputs = json_decode($this->input->raw_input_stream, true);
@@ -84,7 +93,6 @@ class Bills extends CI_Controller{
             die();
         }
     }
-
     public function add_legal_info(){
         if (check_request_method('POST')) {
             $inputs = json_decode($this->input->raw_input_stream, true);
@@ -102,5 +110,24 @@ class Bills extends CI_Controller{
             }
         }
     }
+
+    public function power_data($guid){
+        if (check_request_method('GET')) {
+            $inputs['guid'] = $guid;
+            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
+            $result = $this->ModelBill->get_bill_power_data($inputs);
+            response(get_req_message('SuccessAction', null, $result), 200);
+        }
+    }
+
+    public function sale_data($guid){
+        if (check_request_method('GET')) {   
+            $inputs['guid'] = $guid;
+            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
+            $result = $this->ModelBill->get_bill_sale_data($inputs);
+            response(get_req_message('SuccessAction', null, $result), 200);
+        }
+    }
+    
 
 }

@@ -1,17 +1,13 @@
 {
     "php.version": "8.2",
     "rest-client.environmentVariables": {
-        "local": {
-            "address": "http://localhost:8080/BargheToApi/",
+        "production": {
+            "address": "https://cryptotactic.org/",
             "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJbmZvIjp7IlBlcnNvbklkIjoiMTgyMSIsIlBlcnNvbkZpcnN0TmFtZSI6bnVsbCwiUGVyc29uTGFzdE5hbWUiOm51bGwsIlBlcnNvbk5hdGlvbmFsQ29kZSI6bnVsbCwiUGVyc29uUGhvbmUiOiIwOTIxNTU0NDU2OCIsIlBlcnNvbkFkZHJlc3MiOm51bGwsIlVzZXJuYW1lIjpudWxsLCJQYXNzd29yZCI6IjI1YWFlODlhNjU1MDI5ODdlNTc1N2ViNDE0NDM4MmU1IiwiSXNBY3RpdmUiOiIxIiwiUGVyc29uVHlwZSI6Ik5PUk1BTCIsIkFjdGl2YXRpb25Db2RlIjoiOTI4MSIsIkNyZWF0ZURhdGVUaW1lIjoiMTY5OTA5MDgwMyIsIkNyZWF0ZVBlcnNvbklkIjpudWxsLCJNb2RpZnlEYXRldGltZSI6IjE2OTkwOTA4MDMiLCJNb2RpZnlQZXJzb25JZCI6bnVsbH0sIklzTG9nZ2VkIjp0cnVlLCJleHBpcmVfdGltZSI6MTY5OTEzNDAzMH0.F_rZsiw1xElftIm9pZs5lXKfkhVnI6cA_4s3NYQjkbY"
         },
-        "staging": {
-            "address": "http://localhost:3001/api",
-            "token": "eyJhbGciOiJIUzI1NiJ9eyJSb2xlIjoiQWRtaW4if"
-        },
-        "production": {
-            "address": "http://localhost:3002/api",
-            "token": "c3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsI"
+        "local": {
+            "address": "http://localhost:8080/BargheToApi",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJbmZvIjp7IlBlcnNvbklkIjoiMTgyMSIsIlBlcnNvbkZpcnN0TmFtZSI6bnVsbCwiUGVyc29uTGFzdE5hbWUiOm51bGwsIlBlcnNvbk5hdGlvbmFsQ29kZSI6bnVsbCwiUGVyc29uUGhvbmUiOiIwOTIxNTU0NDU2OCIsIlBlcnNvbkFkZHJlc3MiOm51bGwsIlVzZXJuYW1lIjpudWxsLCJQYXNzd29yZCI6IjI1YWFlODlhNjU1MDI5ODdlNTc1N2ViNDE0NDM4MmU1IiwiSXNBY3RpdmUiOiIxIiwiUGVyc29uVHlwZSI6Ik5PUk1BTCIsIkFjdGl2YXRpb25Db2RlIjoiOTI4MSIsIkNyZWF0ZURhdGVUaW1lIjoiMTY5OTA5MDgwMyIsIkNyZWF0ZVBlcnNvbklkIjpudWxsLCJNb2RpZnlEYXRldGltZSI6IjE2OTkwOTA4MDMiLCJNb2RpZnlQZXJzb25JZCI6bnVsbH0sIklzTG9nZ2VkIjp0cnVlLCJleHBpcmVfdGltZSI6MTY5OTEzNDAzMH0.F_rZsiw1xElftIm9pZs5lXKfkhVnI6cA_4s3NYQjkbY"
         }
     }
 }

@@ -18,7 +18,7 @@ Content-Type: application/json
 {
     "inputLegalOrganizationName": "سازمان شماره 1 ",       
     "inputLegalFinanceCode": "1258003",             
-    "inputLegalCompanyId": "215002100",           
+    "inputLegalCompanyId": "215002100",            
     "inputLegalRegisterNumber": "13548",           
     "inputLegalPhone": "02165225522",                 
     "inputLegalProvinceId": "1",            

@@ -49,7 +49,7 @@ $config['csrf_exclude_uris'] = array();
 $config['compress_output'] = FALSE;
 $config['time_reference'] = 'local';
 $config['rewrite_short_tags'] = FALSE;
-$config['proxy_ips'] = '';
+$config['proxy_ips'] = '';   
 $config['HS256KEY'] = '5HFQjMFJe9bn0u6lZzAo_IY1GOSk1Q5b18fFtitXNfc';
 $config['defaultPageSize'] = 10;
 
