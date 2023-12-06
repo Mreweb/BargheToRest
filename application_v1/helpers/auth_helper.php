@@ -37,6 +37,15 @@ function getTokenInfo($return = false){
     try {
         $parser = new Parser($signer);
         $claims = $parser->parse($jwt);
+        /*if(time() > $claims['expire_time']){
+            response([
+                'code' => 'SERVICE.EXPIRED',
+                'success' => false,
+                'message' => 'توکن منقضی شده است'
+            ], 401);
+            die();
+        }*/
+
         if($return){
             return $claims;
         } else{

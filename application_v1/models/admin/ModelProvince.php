@@ -28,6 +28,13 @@ class ModelProvince extends CI_Model{
 
 
     }
+    public function get_province_tariff_list_by_province_id($id){ 
+        $this->db->select('*'); 
+        $this->db->from('province_electricity_tariff');
+        $this->db->join('province' , 'province.ProvinceId = province_electricity_tariff.ProvinceId');  
+        $this->db->where('province.ProvinceId', $id); 
+        return $this->db->get()->result_array();  
+    }
     public function do_add_province_tariff($inputs){
         $this->db->select('*'); 
         $this->db->from('province_electricity_tariff'); 
@@ -83,5 +90,28 @@ class ModelProvince extends CI_Model{
             return get_req_message('ErrorAction');
         }
     } 
+
+    public function get_electricity_price(){
+        $this->db->select('*'); 
+        $this->db->from('electicity_price'); 
+        $this->db->order_by('RowId DESC')->limit(1); 
+        return $this->db->get()->result_array();  
+    }
+    public function do_add_electricity_price($inputs){
+        $userArray = array(
+            'HighPrice' => $inputs['inputHighPrice'],
+            'LowPrice' => $inputs['inputLowPrice'],  
+            'CreateDateTime' => time(),
+            'CreatePersonId' => $inputs['inputPersonId']
+        );
+        $inserId = $this->db->insert('electicity_price', $userArray);
+        if ($inserId > 0) {
+            return get_req_message('SuccessAction');
+        } else {
+            return get_req_message('ErrorAction');
+        }
+    }
+    
+    
 }
 ?>

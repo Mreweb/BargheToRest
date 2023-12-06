@@ -12,13 +12,13 @@ function FaToEn($input)
 {
     return strtr($input, array('۰' => '0', '۱' => '1', '۲' => '2', '۳' => '3', '۴' => '4', '۵' => '5', '۶' => '6', '۷' => '7', '۸' => '8', '۹' => '9', '٠' => '0', '١' => '1', '٢' => '2', '٣' => '3', '٤' => '4', '٥' => '5', '٦' => '6', '٧' => '7', '٨' => '8', '٩' => '9'));
 }
-function convertDate($input, $isHtml = false)
+function convertDate($input, $isHtml = false , $format='Y/m/d')
 {
     if ($input !== NULL) {
-        if ($isHtml) {
-            return jDateTime::date("Y/m/d", $input, false, true, 'Asia/Tehran');
+        if (!$isHtml) {
+            return jDateTime::date($format, $input, false, true, 'Asia/Tehran');
         } else {
-            return '<span style="direction:rtl;">' . jDateTime::date("Y/m/d", $input, false, true, 'Asia/Tehran') . '</span>';
+            return '<span style="direction:rtl;">' . jDateTime::date($format, $input, false, true, 'Asia/Tehran') . '</span>';
         }
     } else {
         return "";

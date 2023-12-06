@@ -9,6 +9,8 @@ class Bills extends CI_Controller{
         $this->loginInfo = getTokenInfo(true);
         $this->enum = $this->config->item('Enum');
         $this->load->model('admin/ModelBill');
+        $this->load->model('ModelPerson');
+        $this->load->model('admin/ModelProvince');
     }
     public function index(){
         switch ($this->input->server('REQUEST_METHOD')) {
@@ -110,6 +112,23 @@ class Bills extends CI_Controller{
             }
         }
     }
+    public function edit_legal_info(){
+        if (check_request_method('PUT')) {
+            $inputs = json_decode($this->input->raw_input_stream, true);
+            $inputs = custom_filter_input($inputs);
+            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
+            $this->form_validation->set_data($inputs);
+            $this->form_validation->set_rules('inputPersonId', 'شناسه کاربر', 'trim|required'); 
+            if ($this->form_validation->run() == FALSE) {
+                response(get_req_message('ErrorAction', validation_errors()), 400);
+                die();
+            } else {
+                $result = $this->ModelBill->do_edit_legal_info($inputs);
+                response($result, 200);
+                die();
+            }
+        }
+    }
 
     public function power_data($guid){
         if (check_request_method('GET')) {
@@ -130,9 +149,19 @@ class Bills extends CI_Controller{
     public function get_plans($guid){
         if (check_request_method('GET')) {   
             $inputs['guid'] = $guid;
-            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
+            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId']; 
+            $legalInfo = $this->ModelPerson->get_person_legal_info($inputs['inputPersonId'])[0];
+            $inputs['tariff'] = $this->ModelProvince->get_province_tariff_list_by_province_id($legalInfo['LegalProvinceId']);
+            $inputs['electricity_price'] = $this->ModelProvince->get_electricity_price()[0];
+            $inputs['LegalInfo'] = $this->ModelPerson->get_person_legal_info($inputs['inputPersonId']);
+
+            $inputs['todayDate'] = convertDate(time());
+            $inputs['currentMonth'] = convertDate(time() , false , 'm');
+            $inputs['todayDate'] = convertDate(time(), false);
+
+
             $result = $this->ModelBill->get_bill_plans($inputs);
-            response(get_req_message('SuccessAction', null, $result), 200);
+            response(get_req_message('SuccessAction', null, array('avg'=> $result)), 200);
         }
     }
     

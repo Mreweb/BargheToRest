@@ -62,6 +62,32 @@ Content-Type: application/json
     "CreateDateTime": "1699089990",
     "CreatePersonId": "1821"
 }
+########## ویرایش اطلاعات حقوقی و حقیقی قبض #################################################################################             
+PUT   {{address}}/Profile/Bills/edit_legal_info HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "inputPersonId": "1821",
+    "inputBillGUID": "3302d7e2-0717-405b-9367-60fadf46a573",
+    "inputRealName": "پدرا545م",
+    "inputRealLastName": "محمدی",
+    "inputRealNationalCode": "2541224518",
+    "inputRealPhone": "09125745214",
+    "inputRealProvinceId": "8",
+    "inputRealCityId": "450",
+    "inputRealAddress": "تهران شهریار خیابان ولیعصر عج الله تعالی فرجه الشریف",
+    "inputLegalOrganizationName": "سازمان آب و فاضله ی آب",
+    "inputLegalFinanceCode": "5541245",
+    "inputLegalCompanyId": "12355001",
+    "inputLegalRegisterNumber": "2258",
+    "inputLegalPhone": "02155442211",
+    "inputLegalProvinceId": "1",
+    "inputLegalCityId": "459", 
+    "inputLegalAddress": "تهران شهریار خیابان ", 
+    "CreateDateTime": "1699089990",
+    "CreatePersonId": "1821"
+}
 ##########  دریافت جزئیات قبض کاربر #################################################################################
 GET {{address}}/Profile/Bills/power_data/e4c2ed78-0fd9-4fe9-9fcf-9225661167d2 HTTP/1.1
 Authorization: Bearer {{token}}

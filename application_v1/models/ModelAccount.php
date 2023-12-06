@@ -58,7 +58,6 @@ class ModelAccount extends CI_Model{
 
         }
     }
-
     public function do_verify_phone($inputs){
         $this->db->select('*');
         $this->db->from('person');
