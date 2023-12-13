@@ -46,6 +46,7 @@ class Bills extends CI_Controller{
             $this->form_validation->set_data($inputs);
             $this->form_validation->set_rules('inputBillTitle', 'عنوان قبض', 'trim|required|min_length[2]|max_length[50]');
             $this->form_validation->set_rules('inputBillNumberId', 'شناسه قبض', 'trim|required|numeric|min_length[2]|max_length[50]');
+            $this->form_validation->set_rules('inputPersonId', 'شناسه کاربر', 'trim|required|numeric|min_length[2]|max_length[50]');
             if ($this->form_validation->run() == FALSE) {
                 response(get_req_message('ErrorAction', validation_errors()), 400);
                 die();

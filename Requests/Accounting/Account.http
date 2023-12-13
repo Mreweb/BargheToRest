@@ -5,6 +5,13 @@ Content-Type: application/json
 {
     
 }
+########## بررسی کپچا #################################################################################
+POST   {{address}}/Account/check_captcha HTTP/1.1
+Content-Type: application/json
+
+{ 
+    "inputCaptcha" : "87829"
+}
 
 ########## ثبت نام / لاگین #################################################################################
 POST   {{address}}/Account/submit_phone HTTP/1.1
@@ -12,7 +19,7 @@ Content-Type: application/json
 
 {
     "inputPhone": "09120572107",
-    "inputCaptcha" : "33484"
+    "inputCaptcha" : "47394"
 }
 ########## تایید کد ارسال شده ########################################################################
 POST {{address}}/Account/verify_phone

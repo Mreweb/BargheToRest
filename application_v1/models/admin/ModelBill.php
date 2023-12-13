@@ -267,8 +267,7 @@ class ModelBill extends CI_Model
         $this->db->where('BillGUID', $guid);
         return $this->db->get()->result_array();
     }
-    public function do_add_bill_by_admin($inputs)
-    {
+    public function do_add_bill_by_admin($inputs){
         $this->db->select('*');
         $this->db->from('person');
         $this->db->where('PersonId', $inputs['inputPersonId']);
@@ -473,7 +472,7 @@ class ModelBill extends CI_Model
         } else{
             $currentMonthTotalDays = 29;
         }
- 
+
 
         $nextOneMonthDays = 0;
 
@@ -514,40 +513,38 @@ class ModelBill extends CI_Model
         $requestedKw = 2000; 
 
         echo "========================================".PHP_EOL;
-        $thisMonthDiscount = round($priceGap/$remainsDayToEndOfMonth , 2);
+        $thisMonthDiscount = round($priceGap/60 , 2);
         echo "Discount Per KW Per Day For Current Month ".$thisMonthDiscount.PHP_EOL;
 
         $thisMonthCalculatedPrice = $HighPrice - ($remainsDayToEndOfMonth*$thisMonthDiscount);
         echo "CalCulatedPrice ".$thisMonthCalculatedPrice.PHP_EOL;
 
-        $thisMonthPowerCost =  $requestedKw * $remainsDayToEndOfMonth * 24  * $thisMonthCalculatedPrice;
+        $thisMonthPowerCost =  $requestedKw   * $thisMonthCalculatedPrice;
         echo "thisMonthPowerCost ".number_format($thisMonthPowerCost).PHP_EOL;
 
         echo "========================================".PHP_EOL;
 
+        $nextMonthDiscount = round($priceGap/60 , 2);
+        echo "Discount Per KW Per Day For Next Month ".$nextMonthDiscount.PHP_EOL;
 
-        $nextOneMonthDiscount = round($priceGap/($remainsDayToEndOfMonth+$nextOneMonthDays), 2); 
-        echo "Discount Per KW For Next One Month ".$nextOneMonthDiscount.PHP_EOL;
+        $nextMonthCalculatedPrice = $HighPrice - ($nextOneMonthDays);
+        echo "CalCulatedPrice ".$nextMonthCalculatedPrice.PHP_EOL;
 
-        $nextMonthCalculatedPrice = $HighPrice-$nextOneMonthDiscount;
-        echo "CalCulatedPrice ".$nextMonthCalculatedPrice.PHP_EOL; 
- 
-        $nextMonthPowerCost =  $requestedKw * ($remainsDayToEndOfMonth+$nextOneMonthDays) * 24 * $avgKWS * $nextMonthCalculatedPrice;
-
-        echo "next One MonthPowerCost ".number_format($nextMonthPowerCost).PHP_EOL;
+        $nextMonthPowerCost =  $requestedKw   * $nextMonthCalculatedPrice;
+        echo "thisMonthPowerCost ".number_format($nextMonthPowerCost).PHP_EOL; 
 
         echo "========================================".PHP_EOL;
 
+        
+        $nextTwoMonthDiscount = round($priceGap/60 , 2);
+        echo "Discount Per KW Per Day For Next Two Month ".$nextTwoMonthDiscount.PHP_EOL;
 
-        $nextTwoMonthDiscount = round($priceGap/($remainsDayToEndOfMonth+$nextOneMonthDays+$nextTwoMonthDays), 2);  
-        echo "Discount Per KW For Next Two Month ".$nextTwoMonthDiscount.PHP_EOL;
+        $nextTwoMonthCalculatedPrice = $HighPrice - ($nextOneMonthDays+$nextTwoMonthDays);
+        echo "CalCulatedPrice ".$nextTwoMonthCalculatedPrice.PHP_EOL;
 
-        $nextTwoMonthCalculatedPrice = $HighPrice-$nextTwoMonthDiscount;
-        echo "CalCulatedPrice ".$nextTwoMonthCalculatedPrice.PHP_EOL; 
- 
-        $nextTwoMonthPowerCost =  $requestedKw * ($remainsDayToEndOfMonth+$nextOneMonthDays+$nextTwoMonthDays) * 24 * $avgKWS * $nextTwoMonthCalculatedPrice;
+        $nextTwoMonthPowerCost =  $requestedKw   * $nextTwoMonthCalculatedPrice;
+        echo "thisMonthPowerCost ".number_format($nextTwoMonthPowerCost).PHP_EOL;
 
-        echo "next One MonthPowerCost ".number_format($nextTwoMonthPowerCost).PHP_EOL;
 
         echo "========================================".PHP_EOL;
 
