@@ -129,6 +129,22 @@ class ModelBill extends CI_Model
             return get_req_message('ErrorAction');
         }
     }
+    public function do_active_bill($inputs)
+    {
+        $userArray = array(
+            'SoftDelete' => 0,
+            'ModifyDateTime' => time(),
+            'ModifyPersonId' => $inputs['inputPersonId']
+        );
+        $this->db->where('BillGUID', $inputs['inputBillGUID']);
+        $this->db->update('person_bill', $userArray);
+        if ($this->db->affected_rows() > 0) {
+            return get_req_message('SuccessAction');
+        } else {
+            return get_req_message('ErrorAction');
+        }
+    }
+    
     public function do_add_legal_info($inputs)
     {
 

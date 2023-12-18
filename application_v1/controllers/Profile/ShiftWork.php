@@ -13,13 +13,13 @@ class ShiftWork extends CI_Controller{
     public function index(){
         switch ($this->input->server('REQUEST_METHOD')) {
             case 'GET':
-                $this->get_list();
+                $this->get_shift_work_list();
                 break;
             case 'POST':
                 $this->add_shift_work();
                 break;
             case 'PUT':
-                $this->edit_whift_work();
+                //$this->edit_whift_work();
                 break;
             case 'DELETE':
                 $this->delete_shift_work();
@@ -29,12 +29,12 @@ class ShiftWork extends CI_Controller{
                 break;
         }
     }
-    public function get_list(){
+    public function get_shift_work_list(){
         if (check_request_method('GET')) {
             $inputs = $this->input->get();
             $inputs = custom_filter_input($inputs);
             $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
-            $result = $this->ModelShiftWork->get_user_bill_list($inputs);
+            $result = $this->ModelShiftWork->get_shift_work_list($inputs);
             response(get_req_message('SuccessAction', null, $result), 200);
         }
     }
@@ -53,56 +53,31 @@ class ShiftWork extends CI_Controller{
                 response(get_req_message('ErrorAction', validation_errors()), 400);
                 die();
             } else {
-                $result = $this->ModelShiftWork->add_shift_work($inputs);
+                $result = $this->ModelShiftWork->do_add_shift_work($inputs);
                 response($result, 200);
                 die();
             }
         }
     }
-    public function edit_bill(){
-        if (check_request_method('PUT')) {
-            $inputs = json_decode($this->input->raw_input_stream, true);
-            $inputs = custom_filter_input($inputs);
-            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
-            $this->form_validation->set_data($inputs);
-            $this->form_validation->set_rules('inputBillTitle', 'عنوان قبض', 'trim|required|min_length[2]|max_length[50]');
-            $this->form_validation->set_rules('inputBillNumberId', 'شناسه قبض', 'trim|required|numeric|min_length[2]|max_length[50]');
-            if ($this->form_validation->run() == FALSE) {
-                response(get_req_message('ErrorAction', validation_errors()), 400);
-                die();
-            } else {
-                $result = $this->ModelShiftWork->do_edit_bill($inputs);
-                response($result, 200);
-                die();
-            }
-        }
-    }
-    public function delete_bill(){
+    public function delete_shift_work(){
         if (check_request_method('DELETE')) {
             $inputs = json_decode($this->input->raw_input_stream, true);
             $inputs = custom_filter_input($inputs);
             $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
-            $result = $this->ModelShiftWork->do_delete_bill($inputs);
+            $result = $this->ModelShiftWork->do_delete_shift_work($inputs);
             response($result, 200);
             die();
         }
     }
 
-    public function add_legal_info(){
-        if (check_request_method('POST')) {
-            $inputs = json_decode($this->input->raw_input_stream, true);
+    
+    public function get_shift_work($shiftWorkId , $shiftWorkGUID){
+        if (check_request_method('GET')) {
+            $inputs = $this->input->get();
             $inputs = custom_filter_input($inputs);
             $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
-            $this->form_validation->set_data($inputs);
-            $this->form_validation->set_rules('inputPersonId', 'شناسه کاربر', 'trim|required'); 
-            if ($this->form_validation->run() == FALSE) {
-                response(get_req_message('ErrorAction', validation_errors()), 400);
-                die();
-            } else {
-                $result = $this->ModelShiftWork->do_add_legal_info($inputs);
-                response($result, 200);
-                die();
-            }
+            $result = $this->ModelShiftWork->get_shift_work($shiftWorkId , $shiftWorkGUID);
+            response(get_req_message('SuccessAction', null, $result), 200);
         }
     }
 

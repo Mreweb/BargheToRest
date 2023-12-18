@@ -4,8 +4,8 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "inputFirstName": "بهنام",
-    "inputLastName": "محمدی",
+    "inputFirstName": "محسن",
+    "inputLastName": "تاجیک",
     "inputNationalCode": "2500354216",
     "inputAddress": "تهران خیابان ولیعصر روبروی پارک ملت"
 }
@@ -16,7 +16,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "inputLegalOrganizationName": "سازمان شماره 1 ",       
+    "inputLegalOrganizationName": "سازمان شماره 2 ",       
     "inputLegalFinanceCode": "1258003",             
     "inputLegalCompanyId": "215002100",            
     "inputLegalRegisterNumber": "13548",           

@@ -6,7 +6,6 @@ use MiladRahimi\Jwt\Exceptions\ValidationException;
 use MiladRahimi\Jwt\Validator\DefaultValidator;
 use MiladRahimi\Jwt\Validator\Rules\EqualsTo;
 use MiladRahimi\Jwt\Validator\Rules\NewerThan;
-
 function getTokenInfo($return = false){
     require 'vendor/autoload.php';
     $ci =& get_instance();
@@ -25,12 +24,10 @@ function getTokenInfo($return = false){
         response([
             'code' => 'SERVICE.NOTFOUNDTOKEN',
             'success' => false,
-            'message' => 'درخواست منقضی شده است'
+            'message' => 'توکن احراز هویت یافت نشد'
         ], 401);
         die();
     }
-
-
     $jwt = $headers['authorization'];
     $jwt = str_ireplace("Bearer ", "", $jwt);
     $signer = new HS256($ci->config->item('HS256KEY'));
@@ -45,7 +42,6 @@ function getTokenInfo($return = false){
             ], 401);
             die();
         }*/
-
         if($return){
             return $claims;
         } else{

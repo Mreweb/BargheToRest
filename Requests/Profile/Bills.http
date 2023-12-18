@@ -1,4 +1,4 @@
-########## دریافت فهرست قبض های کاربر #################################################################################             
+#### دریافت فهرست قبض های کاربر #################################################################################             
 GET   {{address}}/Profile/Bills?page=1&inputBillTitle=&inputBillNumberId=&inputPersonLastName&inputPersonLastName=&inputPersonNationalCode=&inputPersonPhone= HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json 
@@ -14,8 +14,8 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "inputBillTitle": "قبض خانه شماره 1",
-    "inputBillNumberId": "2254210233"
+    "inputBillTitle": "قبض کارخانه",
+    "inputBillNumberId": "1207134412221"
 }
 ########## ویرایش قبض #################################################################################             
 PUT   {{address}}/Profile/Bills HTTP/1.1
@@ -23,9 +23,9 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "inputBillGUID": "3302d7e2-0717-405231b-9367-60fadf46a573",
-    "inputBillTitle": "قبض خانه شماره 21",
-    "inputBillNumberId": "2254210234"
+    "inputBillGUID": "45034857-e358-4213-b285-8ed79fb96757",
+    "inputBillTitle": "قبض کارخانه زنجان",
+    "inputBillNumberId": "1207134412221"
 }
 ########## حذف قبض #################################################################################             
 DELETE   {{address}}/Profile/Bills HTTP/1.1
@@ -33,9 +33,16 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "inputBillGUID": "3302d7e2-0717-405b-9367-60fadf46a573"
+    "inputBillGUID": "45034857-e358-4213-b285-8ed79fb96757"
 }
+########## فعال سازی/عدم حذف قبض #################################################################################             
+POST   {{address}}/Profile/Bills/active_bill HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
 
+{
+    "inputBillGUID": "45034857-e358-4213-b285-8ed79fb96757"
+}
 ########## درج اطلاعات حقوقی و حقیقی قبض #################################################################################             
 POST   {{address}}/Profile/Bills/add_legal_info HTTP/1.1
 Authorization: Bearer {{token}}
@@ -43,7 +50,7 @@ Content-Type: application/json
 
 {
     "inputPersonId": "1821",
-    "inputBillGUID": "3302d7e2-0717-405b-9367-60fadf46a573",
+    "inputBillGUID": "45034857-e358-4213-b285-8ed79fb96757",
     "inputRealName": "پدرام",
     "inputRealLastName": "محمدی",
     "inputRealNationalCode": "2541224518",
@@ -69,8 +76,8 @@ Content-Type: application/json
 
 {
     "inputPersonId": "1821",
-    "inputBillGUID": "3302d7e2-0717-405b-9367-60fadf46a573",
-    "inputRealName": "پدرا545م",
+    "inputBillGUID": "45034857-e358-4213-b285-8ed79fb96757",
+    "inputRealName": "1مهسا",
     "inputRealLastName": "محمدی",
     "inputRealNationalCode": "2541224518",
     "inputRealPhone": "09125745214",

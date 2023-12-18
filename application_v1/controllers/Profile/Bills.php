@@ -95,6 +95,16 @@ class Bills extends CI_Controller{
             die();
         }
     }
+    public function active_bill(){
+        if (check_request_method('POST')) {
+            $inputs = json_decode($this->input->raw_input_stream, true);
+            $inputs = custom_filter_input($inputs);
+            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
+            $result = $this->ModelBill->do_active_bill($inputs);
+            response($result, 200);
+            die();
+        }
+    }
     public function add_legal_info(){
         if (check_request_method('POST')) {
             $inputs = json_decode($this->input->raw_input_stream, true);
