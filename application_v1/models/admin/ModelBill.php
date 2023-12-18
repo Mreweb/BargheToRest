@@ -98,7 +98,7 @@ class ModelBill extends CI_Model
         $this->db->where('BillGUID !=', $inputs['inputBillGUID']);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
-            return get_req_message('DuplicateInfo', null);
+            return get_req_message('NOTFOUND', null);
         }
         $userArray = array(
             'BillTitle' => $inputs['inputBillTitle'],
@@ -548,13 +548,12 @@ class ModelBill extends CI_Model
 
         echo "========================================".PHP_EOL;
 
-        /*echo ($avgKWS);
+        echo ($avgKWS);
         echo "<br>";
         echo($HighPrice);
         echo "<br>";
-        echo($LowPrice); */
-
-        die();
+        echo($LowPrice); 
+ 
 
 
 

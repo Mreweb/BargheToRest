@@ -1,0 +1,48 @@
+########## افزودن قبض #################################################################################             
+POST   {{address}}/Admin/ManualBills HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ 
+    "inputBillName": "2254210234",
+    "inputBillNumberCompany": "2254210234",
+    "inputNationalCode": "2254210234",
+    "inputPersonIdNumber": "2254210234",
+    "inputBillNumberId": "2254210234"
+}
+########## ویرایش قبض #################################################################################             
+PUT   {{address}}/Admin/ManualBills HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "inputBillName": "2254210234",
+    "inputBillNumberCompany": "2254210234",
+    "inputNationalCode": "2254210234",
+    "inputPersonIdNumber": "2254210234",
+    "inputBillNumberId": "2254210234"
+}
+########## حذف قبض #################################################################################             
+DELETE   {{address}}/Admin/ManualBills HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ 
+    "inputBillNumberId": "2254210234"
+}
+########## بازمحاسبه اطلاعات کلی #################################################################################             
+PUT   {{address}}/Admin/ManualBills/recalculate_power_data HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ 
+    "inputBillNumberId": "2254210234"
+}
+########## بازمحاسبه اطلاعات جزئی #################################################################################             
+PUT   {{address}}/Admin/ManualBills/recalculate_sale_data HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ 
+    "inputBillNumberId": "2254210234"
+}

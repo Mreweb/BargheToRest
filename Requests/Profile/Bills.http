@@ -23,7 +23,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "inputBillGUID": "3302d7e2-0717-405b-9367-60fadf46a573",
+    "inputBillGUID": "3302d7e2-0717-405231b-9367-60fadf46a573",
     "inputBillTitle": "قبض خانه شماره 21",
     "inputBillNumberId": "2254210234"
 }
@@ -100,4 +100,4 @@ Content-Type: application/json
 ##########  دریافت پلن های خرید #################################################################################
 GET {{address}}/Profile/Bills/get_plans/e4c2ed78-0fd9-4fe9-9fcf-9225661167d2 HTTP/1.1
 Authorization: Bearer {{token}}
-Content-Type: application/json
+Content-Type: application/json  

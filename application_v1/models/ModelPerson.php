@@ -59,6 +59,15 @@ class ModelPerson extends CI_Model{
         return $this->db->get()->result_array();
     }
 
+    public function get_person_all_info_by_person_id($addressId, $personId){
+        $this->db->select('*');
+        $this->db->from('person_address');
+        $this->db->where(array('AddressId' => $addressId));
+        $this->db->where(array('PersonId' => $personId));
+        return $this->db->get()->result_array();
+    }
+    
+
  
 
 

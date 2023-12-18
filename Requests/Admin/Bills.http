@@ -1,19 +1,19 @@
-  ########## دریافت فهرست قبض ها #################################################################################             
+  ########## دریافت فهرست قبض های کاربر #################################################################################             
 GET   {{address}}/Admin/Bills?page=1&inputBillTitle=&inputBillNumberId=&inputPersonLastName&inputPersonLastName=&inputPersonNationalCode=&inputPersonPhone=&inputShowDeleted= HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
-########## افزودن قبض #################################################################################             
+########## افزودن قبض برای کاربر #################################################################################             
 POST   {{address}}/Admin/Bills HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "inputBillTitle": "قبض خانه شماره 1",
+    "inputBillTitle": "قبض دستی",
     "inputPersonId" : "1820",
-    "inputBillNumberId": "2254210234"
+    "inputBillNumberId": "22542210234"
 }
-########## ویرایش قبض #################################################################################             
+########## ویرایش قبض برای کاربر #################################################################################             
 PUT   {{address}}/Admin/Bills HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
@@ -24,7 +24,7 @@ Content-Type: application/json
     "inputBillTitle": "قبض خانه شماره 21",
     "inputBillNumberId": "2254210234"
 }
-########## حذف قبض #################################################################################             
+##########  حذف قبض برای کاربر #################################################################################             
 DELETE   {{address}}/Admin/Bills HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
@@ -34,7 +34,7 @@ Content-Type: application/json
     "inputBillGUID": "3302d7e2-0717-405b-9367-60fadf46a573"
 }
 
-########## درج اطلاعات حقوقی و حقیقی قبض #################################################################################             
+########## درج اطلاعات حقوقی و حقیقی قبض برای کاربر #################################################################################             
 POST   {{address}}/Profile/Bills/add_legal_info HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json

@@ -94,11 +94,8 @@ class Setting extends CI_Controller
 
 
     public function get_user_info(){
-        if (check_request_method('GET')) {
-            $inputs = json_decode($this->input->raw_input_stream, true);
-            $inputs = custom_filter_input($inputs);
-            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
-            $result = $this->ModelPerson->get_person_all_info_by_person_id( $inputs['inputPersonId']);
+        if (check_request_method('GET')) { 
+            $result['data']['content'] = $this->loginInfo;
             response($result, 200);
         }
     }
