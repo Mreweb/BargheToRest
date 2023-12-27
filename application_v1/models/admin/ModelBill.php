@@ -526,7 +526,7 @@ class ModelBill extends CI_Model
 
         echo "priceGap ".$priceGap.PHP_EOL;
 
-        $requestedKw = 2000; 
+        $requestedKw = 20000; 
 
         echo "========================================".PHP_EOL;
         $thisMonthDiscount = round($priceGap/60 , 2);
