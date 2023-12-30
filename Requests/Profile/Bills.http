@@ -1,4 +1,4 @@
-#### دریافت فهرست قبض های کاربر #############################################################
+#### دریافت فهرست قبض های کاربر ############################################################
 GET   {{address}}/Profile/Bills?page=1&inputBillTitle=&inputBillNumberId=&inputPersonLastName&inputPersonLastName=&inputPersonNationalCode=&inputPersonPhone= HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json 
@@ -95,16 +95,16 @@ Content-Type: application/json
     "CreateDateTime": "1699089990",
     "CreatePersonId": "1821"
 }
-##########  دریافت جزئیات قبض کاربر ######################################################
+##########  دریافت جزئیات قبض کاربر ####################################################
 GET {{address}}/Profile/Bills/power_data/e4c2ed78-0fd9-4fe9-9fcf-9225661167d2 HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json 
-##########  دریافت سابقه مصرف قبض کاربر ##################################################
+##########  دریافت سابقه مصرف قبض کاربر ################################################
 GET {{address}}/Profile/Bills/sale_data/e4c2ed78-0fd9-4fe9-9fcf-9225661167d2 HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
-##########  دریافت پلن های خرید ##########################################################
+##########  دریافت پلن های خرید ########################################################
 GET {{address}}/Profile/Bills/get_plans/e4c2ed78-0fd9-4fe9-9fcf-9225661167d2 HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json  

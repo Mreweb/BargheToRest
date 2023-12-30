@@ -1,4 +1,4 @@
-  ########## دریافت فهرست قبض های کاربر #################################################################################             
+  ########## دریافت فهرست تمامی قبض   #################################################################################             
 GET   {{address}}/Admin/Bills?page=1&inputBillTitle=&inputBillNumberId=&inputPersonLastName&inputPersonLastName=&inputPersonNationalCode=&inputPersonPhone=&inputShowDeleted= HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json

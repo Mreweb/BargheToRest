@@ -96,15 +96,7 @@ class Setting extends CI_Controller
     public function get_user_info(){
         if (check_request_method('GET')) { 
             $data  = $this->loginInfo['Info'];
-            $userInfo['Info'] = array(
-                "PersonId" => $data['PersonId'],
-                "PersonFirstName" => $data['PersonFirstName'],
-                "PersonLastName" => $data['PersonLastName'],
-                "PersonNationalCode" => $data['PersonNationalCode'],
-                "PersonPhone" => $data['PersonPhone'],
-                "Username" => $data['Username'],
-                "PersonType" => $data['PersonType']
-            );
+            $userInfo = $this->ModelPerson->get_person_by_id($data['PersonId'])[0];
             $result['data']['content'] = $userInfo;
             response($result, 200);
         }

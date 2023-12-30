@@ -3,7 +3,9 @@
 class ModelProfile extends CI_Model
 {
 
-    public function do_change_info($inputs)
+
+    
+    public function get_person_info($peronsId)
     {
         if ($inputs['inputNationalCode'] != '' && $inputs['inputNationalCode'] != null) {
             $this->db->select('*');
@@ -36,6 +38,45 @@ class ModelProfile extends CI_Model
         }
 
     }
+
+    public function do_change_info($inputs)
+    {
+        if ($inputs['inputNationalCode'] != '' && $inputs['inputNationalCode'] != null) {
+            $this->db->select('*');
+            $this->db->from('person');
+            $this->db->where(
+                array(
+                    'PersonId !=' => $inputs['inputPersonId'],
+                    'PersonNationalCode' => $inputs['inputNationalCode'],
+                )
+            );
+            $query = $this->db->get();
+            if ($query->num_rows() > 0) {
+                return get_req_message('DuplicateInfo', null);
+            }
+        }
+          
+        $userArray = array(
+            'PersonFirstName' => $inputs['inputFirstName'],
+            'PersonLastName' => $inputs['inputLastName'],
+            'PersonNationalCode' => $inputs['inputNationalCode'],
+            'PersonAddress' => $inputs['inputAddress'],
+            'PersonProvinceId' => $inputs['inputPersonProvinceId'],
+            'PersonCityId' => $inputs['inputPersonCityId'],
+            'ModifyDateTime' => time(),
+            'ModifyPersonId' => $inputs['inputPersonId']
+        );
+        $this->db->where('PersonId', $inputs['inputPersonId']);
+        $this->db->update('person', $userArray);
+        if ($this->db->affected_rows() > 0) {
+            return get_req_message('SuccessAction');
+        } else {
+            return get_req_message('ErrorAction');
+        }
+
+    }
+
+    
     public function do_change_user_legal_info($inputs)
     {
 

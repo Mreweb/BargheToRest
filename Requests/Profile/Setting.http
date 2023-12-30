@@ -4,10 +4,12 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "inputFirstName": "محسن",
-    "inputLastName": "تاجیک",
+    "inputFirstName": "محمد",
+    "inputLastName": "1تاجیک",
     "inputNationalCode": "2500354216",
-    "inputAddress": "تهران خیابان ولیعصر روبروی پارک ملت"
+    "inputAddress": "تهران خیابان ولیعصر روبروی پار22ک ملت",
+    "inputPersonProvinceId": "1",
+    "inputPersonCityId": "444"
 }
 
 ########## ویرایش اطلاعات حقوقی کاربر ###########################################################################

@@ -46,7 +46,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 { 
-    "inputHighPrice" : "950",
+    "inputHighPrice" : "960",
     "inputLowPrice" : "880"
 }
 

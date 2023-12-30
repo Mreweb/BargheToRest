@@ -28,6 +28,8 @@ class ModelPerson extends CI_Model{
     public function get_person_by_id($personId){
         $this->db->select('*');
         $this->db->from('person');
+        $this->db->join('province' , 'province.ProvinceId = person.PersonProvinceId' , 'left');
+        $this->db->join('city' , 'city.CityId = person.PersonCityId' , 'left');
         $this->db->where(array('PersonId' => $personId));
         return $this->db->get()->result_array();
     }
