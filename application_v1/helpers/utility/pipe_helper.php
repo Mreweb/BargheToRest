@@ -151,7 +151,11 @@ function check_request_method($method){
 
 function check_captcha($captcha){
     $ci =& get_instance();
-    if ($ci->session->userdata('CaptchaCode') !== $captcha) {
+    $data = $ci->db->select('*')->from('captcha')->where(array(
+      'CaptchaId' => $captcha['inputCaptchaId'] ,
+      'CaptchaCode' => $captcha['inputCaptchaCode'] 
+    ))->get()->num_rows();
+    if ($data <= 0) {
         response(get_req_message('ErrorAction', 'کد امنیتی صحیح نیست'), 400);
         die();
     }

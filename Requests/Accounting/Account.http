@@ -5,14 +5,14 @@ Content-Type: application/json
 {
     
 }
-
 ########## ثبت نام / لاگین #################################################################################
 POST   {{address}}/Account/submit_phone HTTP/1.1
 Content-Type: application/json
 
 {
     "inputPhone": "09120572107",
-    "inputCaptcha" : "36026"
+    "inputCaptchaId": "9139f15a-56cb-4cf5-9b51-bb5d1c9f20c3",
+    "inputCaptchaCode" : "95681"
 }
 ########## تایید کد ارسال شده ########################################################################
 POST {{address}}/Account/verify_phone

@@ -1,31 +1,28 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
 include APPPATH . 'helpers/cors.php';
+
+require './vendor/autoload.php';
 use Gregwar\Captcha\CaptchaBuilder;
 
-class GetCaptcha extends CI_Controller{
-  public function index(){
-    $random_alpha = mb_strtoupper(rand(11111, 99999));
-    $uuid = $this->uuid->v4();
-    $this->db->insert('captcha' , array(
-      'CaptchaId' => $uuid,
-      'CaptchaCode' => $random_alpha,
-      'CreateDateTime' => time()
-    ));
-
-
+class GetCaptchaNew extends CI_Controller
+{
+  public function index()
+  {
     if (check_request_method('GET')) {
-      require './vendor/autoload.php';
+
+      $random_alpha = mb_strtoupper(rand(11111, 99999));
       $builder = new CaptchaBuilder($random_alpha);
-      $builder->build(200,50);   
+      $builder->build(200,50); 
+      $this->session->set_userdata('CaptchaCode',  $builder->getPhrase()); 
+
       $data['content'] = array(
         'captchaImage' => $builder->inline(),
         'success'=> true,
-        'captcha_id'=> $uuid,
-        'code' => $random_alpha
+        'code' => $builder->getPhrase()
       );
       echo json_encode($data, JSON_UNESCAPED_SLASHES);
+
       /*$random_alpha = mb_strtoupper(rand(11111, 99999));
       $captcha_code = substr($random_alpha, 0, 5);
       $this->session->set_userdata('CaptchaCode', $captcha_code);
@@ -43,11 +40,12 @@ class GetCaptcha extends CI_Controller{
         'success'=> true,
         'code' => $captcha_code
       );
-      echo json_encode($data);*/
+      echo json_encode($data);
     } else{
       response(get_req_message('MethodNotAllowed'), 405);
+    }*/
     }
-  } 
+  }
 }
 
 ?>

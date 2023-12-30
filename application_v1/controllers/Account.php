@@ -15,11 +15,13 @@ class Account extends CI_Controller{
         $inputs = json_decode($this->input->raw_input_stream, true);
         $inputs = custom_filter_input($inputs);
         if (check_request_method('POST')) {
-            check_captcha($inputs['inputCaptcha']);
+
+            check_captcha($inputs);
+
             /* Validate Comming Data */
             $this->form_validation->set_data($inputs);
             $this->form_validation->set_rules('inputPhone', 'تلفن همراه', 'trim|required|min_length[11]|max_length[13]');
-            $this->form_validation->set_rules('inputCaptcha', 'کد امنیتی', 'trim|required|exact_length[5]');
+            $this->form_validation->set_rules('inputCaptchaCode', 'کد امنیتی', 'trim|required|exact_length[5]');
             if ($this->form_validation->run() == FALSE) {
                 response(get_req_message('ErrorAction', validation_errors()), 400);
             } else {
