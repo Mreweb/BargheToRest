@@ -170,7 +170,7 @@ class Bills extends CI_Controller{
             $inputs['todayDate'] = convertDate(time(), false);
 
             $result = $this->ModelBill->get_bill_plans($inputs);
-            response(get_req_message('SuccessAction', null, array('avg'=> $result)), 200);
+            response(get_req_message('SuccessAction', null, $result), 200);
         }
     }
     
