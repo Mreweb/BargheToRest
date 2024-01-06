@@ -50,6 +50,16 @@ Content-Type: application/json
     "inputLowPrice" : "880"
 }
 
+########## ثبت قیمت برق سبز #################################################################################             
+POST   {{address}}/Admin/ProvinceTariff/do_update_electricity_green_price HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ 
+    "inputMonth" : "10",
+    "inputGreenPrice" : "850",
+    "inputGreenInventory" : "1800"
+}
 ########## دریافت قیمت برق #################################################################################             
 GET   {{address}}/Admin/ProvinceTariff/get_electricity_price HTTP/1.1
 Authorization: Bearer {{token}}
@@ -58,5 +68,12 @@ Content-Type: application/json
 { 
 }
 
+########## دریافت قیمت برق سبز #################################################################################             
+GET   {{address}}/Admin/ProvinceTariff/get_electricity_green_price HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ 
+}
 
   

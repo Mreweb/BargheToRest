@@ -101,16 +101,44 @@ class ModelProvince extends CI_Model{
         $userArray = array(
             'HighPrice' => $inputs['inputHighPrice'],
             'LowPrice' => $inputs['inputLowPrice'],  
+            'GreenPrice' => $inputs['inputGreenPrice'],  
+            'GreenInventory' => $inputs['inputGreenInventory'],  
             'CreateDateTime' => time(),
             'CreatePersonId' => $inputs['inputPersonId']
         );
-        $inserId = $this->db->insert('electicity_price', $userArray);
+        $inserId = $this->db->insert('electricity_price', $userArray);
         if ($inserId > 0) {
             return get_req_message('SuccessAction');
         } else {
             return get_req_message('ErrorAction');
         }
     }
+
+    public function get_electricity_green_price(){
+        $this->db->select('*'); 
+        $this->db->from('electricity_green_price'); 
+        $this->db->order_by('RowId DESC'); 
+        return $this->db->get()->result_array();  
+    }
+    
+    public function do_update_electricity_green_price ($inputs){
+        $userArray = array( 
+            'GreenPrice' => $inputs['inputGreenPrice'],  
+            'GreenInventory' => $inputs['inputGreenInventory'],  
+            'CreateDateTime' => time(),
+            'CreatePersonId' => $inputs['inputPersonId']
+        );
+        $inserId = $this->db->where('Month', $inputs['inputMonth']);
+        $inserId = $this->db->update('electricity_green_price', $userArray);
+        if ($inserId > 0) {
+            return get_req_message('SuccessAction');
+        } else {
+            return get_req_message('ErrorAction');
+        }
+    }
+
+
+    
     
     
 }

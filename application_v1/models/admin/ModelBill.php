@@ -144,7 +144,7 @@ class ModelBill extends CI_Model
             return get_req_message('ErrorAction');
         }
     }
-    
+
     public function do_add_legal_info($inputs)
     {
 
@@ -176,7 +176,7 @@ class ModelBill extends CI_Model
             'CreatePersonId' => $inputs['inputPersonId'],
             'CreateDateTime' => time()
         );
-        
+
         $this->db->insert('person_bill_legal_info', $userArray);
         return get_req_message('SuccessAction');
     }
@@ -283,7 +283,8 @@ class ModelBill extends CI_Model
         $this->db->where('BillGUID', $guid);
         return $this->db->get()->result_array();
     }
-    public function do_add_bill_by_admin($inputs){
+    public function do_add_bill_by_admin($inputs)
+    {
         $this->db->select('*');
         $this->db->from('person');
         $this->db->where('PersonId', $inputs['inputPersonId']);
@@ -385,7 +386,8 @@ class ModelBill extends CI_Model
         $this->db->insert('person_bill_legal_info', $userArray);
         return get_req_message('SuccessAction');
     }
-    public function do_edit_legal_info_by_admin($inputs){
+    public function do_edit_legal_info_by_admin($inputs)
+    {
         $this->db->select('*');
         $this->db->from('person_bill_legal_info');
         $this->db->where('BillGUID', $inputs['inputBillGUID']);
@@ -447,10 +449,11 @@ class ModelBill extends CI_Model
         return $result;
     }
 
-    public function get_bill_plans_with_print($inputs){
+    public function get_bill_plans_with_print($inputs)
+    {
         $bill = $this->get_bill_by_guid($inputs['guid']);
         $avgKWS = $this->db->query("SELECT ((SUM(low_cons)+SUM(normal_cons)+SUM(peak_cons))/SUM(total_days)/24) AS TotalCons FROM (SELECT * FROM bill_sale_data_detail WHERE BillNumberId = '" . $bill[0]['BillNumberId'] . "'   order by issue_date DESC LIMIT 12) AS T")->result_array()[0]['TotalCons'];
-        $avgKWS = round($avgKWS , 2);
+        $avgKWS = round($avgKWS, 2);
 
 
         $LowPrice = $inputs['electricity_price']['LowPrice'];
@@ -458,139 +461,139 @@ class ModelBill extends CI_Model
         $priceGap = $HighPrice - $LowPrice;
 
         $todayDate = $inputs['todayDate'];
-        $todayDay = explode("/",$inputs['todayDate'])[2]; 
-        
+        $todayDay = explode("/", $inputs['todayDate'])[2];
+
         $currentMonth = intval($inputs['currentMonth']);
 
-        $prevMonth = $currentMonth-1;
-        if($prevMonth < 1){
+        $prevMonth = $currentMonth - 1;
+        if ($prevMonth < 1) {
             $prevMonth = 12;
         }
 
-        $nextOneMonth = $currentMonth+1;
-        $nextTwoMonth = $currentMonth+2;
-        if($nextOneMonth > 12){
+        $nextOneMonth = $currentMonth + 1;
+        $nextTwoMonth = $currentMonth + 2;
+        if ($nextOneMonth > 12) {
             $nextOneMonth = 1;
-        } 
-        if($nextTwoMonth > 12){
+        }
+        if ($nextTwoMonth > 12) {
             $nextTwoMonth = 1;
         }
 
-        echo "BillNumberId ".($bill[0]['BillNumberId']).PHP_EOL; 
-        
-        echo "current month ".($currentMonth).PHP_EOL; 
+        echo "BillNumberId " . ($bill[0]['BillNumberId']) . PHP_EOL;
 
-        echo "current day ".($todayDay).PHP_EOL; 
+        echo "current month " . ($currentMonth) . PHP_EOL;
 
-         
+        echo "current day " . ($todayDay) . PHP_EOL;
+
+
         $currentMonthTotalDays = 0;
-        if($currentMonth <= 6){
+        if ($currentMonth <= 6) {
             $currentMonthTotalDays = 31;
-        } else if($currentMonth > 6 && $currentMonth < 12){
+        } else if ($currentMonth > 6 && $currentMonth < 12) {
             $currentMonthTotalDays = 30;
-        } else{
+        } else {
             $currentMonthTotalDays = 29;
         }
 
 
         $nextOneMonthDays = 0;
 
-        if($nextOneMonth <= 6){
+        if ($nextOneMonth <= 6) {
             $nextOneMonthDays = 31;
-        } else if($nextOneMonth > 6 && $nextOneMonth < 12){
+        } else if ($nextOneMonth > 6 && $nextOneMonth < 12) {
             $nextOneMonthDays = 30;
-        } else{
+        } else {
             $nextOneMonthDays = 29;
         }
 
         $nextTwoMonthDays = 0;
-        if($nextTwoMonth <= 6){
+        if ($nextTwoMonth <= 6) {
             $nextTwoMonthDays = 31;
-        } else if($nextTwoMonth > 6 && $nextTwoMonth < 12){
+        } else if ($nextTwoMonth > 6 && $nextTwoMonth < 12) {
             $nextTwoMonthDays = 30;
-        } else{
+        } else {
             $nextTwoMonthDays = 29;
         }
-        $nextTwoMonthDays = $nextTwoMonthDays+$nextOneMonthDays;
- 
-
-        echo "Next One Month ".$nextOneMonth.PHP_EOL;
-        echo "Next One Month Days ".$nextOneMonthDays.PHP_EOL;
-
-        echo "Next two Month ".$nextTwoMonth.PHP_EOL;
-        echo "Next two Month Days ".$nextTwoMonthDays.PHP_EOL;
+        $nextTwoMonthDays = $nextTwoMonthDays + $nextOneMonthDays;
 
 
- 
+        echo "Next One Month " . $nextOneMonth . PHP_EOL;
+        echo "Next One Month Days " . $nextOneMonthDays . PHP_EOL;
+
+        echo "Next two Month " . $nextTwoMonth . PHP_EOL;
+        echo "Next two Month Days " . $nextTwoMonthDays . PHP_EOL;
+
+
+
         $remainsDayToEndOfMonth = $currentMonthTotalDays - $todayDay;
-        echo "remains day to end of month day ".$remainsDayToEndOfMonth.PHP_EOL;
-        
-        echo "avgKWS In Last 12 Month".($avgKWS).PHP_EOL; 
+        echo "remains day to end of month day " . $remainsDayToEndOfMonth . PHP_EOL;
 
-        echo "priceGap ".$priceGap.PHP_EOL;
+        echo "avgKWS In Last 12 Month" . ($avgKWS) . PHP_EOL;
 
-        echo "HighPrice ".$HighPrice.PHP_EOL;
+        echo "priceGap " . $priceGap . PHP_EOL;
 
-        echo "LowPrice ".$LowPrice.PHP_EOL;
-        
+        echo "HighPrice " . $HighPrice . PHP_EOL;
+
+        echo "LowPrice " . $LowPrice . PHP_EOL;
+
 
         $userRequestedKw = 2000;
-        $requestedKw = $userRequestedKw * 30 * 24; 
+        $requestedKw = $userRequestedKw * 30 * 24;
 
-        echo "========================================".PHP_EOL;
-        $thisMonthDiscount = round($priceGap/60 , 2);
-        echo "Discount Per KW Per Day For Current Month ".$thisMonthDiscount.PHP_EOL;
+        echo "========================================" . PHP_EOL;
+        $thisMonthDiscount = round($priceGap / 60, 2);
+        echo "Discount Per KW Per Day For Current Month " . $thisMonthDiscount . PHP_EOL;
 
-        if(($remainsDayToEndOfMonth) > 60){
+        if (($remainsDayToEndOfMonth) > 60) {
             $thisMonthCalculatedPrice = $LowPrice;
-        } else{
-            $thisMonthCalculatedPrice = $HighPrice - ( $remainsDayToEndOfMonth *$thisMonthDiscount);
+        } else {
+            $thisMonthCalculatedPrice = $HighPrice - ($remainsDayToEndOfMonth * $thisMonthDiscount);
         }
-        $thisMonthCalculatedPrice = $HighPrice - ($remainsDayToEndOfMonth*$thisMonthDiscount);
-        echo "CalCulatedPrice ".$thisMonthCalculatedPrice.PHP_EOL;
+        $thisMonthCalculatedPrice = $HighPrice - ($remainsDayToEndOfMonth * $thisMonthDiscount);
+        echo "CalCulatedPrice " . $thisMonthCalculatedPrice . PHP_EOL;
 
-        $thisMonthPowerCost =  $requestedKw   * $thisMonthCalculatedPrice;
-        echo "thisMonthPowerCost ".number_format($thisMonthPowerCost).PHP_EOL;
+        $thisMonthPowerCost = $requestedKw * $thisMonthCalculatedPrice;
+        echo "thisMonthPowerCost " . number_format($thisMonthPowerCost) . PHP_EOL;
 
-        echo "========================================".PHP_EOL;
+        echo "========================================" . PHP_EOL;
 
-        $nextMonthDiscount = round($priceGap/60 , 2);
-        echo "Discount Per KW Per Day For Next Month ".$nextMonthDiscount.PHP_EOL;
+        $nextMonthDiscount = round($priceGap / 60, 2);
+        echo "Discount Per KW Per Day For Next Month " . $nextMonthDiscount . PHP_EOL;
 
-        if(($nextOneMonthDays + $remainsDayToEndOfMonth) > 60){
+        if (($nextOneMonthDays + $remainsDayToEndOfMonth) > 60) {
             $nextMonthCalculatedPrice = $LowPrice;
-        } else{
-            $nextMonthCalculatedPrice = $HighPrice - ( ($nextOneMonthDays + $remainsDayToEndOfMonth) *$thisMonthDiscount);
+        } else {
+            $nextMonthCalculatedPrice = $HighPrice - (($nextOneMonthDays + $remainsDayToEndOfMonth) * $thisMonthDiscount);
         }
-        echo "CalCulatedPrice ".$nextMonthCalculatedPrice.PHP_EOL;
+        echo "CalCulatedPrice " . $nextMonthCalculatedPrice . PHP_EOL;
 
-        $nextMonthPowerCost =  $requestedKw   * $nextMonthCalculatedPrice;
-        echo "thisMonthPowerCost ".number_format($nextMonthPowerCost).PHP_EOL; 
+        $nextMonthPowerCost = $requestedKw * $nextMonthCalculatedPrice;
+        echo "thisMonthPowerCost " . number_format($nextMonthPowerCost) . PHP_EOL;
 
-        echo "========================================".PHP_EOL;
-
-        
-        $nextTwoMonthDiscount = round($priceGap/60 , 2);
-        echo "Discount Per KW Per Day For Next Two Month ".$nextTwoMonthDiscount.PHP_EOL;
+        echo "========================================" . PHP_EOL;
 
 
-        if(($nextTwoMonthDays + $nextOneMonthDays + $remainsDayToEndOfMonth) > 60){
+        $nextTwoMonthDiscount = round($priceGap / 60, 2);
+        echo "Discount Per KW Per Day For Next Two Month " . $nextTwoMonthDiscount . PHP_EOL;
+
+
+        if (($nextTwoMonthDays + $nextOneMonthDays + $remainsDayToEndOfMonth) > 60) {
             $nextTwoMonthCalculatedPrice = $LowPrice;
-        } else{
-            $nextTwoMonthCalculatedPrice = $HighPrice - ( ($nextTwoMonthDays + $nextOneMonthDays + $remainsDayToEndOfMonth) *$thisMonthDiscount);
+        } else {
+            $nextTwoMonthCalculatedPrice = $HighPrice - (($nextTwoMonthDays + $nextOneMonthDays + $remainsDayToEndOfMonth) * $thisMonthDiscount);
         }
- 
-        echo "CalCulatedPrice ".$nextTwoMonthCalculatedPrice.PHP_EOL;
 
-        $nextTwoMonthPowerCost =  $requestedKw   * $nextTwoMonthCalculatedPrice;
-        echo "thisMonthPowerCost ".number_format($nextTwoMonthPowerCost).PHP_EOL;
+        echo "CalCulatedPrice " . $nextTwoMonthCalculatedPrice . PHP_EOL;
 
-        echo "========================================".PHP_EOL;
+        $nextTwoMonthPowerCost = $requestedKw * $nextTwoMonthCalculatedPrice;
+        echo "thisMonthPowerCost " . number_format($nextTwoMonthPowerCost) . PHP_EOL;
 
- 
+        echo "========================================" . PHP_EOL;
+
+
 
         $plans[] = array(
-            'PlanOrder' => 1 , 
+            'PlanOrder' => 1,
             'RemainDays' => $remainsDayToEndOfMonth,
             'UserRequestedKw' => $userRequestedKw,
             'PowerCost' => number_format($thisMonthPowerCost),
@@ -598,7 +601,7 @@ class ModelBill extends CI_Model
         );
 
         $plans[] = array(
-            'PlanOrder' => 2 , 
+            'PlanOrder' => 2,
             'RemainDays' => ($nextOneMonthDays + $remainsDayToEndOfMonth),
             'UserRequestedKw' => $userRequestedKw,
             'PowerCost' => number_format($thisMonthPowerCost),
@@ -606,23 +609,24 @@ class ModelBill extends CI_Model
         );
 
         $plans[] = array(
-            'PlanOrder' => 3 , 
+            'PlanOrder' => 3,
             'RemainDays' => ($nextTwoMonthDays + $nextOneMonthDays + $remainsDayToEndOfMonth),
             'UserRequestedKw' => $userRequestedKw,
             'PowerCost' => number_format($nextTwoMonthPowerCost),
             'PricePerKW' => $nextTwoMonthCalculatedPrice
         );
 
-         
+
         $result['data']['content'] = $plans;
-        return $result; 
+        return $result;
 
 
     }
-    public function get_bill_plans($inputs){
+    public function get_bill_plans($inputs)
+    {
         $bill = $this->get_bill_by_guid($inputs['guid']);
         $avgKWS = $this->db->query("SELECT ((SUM(low_cons)+SUM(normal_cons)+SUM(peak_cons))/SUM(total_days)/24) AS TotalCons FROM (SELECT * FROM bill_sale_data_detail WHERE BillNumberId = '" . $bill[0]['BillNumberId'] . "'   order by issue_date DESC LIMIT 12) AS T")->result_array()[0]['TotalCons'];
-        $avgKWS = round($avgKWS , 2);
+        $avgKWS = round($avgKWS, 2);
 
         $userRequestedKw = $inputs['inputTotalRequestKW'];
 
@@ -631,136 +635,147 @@ class ModelBill extends CI_Model
         $priceGap = $HighPrice - $LowPrice;
 
         $todayDate = $inputs['todayDate'];
-        $todayDay = explode("/",$inputs['todayDate'])[2]; 
-        
-        $currentMonth = intval($inputs['currentMonth']);
+        $todayDay = explode("/", $inputs['todayDate'])[2];
 
-        $prevMonth = $currentMonth-1;
-        if($prevMonth < 1){
+        $currentMonth = intval($inputs['currentMonth']);
+        $currentYear = intval(explode("/", $inputs['todayDate'])[0]);
+
+        $prevMonth = $currentMonth - 1;
+        if ($prevMonth < 1) {
             $prevMonth = 12;
         }
 
-        $nextOneMonth = $currentMonth+1;
-        $nextTwoMonth = $currentMonth+2;
-        if($nextOneMonth > 12){
+        $nextOneMonth = $currentMonth + 1;
+        $nextTwoMonth = $currentMonth + 2;
+        if ($nextOneMonth > 12) {
             $nextOneMonth = 1;
-        } 
-        if($nextTwoMonth > 12){
+        }
+        if ($nextTwoMonth > 12) {
             $nextTwoMonth = 1;
         }
-         
+
         $currentMonthTotalDays = 0;
-        if($currentMonth <= 6){
+        if ($currentMonth <= 6) {
             $currentMonthTotalDays = 31;
-        } else if($currentMonth > 6 && $currentMonth < 12){
+        } else if ($currentMonth > 6 && $currentMonth < 12) {
             $currentMonthTotalDays = 30;
-        } else{
+        } else {
             $currentMonthTotalDays = 29;
         }
 
 
         $nextOneMonthDays = 0;
 
-        if($nextOneMonth <= 6){
+        if ($nextOneMonth <= 6) {
             $nextOneMonthDays = 31;
-        } else if($nextOneMonth > 6 && $nextOneMonth < 12){
+        } else if ($nextOneMonth > 6 && $nextOneMonth < 12) {
             $nextOneMonthDays = 30;
-        } else{
+        } else {
             $nextOneMonthDays = 29;
         }
+        $nextOneMonthRealDays = $nextOneMonthDays;
 
         $nextTwoMonthDays = 0;
-        if($nextTwoMonth <= 6){
+        $nextTwoMonthRealDays = 0;
+        if ($nextTwoMonth <= 6) {
             $nextTwoMonthDays = 31;
-        } else if($nextTwoMonth > 6 && $nextTwoMonth < 12){
+        } else if ($nextTwoMonth > 6 && $nextTwoMonth < 12) {
             $nextTwoMonthDays = 30;
-        } else{
+        } else {
             $nextTwoMonthDays = 29;
         }
-        $nextTwoMonthDays = $nextTwoMonthDays+$nextOneMonthDays;
- 
+        $nextTwoMonthRealDays = $nextTwoMonthDays;
+        $nextTwoMonthDays = $nextTwoMonthDays + $nextOneMonthDays;
+
         $remainsDayToEndOfMonth = $currentMonthTotalDays - $todayDay;
-       
-        $requestedKw = $userRequestedKw * 30 * 24; 
 
-        $thisMonthDiscount = round($priceGap/60 , 2);
+        $requestedKw = $userRequestedKw * 30 * 24;
 
-        if(($remainsDayToEndOfMonth) > 60){
+        $thisMonthDiscount = round($priceGap / 60, 2);
+
+        if (($remainsDayToEndOfMonth) > 60) {
             $thisMonthCalculatedPrice = $LowPrice;
-        } else{
-            $thisMonthCalculatedPrice = $HighPrice - ( $remainsDayToEndOfMonth *$thisMonthDiscount);
+        } else {
+            $thisMonthCalculatedPrice = $HighPrice - ($remainsDayToEndOfMonth * $thisMonthDiscount);
         }
-        $thisMonthPowerCost =  $requestedKw   * $thisMonthCalculatedPrice;
+        $thisMonthPowerCost = $requestedKw * $thisMonthCalculatedPrice;
 
 
-        if(($nextOneMonthDays + $remainsDayToEndOfMonth) > 60){
+        if (($nextOneMonthDays + $remainsDayToEndOfMonth) > 60) {
             $nextMonthCalculatedPrice = $LowPrice;
-        } else{
-            $nextMonthCalculatedPrice = $HighPrice - ( ($nextOneMonthDays + $remainsDayToEndOfMonth) *$thisMonthDiscount);
+        } else {
+            $nextMonthCalculatedPrice = $HighPrice - (($nextOneMonthDays + $remainsDayToEndOfMonth) * $thisMonthDiscount);
         }
-        $nextMonthPowerCost =  $requestedKw   * $nextMonthCalculatedPrice;
+        $nextMonthPowerCost = $requestedKw * $nextMonthCalculatedPrice;
 
 
-        if(($nextTwoMonthDays + $nextOneMonthDays + $remainsDayToEndOfMonth) > 60){
+        if (($nextTwoMonthDays + $nextOneMonthDays + $remainsDayToEndOfMonth) > 60) {
             $nextTwoMonthCalculatedPrice = $LowPrice;
-        } else{
-            $nextTwoMonthCalculatedPrice = $HighPrice - ( ($nextTwoMonthDays + $nextOneMonthDays + $remainsDayToEndOfMonth) *$thisMonthDiscount);
+        } else {
+            $nextTwoMonthCalculatedPrice = $HighPrice - (($nextTwoMonthDays + $nextOneMonthDays + $remainsDayToEndOfMonth) * $thisMonthDiscount);
         }
-        $nextTwoMonthPowerCost =  $requestedKw   * $nextTwoMonthCalculatedPrice;
+        $nextTwoMonthPowerCost = $requestedKw * $nextTwoMonthCalculatedPrice;
 
- 
+
 
         $plans[] = array(
-            'PlanOrder' => 1 , 
+            'PlanOrder' => 1,
             'RemainDays' => $remainsDayToEndOfMonth,
+            'FromDate' => $currentYear . '/' . $currentMonth . '/1',
+            'ToDate' => $currentYear . '/' . $currentMonth . '/' . $currentMonthTotalDays,
+            'TotalDays' => $currentMonthTotalDays,
             'UserRequestedKw' => $userRequestedKw,
-            'PowerCost' => number_format($thisMonthPowerCost),
+            'PowerCost' => ($thisMonthPowerCost),
             'PricePerKW' => $thisMonthCalculatedPrice
         );
 
         $plans[] = array(
-            'PlanOrder' => 2 , 
-            'RemainDays' => ($nextOneMonthDays + $remainsDayToEndOfMonth),
+            'PlanOrder' => 2,
+            'RemainDays' => ($nextOneMonthRealDays + $remainsDayToEndOfMonth),
+            'FromDate' => $currentYear . '/' . $nextOneMonth . '/1',
+            'ToDate' => $currentYear . '/' . $nextOneMonth . '/' . $nextOneMonthRealDays,
             'UserRequestedKw' => $userRequestedKw,
-            'PowerCost' => number_format($nextMonthPowerCost),
+            'TotalDays' => $currentMonthTotalDays + $nextOneMonthRealDays,
+            'PowerCost' => ($nextMonthPowerCost),
             'PricePerKW' => $nextMonthCalculatedPrice
         );
 
         $plans[] = array(
-            'PlanOrder' => 3 , 
+            'PlanOrder' => 3,
             'RemainDays' => ($nextTwoMonthDays + $nextOneMonthDays + $remainsDayToEndOfMonth),
+            'FromDate' => $currentYear . '/' . $nextTwoMonth . '/1',
+            'ToDate' => $currentYear . '/' . $nextTwoMonth . '/' . $nextTwoMonthRealDays,
             'UserRequestedKw' => $userRequestedKw,
-            'PowerCost' => number_format($nextTwoMonthPowerCost),
+            'TotalDays' => $currentMonthTotalDays + $nextOneMonthDays + $nextTwoMonthDays,
+            'PowerCost' => ($nextTwoMonthPowerCost),
             'PricePerKW' => $nextTwoMonthCalculatedPrice
         );
 
-         
+
         $result['data']['content'] = $plans;
-        return $result; 
+        return $result;
 
 
     }
     /* End Public */
 
-
-
-    
-    public function choose_plan($inputs){
+    public function choose_plan($inputs)
+    {
         $data = $this->get_bill_plans($inputs);
 
         $PersonId = $inputs['inputPersonId'];
         $BillGUID = $inputs['inputBillGUID'];
         $ShiftWorkId = $inputs['inputShiftWorkId'];
         $IssueDateTime = time();
-        $CreateDateTime	 = time();
-        $CreatePersonId	 = $PersonId;
+        $CreateDateTime = time();
+        $CreatePersonId = $PersonId;
         $Status = 'Pend';
         $TotalRequestKW = $inputs['inputTotalRequestKW'];
         $PlanOrder = $inputs['inputPlanOrder'];
- 
+
         $selectedPlan = "";
-        foreach($data['data']['content'] as $item){
-            if($item['PlanOrder'] == $PlanOrder){
+        foreach ($data['data']['content'] as $item) {
+            if ($item['PlanOrder'] == $PlanOrder) {
                 $selectedPlan = $item;
             }
         }
@@ -769,24 +784,155 @@ class ModelBill extends CI_Model
 
 
         $orderArray = array(
-            'PersonId'=> $PersonId,
-            'BillGUID'=> $BillGUID,
-            'ShiftWorkId'=> $ShiftWorkId,
-            'IssueDateTime'=> $IssueDateTime,
-            'CreateDateTime'=> $CreateDateTime,
-            'CreatePersonId'=> $CreatePersonId,
-            'Status'=> $Status,
-            'TotalRequestKW'=> $TotalRequestKW,
-            'TotalDays'=> $TotalDays,
-            'PlanOrder'=> $PlanOrder
+            'PersonId' => $PersonId,
+            'BillGUID' => $BillGUID,
+            'ShiftWorkId' => $ShiftWorkId,
+            'IssueDateTime' => $IssueDateTime,
+            'CreateDateTime' => $CreateDateTime,
+            'CreatePersonId' => $CreatePersonId,
+            'TotalRequestKW' => $TotalRequestKW,
+            'Status' => $Status,
+            'TotalDays' => $TotalDays,
+            'PlanOrder' => $PlanOrder,
+            'KWPerPrice' => $selectedPlan['PricePerKW'],
+            'Type' => 'Normal',
+            'TotalPrice' => $selectedPlan['PowerCost'],
+            'FromDate' => $selectedPlan['FromDate'],
+            'ToDate' => $selectedPlan['ToDate']
         );
-        
-        var_dump($orderArray);
 
-
-
+        $this->db->insert('person_orders', $orderArray);
+        $inserId = $this->db->insert_id();
+        return array('orderId' => $inserId);
 
     }
+
+    public function choose_plan_green($inputs) {
+
+        $userRequestedKw = $inputs['inputTotalRequestKW'];
+
+        $LowPrice = $inputs['electricity_price']['LowPrice'];
+        $HighPrice = $inputs['electricity_price']['HighPrice'];
+        $priceGap = $HighPrice - $LowPrice;
+
+        $todayDate = $inputs['todayDate'];
+        $todayDay = explode("/", $inputs['todayDate'])[2];
+
+        $currentMonth = intval($inputs['currentMonth']);
+        $currentYear = intval(explode("/", $inputs['todayDate'])[0]);
+
+        $prevMonth = $currentMonth - 1;
+        if ($prevMonth < 1) {
+            $prevMonth = 12;
+        }
+
+        $nextOneMonth = $currentMonth + 1;
+        $nextTwoMonth = $currentMonth + 2;
+        if ($nextOneMonth > 12) {
+            $nextOneMonth = 1;
+        }
+        if ($nextTwoMonth > 12) {
+            $nextTwoMonth = 1;
+        }
+
+        $currentMonthTotalDays = 0;
+        if ($currentMonth <= 6) {
+            $currentMonthTotalDays = 31;
+        } else if ($currentMonth > 6 && $currentMonth < 12) {
+            $currentMonthTotalDays = 30;
+        } else {
+            $currentMonthTotalDays = 29;
+        }
+
+
+        $nextOneMonthDays = 0;
+
+        if ($nextOneMonth <= 6) {
+            $nextOneMonthDays = 31;
+        } else if ($nextOneMonth > 6 && $nextOneMonth < 12) {
+            $nextOneMonthDays = 30;
+        } else {
+            $nextOneMonthDays = 29;
+        }
+        $nextOneMonthRealDays = $nextOneMonthDays;
+
+        $nextTwoMonthDays = 0;
+        $nextTwoMonthRealDays = 0;
+        if ($nextTwoMonth <= 6) {
+            $nextTwoMonthDays = 31;
+        } else if ($nextTwoMonth > 6 && $nextTwoMonth < 12) {
+            $nextTwoMonthDays = 30;
+        } else {
+            $nextTwoMonthDays = 29;
+        }
+        $nextTwoMonthRealDays = $nextTwoMonthDays;
+        $nextTwoMonthDays = $nextTwoMonthDays + $nextOneMonthDays;
+
+        $remainsDayToEndOfMonth = $currentMonthTotalDays - $todayDay;
+
+        $requestedKw = $userRequestedKw * 30 * 24;
+
+        $thisMonthDiscount = round($priceGap / 60, 2);
+
+        if (($remainsDayToEndOfMonth) > 60) {
+            $thisMonthCalculatedPrice = $LowPrice;
+        } else {
+            $thisMonthCalculatedPrice = $HighPrice - ($remainsDayToEndOfMonth * $thisMonthDiscount);
+        }
+        $thisMonthPowerCost = $requestedKw * $thisMonthCalculatedPrice;
+
+
+        if (($nextOneMonthDays + $remainsDayToEndOfMonth) > 60) {
+            $nextMonthCalculatedPrice = $LowPrice;
+        } else {
+            $nextMonthCalculatedPrice = $HighPrice - (($nextOneMonthDays + $remainsDayToEndOfMonth) * $thisMonthDiscount);
+        }
+        $nextMonthPowerCost = $requestedKw * $nextMonthCalculatedPrice;
+
+        $currentMonthGreenPrice  = 0;
+        foreach($inputs['electricity_green_price'] as $row){
+            if($currentMonth == $row['Month']){
+                $currentMonthGreenPrice = $row;
+            }
+        } 
+
+
+        $PersonId = $inputs['inputPersonId'];
+        $BillGUID = $inputs['inputBillGUID'];
+        $ShiftWorkId = $inputs['inputShiftWorkId'];
+        $IssueDateTime = time();
+        $CreateDateTime = time();
+        $CreatePersonId = $PersonId;
+        $Status = 'Pend';
+        $TotalRequestKW = $inputs['inputTotalRequestKW'];
+
+        if ($currentMonthGreenPrice['GreenInventory'] < $userRequestedKw) {
+            return 0;
+        } else {
+            $orderArray = array(
+                'PersonId' => $PersonId,
+                'BillGUID' => $BillGUID,
+                'ShiftWorkId' => $ShiftWorkId,
+                'IssueDateTime' => $IssueDateTime,
+                'CreateDateTime' => $CreateDateTime,
+                'CreatePersonId' => $CreatePersonId,
+                'TotalRequestKW' => $TotalRequestKW,
+                'Status' => $Status,
+                'TotalDays' => $currentMonthTotalDays,
+                'PlanOrder' => 0,
+                'KWPerPrice' => $currentMonthGreenPrice['GreenPrice'],
+                'Type' => 'Green',
+                'TotalPrice' => $currentMonthGreenPrice['GreenPrice'] * $userRequestedKw,
+                'FromDate' => $currentYear . '/' . $currentMonth . '/1',
+                'ToDate' => $currentYear . '/' . $currentMonth . '/' . $currentMonthTotalDays
+            );
+            $this->db->insert('person_orders', $orderArray);
+            $inserId = $this->db->insert_id();
+            return array('orderId' => $inserId);
+        }
+
+    }
+
 
 
 }

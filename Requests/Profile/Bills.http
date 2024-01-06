@@ -114,14 +114,25 @@ Content-Type: application/json
     "inputShiftWorkId": "9",
     "inputTotalRequestKW": "2000"
 }
-########## ثبت خرید قبض ###############################################
+########## ثبت خرید برق عادی ###############################################
 POST   {{address}}/Profile/Bills/choose_plan HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "inputPlanOrder": "1",
+    "inputPlanOrder": "4",  
     "inputBillGUID": "e4c2ed78-0fd9-4fe9-9fcf-9225661167d2",
     "inputShiftWorkId": "9",
     "inputTotalRequestKW": "2000"
+}
+########## ثبت خرید برق سبز ###############################################
+POST   {{address}}/Profile/Bills/choose_plan_green HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "inputPlanOrder": "4", 
+    "inputBillGUID": "e4c2ed78-0fd9-4fe9-9fcf-9225661167d2",
+    "inputShiftWorkId": "9",
+    "inputTotalRequestKW": "500"
 }

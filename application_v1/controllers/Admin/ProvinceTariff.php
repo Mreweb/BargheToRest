@@ -108,6 +108,19 @@ class ProvinceTariff extends CI_Controller{
             die();
         }
     } 
+
+    public function do_update_electricity_green_price(){
+        if (check_request_method('POST')) {
+            $inputs = json_decode($this->input->raw_input_stream, true);
+            $inputs = custom_filter_input($inputs);
+            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
+            $result = $this->ModelProvince->do_update_electricity_green_price($inputs);
+            response($result, 200);
+            die();
+        }
+    } 
+
+    
     public function get_electricity_price(){
         if (check_request_method('GET')) { 
             $result = $this->ModelProvince->get_electricity_price();
@@ -115,6 +128,15 @@ class ProvinceTariff extends CI_Controller{
             die();
         }
     } 
+
+    public function get_electricity_green_price(){
+        if (check_request_method('GET')) { 
+            $result = $this->ModelProvince->get_electricity_green_price();
+            response($result, 200);
+            die();
+        }
+    } 
+    
     
 
 }
