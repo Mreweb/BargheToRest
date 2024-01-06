@@ -11,8 +11,8 @@ Content-Type: application/json
 
 {
     "inputPhone": "09120572107",
-    "inputCaptchaId": "9139f15a-56cb-4cf5-9b51-bb5d1c9f20c3",
-    "inputCaptchaCode" : "95681"
+    "inputCaptchaId": "93c15faf-f448-4170-a649-1c31687fb769",
+    "inputCaptchaCode" : "51132"
 }
 ########## تایید کد ارسال شده ########################################################################
 POST {{address}}/Account/verify_phone
@@ -20,5 +20,5 @@ Content-Type: application/json
 
 {
     "inputPersonId": "1820",
-    "inputVerifyCode" : "2935" 
+    "inputVerifyCode" : "5692" 
 }

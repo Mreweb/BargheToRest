@@ -624,6 +624,7 @@ class ModelBill extends CI_Model
         $avgKWS = $this->db->query("SELECT ((SUM(low_cons)+SUM(normal_cons)+SUM(peak_cons))/SUM(total_days)/24) AS TotalCons FROM (SELECT * FROM bill_sale_data_detail WHERE BillNumberId = '" . $bill[0]['BillNumberId'] . "'   order by issue_date DESC LIMIT 12) AS T")->result_array()[0]['TotalCons'];
         $avgKWS = round($avgKWS , 2);
 
+        $userRequestedKw = $inputs['inputTotalRequestKW'];
 
         $LowPrice = $inputs['electricity_price']['LowPrice'];
         $HighPrice = $inputs['electricity_price']['HighPrice'];
@@ -677,11 +678,9 @@ class ModelBill extends CI_Model
             $nextTwoMonthDays = 29;
         }
         $nextTwoMonthDays = $nextTwoMonthDays+$nextOneMonthDays;
-
  
         $remainsDayToEndOfMonth = $currentMonthTotalDays - $todayDay;
        
-        $userRequestedKw = 2000;
         $requestedKw = $userRequestedKw * 30 * 24; 
 
         $thisMonthDiscount = round($priceGap/60 , 2);
@@ -691,9 +690,6 @@ class ModelBill extends CI_Model
         } else{
             $thisMonthCalculatedPrice = $HighPrice - ( $remainsDayToEndOfMonth *$thisMonthDiscount);
         }
-        $thisMonthCalculatedPrice = $HighPrice - ($remainsDayToEndOfMonth*$thisMonthDiscount);
-      
-
         $thisMonthPowerCost =  $requestedKw   * $thisMonthCalculatedPrice;
 
 
@@ -702,6 +698,7 @@ class ModelBill extends CI_Model
         } else{
             $nextMonthCalculatedPrice = $HighPrice - ( ($nextOneMonthDays + $remainsDayToEndOfMonth) *$thisMonthDiscount);
         }
+        $nextMonthPowerCost =  $requestedKw   * $nextMonthCalculatedPrice;
 
 
         if(($nextTwoMonthDays + $nextOneMonthDays + $remainsDayToEndOfMonth) > 60){
@@ -709,8 +706,6 @@ class ModelBill extends CI_Model
         } else{
             $nextTwoMonthCalculatedPrice = $HighPrice - ( ($nextTwoMonthDays + $nextOneMonthDays + $remainsDayToEndOfMonth) *$thisMonthDiscount);
         }
- 
-
         $nextTwoMonthPowerCost =  $requestedKw   * $nextTwoMonthCalculatedPrice;
 
  
@@ -727,7 +722,7 @@ class ModelBill extends CI_Model
             'PlanOrder' => 2 , 
             'RemainDays' => ($nextOneMonthDays + $remainsDayToEndOfMonth),
             'UserRequestedKw' => $userRequestedKw,
-            'PowerCost' => number_format($thisMonthPowerCost),
+            'PowerCost' => number_format($nextMonthPowerCost),
             'PricePerKW' => $nextMonthCalculatedPrice
         );
 
@@ -746,6 +741,52 @@ class ModelBill extends CI_Model
 
     }
     /* End Public */
+
+
+
+    
+    public function choose_plan($inputs){
+        $data = $this->get_bill_plans($inputs);
+
+        $PersonId = $inputs['inputPersonId'];
+        $BillGUID = $inputs['inputBillGUID'];
+        $ShiftWorkId = $inputs['inputShiftWorkId'];
+        $IssueDateTime = time();
+        $CreateDateTime	 = time();
+        $CreatePersonId	 = $PersonId;
+        $Status = 'Pend';
+        $TotalRequestKW = $inputs['inputTotalRequestKW'];
+        $PlanOrder = $inputs['inputPlanOrder'];
+ 
+        $selectedPlan = "";
+        foreach($data['data']['content'] as $item){
+            if($item['PlanOrder'] == $PlanOrder){
+                $selectedPlan = $item;
+            }
+        }
+        $TotalDays = $selectedPlan['RemainDays'];
+        $PlanOrder = $inputs['inputPlanOrder'];
+
+
+        $orderArray = array(
+            'PersonId'=> $PersonId,
+            'BillGUID'=> $BillGUID,
+            'ShiftWorkId'=> $ShiftWorkId,
+            'IssueDateTime'=> $IssueDateTime,
+            'CreateDateTime'=> $CreateDateTime,
+            'CreatePersonId'=> $CreatePersonId,
+            'Status'=> $Status,
+            'TotalRequestKW'=> $TotalRequestKW,
+            'TotalDays'=> $TotalDays,
+            'PlanOrder'=> $PlanOrder
+        );
+        
+        var_dump($orderArray);
+
+
+
+
+    }
 
 
 }

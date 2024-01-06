@@ -105,6 +105,23 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 ##########  دریافت پلن های خرید ########################################################
-GET {{address}}/Profile/Bills/get_plans/e4c2ed78-0fd9-4fe9-9fcf-9225661167d2 HTTP/1.1
+POST {{address}}/Profile/Bills/get_plans HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
+
+{
+    "inputBillGUID": "e4c2ed78-0fd9-4fe9-9fcf-9225661167d2",
+    "inputShiftWorkId": "9",
+    "inputTotalRequestKW": "2000"
+}
+########## ثبت خرید قبض ###############################################
+POST   {{address}}/Profile/Bills/choose_plan HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "inputPlanOrder": "1",
+    "inputBillGUID": "e4c2ed78-0fd9-4fe9-9fcf-9225661167d2",
+    "inputShiftWorkId": "9",
+    "inputTotalRequestKW": "2000"
+}

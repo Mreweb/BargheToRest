@@ -1,10 +1,12 @@
-<?php            
+<?php
 defined('BASEPATH') or exit('No direct script access allowed');
 include APPPATH . 'helpers/cors.php';
-class Bills extends CI_Controller{
+class Bills extends CI_Controller
+{
     private $loginInfo;
     private $enum;
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
         $this->loginInfo = getTokenInfo(true);
         $this->enum = $this->config->item('Enum');
@@ -12,7 +14,8 @@ class Bills extends CI_Controller{
         $this->load->model('ModelPerson');
         $this->load->model('admin/ModelProvince');
     }
-    public function index(){
+    public function index()
+    {
         switch ($this->input->server('REQUEST_METHOD')) {
             case 'GET':
                 $this->get_list();
@@ -31,7 +34,8 @@ class Bills extends CI_Controller{
                 break;
         }
     }
-    public function get_list(){
+    public function get_list()
+    {
         if (check_request_method('GET')) {
             $inputs = $this->input->get();
             $inputs = custom_filter_input($inputs);
@@ -40,7 +44,8 @@ class Bills extends CI_Controller{
             response(get_req_message('SuccessAction', null, $result), 200);
         }
     }
-    public function get_all(){
+    public function get_all()
+    {
         if (check_request_method('GET')) {
             $inputs = $this->input->get();
             $inputs = custom_filter_input($inputs);
@@ -49,7 +54,8 @@ class Bills extends CI_Controller{
             response(get_req_message('SuccessAction', null, $result), 200);
         }
     }
-    public function add_bill() {
+    public function add_bill()
+    {
         if (check_request_method('POST')) {
             $inputs = json_decode($this->input->raw_input_stream, true);
             $inputs = custom_filter_input($inputs);
@@ -67,7 +73,8 @@ class Bills extends CI_Controller{
             }
         }
     }
-    public function edit_bill(){
+    public function edit_bill()
+    {
         if (check_request_method('PUT')) {
             $inputs = json_decode($this->input->raw_input_stream, true);
             $inputs = custom_filter_input($inputs);
@@ -85,7 +92,8 @@ class Bills extends CI_Controller{
             }
         }
     }
-    public function delete_bill(){
+    public function delete_bill()
+    {
         if (check_request_method('DELETE')) {
             $inputs = json_decode($this->input->raw_input_stream, true);
             $inputs = custom_filter_input($inputs);
@@ -95,7 +103,8 @@ class Bills extends CI_Controller{
             die();
         }
     }
-    public function active_bill(){
+    public function active_bill()
+    {
         if (check_request_method('POST')) {
             $inputs = json_decode($this->input->raw_input_stream, true);
             $inputs = custom_filter_input($inputs);
@@ -105,13 +114,14 @@ class Bills extends CI_Controller{
             die();
         }
     }
-    public function add_legal_info(){
+    public function add_legal_info()
+    {
         if (check_request_method('POST')) {
             $inputs = json_decode($this->input->raw_input_stream, true);
             $inputs = custom_filter_input($inputs);
             $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
             $this->form_validation->set_data($inputs);
-            $this->form_validation->set_rules('inputPersonId', 'شناسه کاربر', 'trim|required'); 
+            $this->form_validation->set_rules('inputPersonId', 'شناسه کاربر', 'trim|required');
             if ($this->form_validation->run() == FALSE) {
                 response(get_req_message('ErrorAction', validation_errors()), 400);
                 die();
@@ -122,13 +132,14 @@ class Bills extends CI_Controller{
             }
         }
     }
-    public function edit_legal_info(){
+    public function edit_legal_info()
+    {
         if (check_request_method('PUT')) {
             $inputs = json_decode($this->input->raw_input_stream, true);
             $inputs = custom_filter_input($inputs);
             $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
             $this->form_validation->set_data($inputs);
-            $this->form_validation->set_rules('inputPersonId', 'شناسه کاربر', 'trim|required'); 
+            $this->form_validation->set_rules('inputPersonId', 'شناسه کاربر', 'trim|required');
             if ($this->form_validation->run() == FALSE) {
                 response(get_req_message('ErrorAction', validation_errors()), 400);
                 die();
@@ -140,7 +151,8 @@ class Bills extends CI_Controller{
         }
     }
 
-    public function power_data($guid){
+    public function power_data($guid)
+    {
         if (check_request_method('GET')) {
             $inputs['guid'] = $guid;
             $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
@@ -148,33 +160,77 @@ class Bills extends CI_Controller{
             response(get_req_message('SuccessAction', null, $result), 200);
         }
     }
-    public function sale_data($guid){
-        if (check_request_method('GET')) {   
+    public function sale_data($guid)
+    {
+        if (check_request_method('GET')) {
             $inputs['guid'] = $guid;
             $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
             $result = $this->ModelBill->get_bill_sale_data($inputs);
             response(get_req_message('SuccessAction', null, $result), 200);
         }
     }
-    public function get_plans($guid){
-        if (check_request_method('GET')) {   
-            $inputs['guid'] = $guid;
-            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId']; 
-            $legalInfo = $this->ModelPerson->get_person_legal_info($inputs['inputPersonId'])[0];
-            $inputs['tariff'] = $this->ModelProvince->get_province_tariff_list_by_province_id($legalInfo['LegalProvinceId']);
-            $inputs['electricity_price'] = $this->ModelProvince->get_electricity_price()[0];
-            $inputs['LegalInfo'] = $this->ModelPerson->get_person_legal_info($inputs['inputPersonId']);
+    public function get_plans()
+    {
+        if (check_request_method('POST')) {
 
-            $inputs['todayDate'] = convertDate(time());
-            $inputs['currentMonth'] = convertDate(time() , false , 'm');
-            $inputs['todayDate'] = convertDate(time(), false);
+            $inputs = json_decode($this->input->raw_input_stream, true);
+            $inputs = custom_filter_input($inputs);
+            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
+            $this->form_validation->set_data($inputs); 
+            $this->form_validation->set_rules('inputBillGUID', 'شناسه قبض', 'trim|required');
+            $this->form_validation->set_rules('inputShiftWorkId', 'شناسه شیفت کاری', 'trim|required');
+            $this->form_validation->set_rules('inputTotalRequestKW', 'مجموع کیلووات درخواستی', 'trim|required');
+            if ($this->form_validation->run() == FALSE) {
+                response(get_req_message('ErrorAction', validation_errors()), 400);
+            } else { 
+                $inputs['guid'] = $inputs['inputBillGUID'];
+                $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
+                $legalInfo = $this->ModelPerson->get_person_legal_info($inputs['inputPersonId'])[0];
+                $inputs['tariff'] = $this->ModelProvince->get_province_tariff_list_by_province_id($legalInfo['LegalProvinceId']);
+                $inputs['electricity_price'] = $this->ModelProvince->get_electricity_price()[0];
+                $inputs['LegalInfo'] = $this->ModelPerson->get_person_legal_info($inputs['inputPersonId']);
+    
+                $inputs['todayDate'] = convertDate(time());
+                $inputs['currentMonth'] = convertDate(time(), false, 'm');
+                $inputs['todayDate'] = convertDate(time(), false);
+    
+                $result = $this->ModelBill->get_bill_plans($inputs);
+                response(get_req_message('SuccessAction', null, $result), 200);
+            }
 
-            $result = $this->ModelBill->get_bill_plans($inputs);
-            response(get_req_message('SuccessAction', null, $result), 200);
         }
     }
+    public function choose_plan()
+    {
+        if (check_request_method('POST')) {
+            $inputs = json_decode($this->input->raw_input_stream, true);
+            $inputs = custom_filter_input($inputs);
+            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
+            $this->form_validation->set_data($inputs);
+            $this->form_validation->set_rules('inputPlanOrder', 'شماره پلن', 'trim|required');
+            $this->form_validation->set_rules('inputBillGUID', 'شناسه قبض', 'trim|required');
+            $this->form_validation->set_rules('inputShiftWorkId', 'شناسه شیفت کاری', 'trim|required');
+            $this->form_validation->set_rules('inputTotalRequestKW', 'مجموع کیلووات درخواستی', 'trim|required');
+            if ($this->form_validation->run() == FALSE) {
+                response(get_req_message('ErrorAction', validation_errors()), 400);
+                die();
+            } else { 
+                $inputs['guid'] = $inputs['inputBillGUID'];
+                $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
+                $legalInfo = $this->ModelPerson->get_person_legal_info($inputs['inputPersonId'])[0];
+                $inputs['tariff'] = $this->ModelProvince->get_province_tariff_list_by_province_id($legalInfo['LegalProvinceId']);
+                $inputs['electricity_price'] = $this->ModelProvince->get_electricity_price()[0];
+                $inputs['LegalInfo'] = $this->ModelPerson->get_person_legal_info($inputs['inputPersonId']);
     
+                $inputs['todayDate'] = convertDate(time());
+                $inputs['currentMonth'] = convertDate(time(), false, 'm');
+                $inputs['todayDate'] = convertDate(time(), false);
+                $result = $this->ModelBill->choose_plan($inputs);
+                //response(get_req_message('SuccessAction', null, $result), 200);
+            }
+        }
 
-    
+    }
+
 
 }

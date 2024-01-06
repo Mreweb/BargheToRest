@@ -33,6 +33,12 @@ class ModelPerson extends CI_Model{
         $this->db->where(array('PersonId' => $personId));
         return $this->db->get()->result_array();
     }
+    public function get_person_legal_info_by_id($personId){
+        $this->db->select('*');
+        $this->db->from('person_legal_info'); 
+        $this->db->where(array('PersonId' => $personId));
+        return $this->db->get()->result_array();
+    }
     public function get_person_by_national_code($NationalCode){
         $this->db->select('*');
         $this->db->from('person');

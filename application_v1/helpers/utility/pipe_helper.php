@@ -152,9 +152,9 @@ function check_request_method($method){
 function check_captcha($captcha){
     $ci =& get_instance();
     $data = $ci->db->select('*')->from('captcha')->where(array(
-      'CaptchaId' => $captcha['inputCaptchaId'] ,
+      'CaptchaId' => $captcha['inputCaptchaId'],
       'CaptchaCode' => $captcha['inputCaptchaCode'] 
-    ))->get()->num_rows();
+    ))->get()->num_rows(); 
     if ($data <= 0) {
         response(get_req_message('ErrorAction', 'کد امنیتی صحیح نیست'), 400);
         die();

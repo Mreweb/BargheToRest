@@ -97,6 +97,7 @@ class Setting extends CI_Controller
         if (check_request_method('GET')) { 
             $data  = $this->loginInfo['Info'];
             $userInfo = $this->ModelPerson->get_person_by_id($data['PersonId'])[0];
+            $userInfo['legalInfo'] = $this->ModelPerson->get_person_legal_info_by_id($data['PersonId']);
             $result['data']['content'] = $userInfo;
             response($result, 200);
         }
