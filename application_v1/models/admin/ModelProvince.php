@@ -93,7 +93,7 @@ class ModelProvince extends CI_Model{
 
     public function get_electricity_price(){
         $this->db->select('*'); 
-        $this->db->from('electicity_price'); 
+        $this->db->from('electricity_price'); 
         $this->db->order_by('RowId DESC')->limit(1); 
         return $this->db->get()->result_array();  
     }
@@ -123,7 +123,8 @@ class ModelProvince extends CI_Model{
     
     public function do_update_electricity_green_price ($inputs){
         $userArray = array( 
-            'GreenPrice' => $inputs['inputGreenPrice'],  
+            'GreenHighPrice' => $inputs['inputGreenHighPrice'],  
+            'GreenLowPrice' => $inputs['inputGreenLowPrice'],  
             'GreenInventory' => $inputs['inputGreenInventory'],  
             'CreateDateTime' => time(),
             'CreatePersonId' => $inputs['inputPersonId']

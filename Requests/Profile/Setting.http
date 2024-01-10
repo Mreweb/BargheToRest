@@ -5,20 +5,20 @@ Content-Type: application/json
 
 {
     "inputFirstName": "محمد",
-    "inputLastName": "1تاجیک",
+    "inputLastName": "تاجیک",
     "inputNationalCode": "2500354216",
-    "inputAddress": "تهران خیابان ولیعصر روبروی پار22ک ملت",
+    "inputAddress": "تهران خیابان ولیعصر روبروی ملت",
     "inputPersonProvinceId": "1",
     "inputPersonCityId": "444"
 }
 
-########## ویرایش اطلاعات حقوقی کاربر ###########################################################################
+########## درج/ویرایش اطلاعات حقوقی کاربر ###########################################################################
 POST   {{address}}/Profile/Setting/change_user_legal_info HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "inputLegalOrganizationName": "سازمان شماره 2 ",       
+    "inputLegalOrganizationName": "سازمان شماره 1 ",       
     "inputLegalFinanceCode": "1258003",             
     "inputLegalCompanyId": "215002100",            
     "inputLegalRegisterNumber": "13548",           

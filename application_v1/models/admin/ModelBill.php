@@ -449,8 +449,7 @@ class ModelBill extends CI_Model
         return $result;
     }
 
-    public function get_bill_plans_with_print($inputs)
-    {
+    public function get_bill_plans_with_print($inputs){
         $bill = $this->get_bill_by_guid($inputs['guid']);
         $avgKWS = $this->db->query("SELECT ((SUM(low_cons)+SUM(normal_cons)+SUM(peak_cons))/SUM(total_days)/24) AS TotalCons FROM (SELECT * FROM bill_sale_data_detail WHERE BillNumberId = '" . $bill[0]['BillNumberId'] . "'   order by issue_date DESC LIMIT 12) AS T")->result_array()[0]['TotalCons'];
         $avgKWS = round($avgKWS, 2);
@@ -622,8 +621,7 @@ class ModelBill extends CI_Model
 
 
     }
-    public function get_bill_plans($inputs)
-    {
+    public function get_bill_plans($inputs){
         $bill = $this->get_bill_by_guid($inputs['guid']);
         $avgKWS = $this->db->query("SELECT ((SUM(low_cons)+SUM(normal_cons)+SUM(peak_cons))/SUM(total_days)/24) AS TotalCons FROM (SELECT * FROM bill_sale_data_detail WHERE BillNumberId = '" . $bill[0]['BillNumberId'] . "'   order by issue_date DESC LIMIT 12) AS T")->result_array()[0]['TotalCons'];
         $avgKWS = round($avgKWS, 2);
@@ -759,8 +757,7 @@ class ModelBill extends CI_Model
     }
     /* End Public */
 
-    public function choose_plan($inputs)
-    {
+    public function choose_plan($inputs) {
         $data = $this->get_bill_plans($inputs);
 
         $PersonId = $inputs['inputPersonId'];
@@ -778,7 +775,7 @@ class ModelBill extends CI_Model
             if ($item['PlanOrder'] == $PlanOrder) {
                 $selectedPlan = $item;
             }
-        }
+        } 
         $TotalDays = $selectedPlan['RemainDays'];
         $PlanOrder = $inputs['inputPlanOrder'];
 
@@ -806,34 +803,16 @@ class ModelBill extends CI_Model
         return array('orderId' => $inserId);
 
     }
-
     public function choose_plan_green($inputs) {
 
         $userRequestedKw = $inputs['inputTotalRequestKW'];
 
-        $LowPrice = $inputs['electricity_price']['LowPrice'];
-        $HighPrice = $inputs['electricity_price']['HighPrice'];
-        $priceGap = $HighPrice - $LowPrice;
-
         $todayDate = $inputs['todayDate'];
         $todayDay = explode("/", $inputs['todayDate'])[2];
-
         $currentMonth = intval($inputs['currentMonth']);
         $currentYear = intval(explode("/", $inputs['todayDate'])[0]);
 
-        $prevMonth = $currentMonth - 1;
-        if ($prevMonth < 1) {
-            $prevMonth = 12;
-        }
-
-        $nextOneMonth = $currentMonth + 1;
-        $nextTwoMonth = $currentMonth + 2;
-        if ($nextOneMonth > 12) {
-            $nextOneMonth = 1;
-        }
-        if ($nextTwoMonth > 12) {
-            $nextTwoMonth = 1;
-        }
+        $requestedKw = $userRequestedKw * 30 * 24; 
 
         $currentMonthTotalDays = 0;
         if ($currentMonth <= 6) {
@@ -844,50 +823,7 @@ class ModelBill extends CI_Model
             $currentMonthTotalDays = 29;
         }
 
-
-        $nextOneMonthDays = 0;
-
-        if ($nextOneMonth <= 6) {
-            $nextOneMonthDays = 31;
-        } else if ($nextOneMonth > 6 && $nextOneMonth < 12) {
-            $nextOneMonthDays = 30;
-        } else {
-            $nextOneMonthDays = 29;
-        }
-        $nextOneMonthRealDays = $nextOneMonthDays;
-
-        $nextTwoMonthDays = 0;
-        $nextTwoMonthRealDays = 0;
-        if ($nextTwoMonth <= 6) {
-            $nextTwoMonthDays = 31;
-        } else if ($nextTwoMonth > 6 && $nextTwoMonth < 12) {
-            $nextTwoMonthDays = 30;
-        } else {
-            $nextTwoMonthDays = 29;
-        }
-        $nextTwoMonthRealDays = $nextTwoMonthDays;
-        $nextTwoMonthDays = $nextTwoMonthDays + $nextOneMonthDays;
-
         $remainsDayToEndOfMonth = $currentMonthTotalDays - $todayDay;
-
-        $requestedKw = $userRequestedKw * 30 * 24;
-
-        $thisMonthDiscount = round($priceGap / 60, 2);
-
-        if (($remainsDayToEndOfMonth) > 60) {
-            $thisMonthCalculatedPrice = $LowPrice;
-        } else {
-            $thisMonthCalculatedPrice = $HighPrice - ($remainsDayToEndOfMonth * $thisMonthDiscount);
-        }
-        $thisMonthPowerCost = $requestedKw * $thisMonthCalculatedPrice;
-
-
-        if (($nextOneMonthDays + $remainsDayToEndOfMonth) > 60) {
-            $nextMonthCalculatedPrice = $LowPrice;
-        } else {
-            $nextMonthCalculatedPrice = $HighPrice - (($nextOneMonthDays + $remainsDayToEndOfMonth) * $thisMonthDiscount);
-        }
-        $nextMonthPowerCost = $requestedKw * $nextMonthCalculatedPrice;
 
         $currentMonthGreenPrice  = 0;
         foreach($inputs['electricity_green_price'] as $row){
@@ -896,6 +832,20 @@ class ModelBill extends CI_Model
             }
         } 
 
+        $LowPrice = $currentMonthGreenPrice['GreenLowPrice'];
+        $HighPrice = $currentMonthGreenPrice['GreenHighPrice'];
+        $priceGap = $HighPrice - $LowPrice;
+
+        $thisMonthDiscount = round($priceGap / 60, 2);
+
+
+        if (($remainsDayToEndOfMonth) > 7) {
+            $thisMonthCalculatedPrice = $LowPrice;
+        } else {
+            $thisMonthCalculatedPrice = $HighPrice - ($remainsDayToEndOfMonth * $thisMonthDiscount);
+        }
+        $thisMonthPowerCost = $requestedKw * $thisMonthCalculatedPrice;
+  
 
         $PersonId = $inputs['inputPersonId'];
         $BillGUID = $inputs['inputBillGUID'];
@@ -920,9 +870,9 @@ class ModelBill extends CI_Model
                 'Status' => $Status,
                 'TotalDays' => $currentMonthTotalDays,
                 'PlanOrder' => 0,
-                'KWPerPrice' => $currentMonthGreenPrice['GreenPrice'],
+                'KWPerPrice' =>$thisMonthCalculatedPrice,
                 'Type' => 'Green',
-                'TotalPrice' => $currentMonthGreenPrice['GreenPrice'] * $userRequestedKw,
+                'TotalPrice' => $thisMonthCalculatedPrice * $userRequestedKw,
                 'FromDate' => $currentYear . '/' . $currentMonth . '/1',
                 'ToDate' => $currentYear . '/' . $currentMonth . '/' . $currentMonthTotalDays
             );
@@ -932,8 +882,6 @@ class ModelBill extends CI_Model
         }
 
     }
-
-
 
 }
 ?>

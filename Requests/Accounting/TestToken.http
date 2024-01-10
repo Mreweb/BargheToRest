@@ -15,7 +15,7 @@ Content-Type: application/json
 }
 ########## دریافت اطلاعات توکن ######################################################################
 GET {{address}}/Auth/get_info
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjY2LCJpcy1hZG1pbiI6dHJ1ZSwicm9sZXMiOlsiQURNSU4iLCJBR0VOQ1kiXSwiZXhwaXJlX3RpbWUiOjE2OTg0OTYxNTR9.4FAr8_CGRR5RNfUXHHTJVkyVqT3DuaqqpHKxkBuZ2oE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJbmZvIjp7IlBlcnNvbklkIjoiMTgyMyIsIlBlcnNvbkZpcnN0TmFtZSI6bnVsbCwiUGVyc29uTGFzdE5hbWUiOm51bGwsIlBlcnNvbk5hdGlvbmFsQ29kZSI6bnVsbCwiUGVyc29uUGhvbmUiOiIwODEyMDU3MjEwNyIsIlBlcnNvblByb3ZpbmNlSWQiOm51bGwsIlBlcnNvbkNpdHlJZCI6bnVsbCwiUGVyc29uQWRkcmVzcyI6bnVsbCwiVXNlcm5hbWUiOm51bGwsIlBhc3N3b3JkIjoiZjRiMTNmZTE2YzQ2MWU4MmNlM2E5NTBkNGMyZjU1MTciLCJJc0FjdGl2ZSI6IjEiLCJQZXJzb25UeXBlIjoiTk9STUFMIiwiQWN0aXZhdGlvbkNvZGUiOiI1OTE2IiwiQ3JlYXRlRGF0ZVRpbWUiOiIxNzA0ODcxMzg5IiwiQ3JlYXRlUGVyc29uSWQiOm51bGwsIk1vZGlmeURhdGV0aW1lIjoiMTcwNDg3MTM4OSIsIk1vZGlmeVBlcnNvbklkIjpudWxsfSwiSXNMb2dnZWQiOnRydWUsImV4cGlyZV90aW1lIjoxNzA0OTE0NjIzfQ.LtbOHWGIA5fB-Q1j3e1YIRji3Q8Fkp3vH7wOqyblKs4
 Content-Type: application/json
 
 {

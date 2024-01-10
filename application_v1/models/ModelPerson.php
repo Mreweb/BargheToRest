@@ -26,7 +26,9 @@ class ModelPerson extends CI_Model{
         }
     }
     public function get_person_by_id($personId){
-        $this->db->select('*');
+        $this->db->select('PersonFirstName,PersonLastName,PersonNationalCode,PersonPhone');
+        $this->db->select('PersonProvinceId,PersonCityId,PersonAddress,IsActive');
+        $this->db->select('PersonType,ProvinceName,CityName');
         $this->db->from('person');
         $this->db->join('province' , 'province.ProvinceId = person.PersonProvinceId' , 'left');
         $this->db->join('city' , 'city.CityId = person.PersonCityId' , 'left');
@@ -34,7 +36,8 @@ class ModelPerson extends CI_Model{
         return $this->db->get()->result_array();
     }
     public function get_person_legal_info_by_id($personId){
-        $this->db->select('*');
+        $this->db->select('PersonId,LegalOrganizationName,LegalFinanceCode,LegalCompanyId,LegalRegisterNumber,LegalPhone');
+        $this->db->select('LegalProvinceId,LegalCityId,LegalAddress');
         $this->db->from('person_legal_info'); 
         $this->db->where(array('PersonId' => $personId));
         return $this->db->get()->result_array();

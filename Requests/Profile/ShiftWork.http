@@ -10,7 +10,6 @@ Content-Type: application/json
 
 {
     "inputShiftWorkTitle": "شیفت کاری شماره 1",
-    "inputShiftWorkBillGUID": "45034857-e358-4213-b285-8ed79fb96757",
     "inputShiftWorkFromDate": "1402/08/01",
     "inputShiftWorkToDate": "1402/09/01", 
     "inputShiftWorkDays": 
@@ -45,15 +44,14 @@ Content-Type: application/json
     ]
 }
 ########## حذف شیفت کاری #################################################################################             
-DELETE   {{address}}/Profile/ShiftWork HTTP/1.1
+DELETE   {{address}}/Profile/ShiftWork/2 HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "inputShiftWorkBillGUID": "3302d7e2-0717-405b-9367-60fadf46a573",
-    "inputShiftWorkId": "9"
+
 }
 ########## دریافت یک شیفت کاری #################################################################################             
-GET   {{address}}/Profile/ShiftWork/get_shift_work/11/45034857-e358-4213-b285-8ed79fb96757 HTTP/1.1
+GET   {{address}}/Profile/ShiftWork/get_shift_work/2 HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json

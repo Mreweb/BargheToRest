@@ -120,7 +120,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "inputPlanOrder": "4",  
+    "inputPlanOrder": "2",  
     "inputBillGUID": "e4c2ed78-0fd9-4fe9-9fcf-9225661167d2",
     "inputShiftWorkId": "9",
     "inputTotalRequestKW": "2000"

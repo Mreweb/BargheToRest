@@ -10,7 +10,10 @@ class ShiftWork extends CI_Controller{
         $this->enum = $this->config->item('Enum');
         $this->load->model('admin/ModelShiftWork');
     }
-    public function index(){
+    function _remap($param) {
+        $this->index($param);
+    }
+    public function index($shiftWorkId=null){ 
         switch ($this->input->server('REQUEST_METHOD')) {
             case 'GET':
                 $this->get_shift_work_list();
@@ -21,8 +24,8 @@ class ShiftWork extends CI_Controller{
             case 'PUT':
                 //$this->edit_whift_work();
                 break;
-            case 'DELETE':
-                $this->delete_shift_work();
+            case 'DELETE': 
+                $this->delete_shift_work($shiftWorkId);
                 break;
             default:
                 check_request_method('NONE');
@@ -45,7 +48,6 @@ class ShiftWork extends CI_Controller{
             $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
             $this->form_validation->set_data($inputs);
             $this->form_validation->set_rules('inputShiftWorkTitle', 'عنوان شیفت کاری', 'trim|required|min_length[2]|max_length[80]');
-            $this->form_validation->set_rules('inputShiftWorkBillGUID', 'شناسه قبض', 'trim|required');
             $this->form_validation->set_rules('inputShiftWorkFromDate', 'بازه شروع شیفت کاری', 'trim|required');
             $this->form_validation->set_rules('inputShiftWorkToDate', 'بازه پایان شیفت کاری', 'trim|required');
             $this->form_validation->set_rules('inputShiftWorkDays[]', 'شیفت های کاری', 'required');
@@ -59,11 +61,10 @@ class ShiftWork extends CI_Controller{
             }
         }
     }
-    public function delete_shift_work(){
+    public function delete_shift_work($shiftWorkId){
         if (check_request_method('DELETE')) {
-            $inputs = json_decode($this->input->raw_input_stream, true);
-            $inputs = custom_filter_input($inputs);
             $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
+            $inputs['inputShiftWorkId'] = $shiftWorkId;
             $result = $this->ModelShiftWork->do_delete_shift_work($inputs);
             response($result, 200);
             die();
@@ -71,12 +72,12 @@ class ShiftWork extends CI_Controller{
     }
 
     
-    public function get_shift_work($shiftWorkId , $shiftWorkGUID){
+    public function get_shift_work($shiftWorkId){
         if (check_request_method('GET')) {
             $inputs = $this->input->get();
             $inputs = custom_filter_input($inputs);
             $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
-            $result = $this->ModelShiftWork->get_shift_work($shiftWorkId , $shiftWorkGUID);
+            $result = $this->ModelShiftWork->get_shift_work($shiftWorkId);
             response(get_req_message('SuccessAction', null, $result), 200);
         }
     }

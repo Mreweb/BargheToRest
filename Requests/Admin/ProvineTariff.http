@@ -57,7 +57,8 @@ Content-Type: application/json
 
 { 
     "inputMonth" : "10",
-    "inputGreenPrice" : "850",
+    "inputGreenHighPrice" : "990",
+    "inputGreenLowPrice" : "850",
     "inputGreenInventory" : "1800"
 }
 ########## دریافت قیمت برق #################################################################################             

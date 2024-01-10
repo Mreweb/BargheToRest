@@ -204,6 +204,7 @@ class Bills extends CI_Controller
             $inputs = json_decode($this->input->raw_input_stream, true);
             $inputs = custom_filter_input($inputs);
             $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
+
             $this->form_validation->set_data($inputs);
             $this->form_validation->set_rules('inputPlanOrder', 'شماره پلن', 'trim|required');
             $this->form_validation->set_rules('inputBillGUID', 'شناسه قبض', 'trim|required');

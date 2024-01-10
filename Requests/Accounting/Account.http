@@ -10,15 +10,15 @@ POST   {{address}}/Account/submit_phone HTTP/1.1
 Content-Type: application/json
 
 {
-    "inputPhone": "09120572107",
-    "inputCaptchaId": "93c15faf-f448-4170-a649-1c31687fb769",
-    "inputCaptchaCode" : "51132"
+    "inputPhone": "08120572107",
+    "inputCaptchaId": "9bf4a57b-3699-4d48-a2dc-fd8eb44cff3c",
+    "inputCaptchaCode" : "13678"
 }
 ########## تایید کد ارسال شده ########################################################################
 POST {{address}}/Account/verify_phone
 Content-Type: application/json
 
 {
-    "inputPersonId": "1820",
-    "inputVerifyCode" : "5692" 
+    "inputPersonId": "1823",
+    "inputVerifyCode" : "5916" 
 }
