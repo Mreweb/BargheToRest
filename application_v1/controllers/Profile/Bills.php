@@ -5,8 +5,7 @@ class Bills extends CI_Controller
 {
     private $loginInfo;
     private $enum;
-    public function __construct()
-    {
+    public function __construct(){
         parent::__construct();
         $this->loginInfo = getTokenInfo(true);
         $this->enum = $this->config->item('Enum');
@@ -14,8 +13,8 @@ class Bills extends CI_Controller
         $this->load->model('ModelPerson');
         $this->load->model('admin/ModelProvince');
     }
-    public function index()
-    {
+    
+    public function index(){
         switch ($this->input->server('REQUEST_METHOD')) {
             case 'GET':
                 $this->get_list();
@@ -41,6 +40,15 @@ class Bills extends CI_Controller
             $inputs = custom_filter_input($inputs);
             $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
             $result = $this->ModelBill->get_user_bill_list($inputs);
+            response(get_req_message('SuccessAction', null, $result), 200);
+        }
+    }
+    public function get_by_id($guid)
+    {
+        if (check_request_method('GET')) {
+            $inputs = $this->input->get();
+            $inputs = custom_filter_input($inputs); 
+            $result = $this->ModelBill->get_bill_by_guid($guid);
             response(get_req_message('SuccessAction', null, $result), 200);
         }
     }
@@ -97,7 +105,7 @@ class Bills extends CI_Controller
         if (check_request_method('DELETE')) {
             $inputs = json_decode($this->input->raw_input_stream, true);
             $inputs = custom_filter_input($inputs);
-            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
+            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId']; 
             $result = $this->ModelBill->do_delete_bill($inputs);
             response($result, 200);
             die();
@@ -186,7 +194,13 @@ class Bills extends CI_Controller
                 $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
                 $legalInfo = $this->ModelPerson->get_person_legal_info($inputs['inputPersonId'])[0];
                 $inputs['tariff'] = $this->ModelProvince->get_province_tariff_list_by_province_id($legalInfo['LegalProvinceId']);
-                $inputs['electricity_price'] = $this->ModelProvince->get_electricity_price()[0];
+                $inputs['electricity_price'] = $this->ModelProvince->get_electricity_price();
+                if(isset($inputs['electricity_price'][0])){
+                    $inputs['electricity_price'] = $inputs['electricity_price'][0];
+                } else{
+                    response(get_req_message('ErrorAction', null, array('message'=>'تعرفه برق در سیستم تعریف نشده است')), 200);
+                    die();
+                }
                 $inputs['LegalInfo'] = $this->ModelPerson->get_person_legal_info($inputs['inputPersonId']);
     
                 $inputs['todayDate'] = convertDate(time());

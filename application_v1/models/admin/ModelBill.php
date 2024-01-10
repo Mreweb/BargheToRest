@@ -8,7 +8,8 @@ class ModelBill extends CI_Model
         $limit = $inputs['page'];
         $start = ($limit - 1) * $this->config->item('defaultPageSize');
         $end = $this->config->item('defaultPageSize');
-        $this->db->select('*');
+        $this->db->select('BillGUID , BillTitle , BillNumberId , PersonId');
+        $this->db->select('PersonFirstName , PersonLastName , PersonNationalCode , PersonPhone');
         $this->db->from('person_bill');
         $this->db->join('person', 'person.PersonId = person_bill.BillPersonId');
         $this->db->where('person_bill.SoftDelete', 0);
@@ -54,7 +55,8 @@ class ModelBill extends CI_Model
     }
     public function get_user_all_bill_list($inputs)
     {
-        $this->db->select('*');
+        $this->db->select('BillGUID , BillTitle , BillNumberId , PersonId');
+        $this->db->select('PersonFirstName , PersonLastName , PersonNationalCode , PersonPhone');
         $this->db->from('person_bill');
         $this->db->join('person', 'person.PersonId = person_bill.BillPersonId');
         $this->db->where('person_bill.SoftDelete', 0);
@@ -281,7 +283,9 @@ class ModelBill extends CI_Model
         $this->db->select('*');
         $this->db->from('person_bill');
         $this->db->where('BillGUID', $guid);
-        return $this->db->get()->result_array();
+        $query = $this->db->get()->result_array();
+        $result['data']['content'] = $query;
+        return $result;
     }
     public function do_add_bill_by_admin($inputs)
     {
@@ -622,7 +626,9 @@ class ModelBill extends CI_Model
 
     }
     public function get_bill_plans($inputs){
-        $bill = $this->get_bill_by_guid($inputs['guid']);
+
+        $bill = $this->get_bill_by_guid($inputs['inputBillGUID'])['data']['content'];
+     
         $avgKWS = $this->db->query("SELECT ((SUM(low_cons)+SUM(normal_cons)+SUM(peak_cons))/SUM(total_days)/24) AS TotalCons FROM (SELECT * FROM bill_sale_data_detail WHERE BillNumberId = '" . $bill[0]['BillNumberId'] . "'   order by issue_date DESC LIMIT 12) AS T")->result_array()[0]['TotalCons'];
         $avgKWS = round($avgKWS, 2);
 
@@ -723,7 +729,8 @@ class ModelBill extends CI_Model
             'ToDate' => $currentYear . '/' . $currentMonth . '/' . $currentMonthTotalDays,
             'TotalDays' => $currentMonthTotalDays,
             'UserRequestedKw' => $userRequestedKw,
-            'PowerCost' => ($thisMonthPowerCost),
+            'PowerCost' => ($thisMonthPowerCost ),
+            'PowerCostWithTax' => ($thisMonthPowerCost + taxPrice($thisMonthPowerCost) ),
             'PricePerKW' => $thisMonthCalculatedPrice
         );
 
@@ -733,8 +740,9 @@ class ModelBill extends CI_Model
             'FromDate' => $currentYear . '/' . $nextOneMonth . '/1',
             'ToDate' => $currentYear . '/' . $nextOneMonth . '/' . $nextOneMonthRealDays,
             'UserRequestedKw' => $userRequestedKw,
-            'TotalDays' => $currentMonthTotalDays + $nextOneMonthRealDays,
-            'PowerCost' => ($nextMonthPowerCost),
+            'TotalDays' => $nextOneMonthRealDays,
+            'PowerCost' => ($nextMonthPowerCost ),
+            'PowerCostWithTax' => ($nextMonthPowerCost + taxPrice($nextMonthPowerCost) ),
             'PricePerKW' => $nextMonthCalculatedPrice
         );
 
@@ -744,8 +752,9 @@ class ModelBill extends CI_Model
             'FromDate' => $currentYear . '/' . $nextTwoMonth . '/1',
             'ToDate' => $currentYear . '/' . $nextTwoMonth . '/' . $nextTwoMonthRealDays,
             'UserRequestedKw' => $userRequestedKw,
-            'TotalDays' => $currentMonthTotalDays + $nextOneMonthDays + $nextTwoMonthDays,
+            'TotalDays' => $nextTwoMonthRealDays,
             'PowerCost' => ($nextTwoMonthPowerCost),
+            'PowerCostWithTax' => ($nextTwoMonthPowerCost + taxPrice($nextTwoMonthPowerCost) ), 
             'PricePerKW' => $nextTwoMonthCalculatedPrice
         );
 
@@ -776,8 +785,9 @@ class ModelBill extends CI_Model
                 $selectedPlan = $item;
             }
         } 
-        $TotalDays = $selectedPlan['RemainDays'];
+        $TotalDays = $selectedPlan['TotalDays'];
         $PlanOrder = $inputs['inputPlanOrder'];
+
 
 
         $orderArray = array(
@@ -794,10 +804,10 @@ class ModelBill extends CI_Model
             'KWPerPrice' => $selectedPlan['PricePerKW'],
             'Type' => 'Normal',
             'TotalPrice' => $selectedPlan['PowerCost'],
+            'FinalPrice' => $selectedPlan['PowerCostWithTax'],
             'FromDate' => $selectedPlan['FromDate'],
             'ToDate' => $selectedPlan['ToDate']
         );
-
         $this->db->insert('person_orders', $orderArray);
         $inserId = $this->db->insert_id();
         return array('orderId' => $inserId);
@@ -872,7 +882,8 @@ class ModelBill extends CI_Model
                 'PlanOrder' => 0,
                 'KWPerPrice' =>$thisMonthCalculatedPrice,
                 'Type' => 'Green',
-                'TotalPrice' => $thisMonthCalculatedPrice * $userRequestedKw,
+                'TotalPrice' => $thisMonthCalculatedPrice * $userRequestedKw, 
+                'FinalPrice' => $thisMonthCalculatedPrice * $userRequestedKw + (taxPrice($thisMonthCalculatedPrice * $userRequestedKw)),
                 'FromDate' => $currentYear . '/' . $currentMonth . '/1',
                 'ToDate' => $currentYear . '/' . $currentMonth . '/' . $currentMonthTotalDays
             );

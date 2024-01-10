@@ -8,6 +8,11 @@ GET   {{address}}/Profile/Bills/get_all HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
+########## دریافت جزئیات یک قبض کاربر ######################################################
+GET   {{address}}/Profile/Bills/get_by_id/b9a6f23a-524a-452e-af50-85cc6b940270 HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
 ########## افزودن قبض #######################################################################
 POST   {{address}}/Profile/Bills HTTP/1.1
 Authorization: Bearer {{token}}
@@ -15,7 +20,7 @@ Content-Type: application/json
 
 {
     "inputBillTitle": "قبض کارخانه",
-    "inputBillNumberId": "1207134412221"
+    "inputBillNumberId": "8815739301320"
 }
 ########## ویرایش قبض #######################################################################
 PUT   {{address}}/Profile/Bills HTTP/1.1
@@ -23,7 +28,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "inputBillGUID": "45034857-e358-4213-b285-8ed79fb96757",
+    "inputBillGUID": "b9a6f23a-524a-452e-af50-85cc6b940270",
     "inputBillTitle": "قبض کارخانه زنجان",
     "inputBillNumberId": "1207134412221"
 }
@@ -33,7 +38,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "inputBillGUID": "45034857-e358-4213-b285-8ed79fb96757"
+    "inputBillGUID": "b9a6f23a-524a-452e-af50-85cc6b940270"
 }
 ########## فعال سازی/عدم حذف قبض ###########################################################
 POST   {{address}}/Profile/Bills/active_bill HTTP/1.1
@@ -41,7 +46,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "inputBillGUID": "45034857-e358-4213-b285-8ed79fb96757"
+    "inputBillGUID": "b9a6f23a-524a-452e-af50-85cc6b940270"
 }
 ########## درج اطلاعات حقوقی و حقیقی قبض ###################################################
 POST   {{address}}/Profile/Bills/add_legal_info HTTP/1.1
@@ -50,7 +55,7 @@ Content-Type: application/json
 
 {
     "inputPersonId": "1821",
-    "inputBillGUID": "45034857-e358-4213-b285-8ed79fb96757",
+    "inputBillGUID": "b9a6f23a-524a-452e-af50-85cc6b940270",
     "inputRealName": "پدرام",
     "inputRealLastName": "محمدی",
     "inputRealNationalCode": "2541224518",
@@ -76,8 +81,8 @@ Content-Type: application/json
 
 {
     "inputPersonId": "1821",
-    "inputBillGUID": "45034857-e358-4213-b285-8ed79fb96757",
-    "inputRealName": "1مهسا",
+    "inputBillGUID": "b9a6f23a-524a-452e-af50-85cc6b940270",
+    "inputRealName": "مهسا",
     "inputRealLastName": "محمدی",
     "inputRealNationalCode": "2541224518",
     "inputRealPhone": "09125745214",
@@ -95,12 +100,12 @@ Content-Type: application/json
     "CreateDateTime": "1699089990",
     "CreatePersonId": "1821"
 }
-##########  دریافت جزئیات قبض کاربر ####################################################
-GET {{address}}/Profile/Bills/power_data/e4c2ed78-0fd9-4fe9-9fcf-9225661167d2 HTTP/1.1
+##########  دریافت اطلاعات مصرف کلی قبض کاربر ####################################################
+GET {{address}}/Profile/Bills/power_data/b9a6f23a-524a-452e-af50-85cc6b940270 HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json 
 ##########  دریافت سابقه مصرف قبض کاربر ################################################
-GET {{address}}/Profile/Bills/sale_data/e4c2ed78-0fd9-4fe9-9fcf-9225661167d2 HTTP/1.1
+GET {{address}}/Profile/Bills/sale_data/b9a6f23a-524a-452e-af50-85cc6b940270 HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
@@ -110,7 +115,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "inputBillGUID": "e4c2ed78-0fd9-4fe9-9fcf-9225661167d2",
+    "inputBillGUID": "b9a6f23a-524a-452e-af50-85cc6b940270",
     "inputShiftWorkId": "9",
     "inputTotalRequestKW": "2000"
 }
@@ -121,8 +126,8 @@ Content-Type: application/json
 
 {
     "inputPlanOrder": "2",  
-    "inputBillGUID": "e4c2ed78-0fd9-4fe9-9fcf-9225661167d2",
-    "inputShiftWorkId": "9",
+    "inputBillGUID": "b9a6f23a-524a-452e-af50-85cc6b940270",
+    "inputShiftWorkId": "2",
     "inputTotalRequestKW": "2000"
 }
 ########## ثبت خرید برق سبز ###############################################
@@ -132,7 +137,12 @@ Content-Type: application/json
 
 {
     "inputPlanOrder": "4", 
-    "inputBillGUID": "e4c2ed78-0fd9-4fe9-9fcf-9225661167d2",
-    "inputShiftWorkId": "9",
+    "inputBillGUID": "b9a6f23a-524a-452e-af50-85cc6b940270",
+    "inputShiftWorkId": "1",
     "inputTotalRequestKW": "500"
 }
+
+#### دریافت فهرست قبض های کاربر ############################################################
+GET   {{address}}/Profile/Bills?page=1&inputBillTitle=&inputBillNumberId=&inputPersonLastName&inputPersonLastName=&inputPersonNationalCode=&inputPersonPhone= HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json 

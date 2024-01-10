@@ -58,6 +58,11 @@ function ping($host, $port, $timeout)
     return round((($tA - $tB) * 1000), 0) . " ms";
 }
 
+function taxPrice($price)
+{
+    return round( ($price*0.09) , 2);
+}
+
 function getCurrentYear($increaseAmount = 0)
 {
     return intval(jDateTime::date("Y", false, false, 'Asia/Tehran')) + $increaseAmount;

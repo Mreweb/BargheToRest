@@ -101,8 +101,6 @@ class ModelProvince extends CI_Model{
         $userArray = array(
             'HighPrice' => $inputs['inputHighPrice'],
             'LowPrice' => $inputs['inputLowPrice'],  
-            'GreenPrice' => $inputs['inputGreenPrice'],  
-            'GreenInventory' => $inputs['inputGreenInventory'],  
             'CreateDateTime' => time(),
             'CreatePersonId' => $inputs['inputPersonId']
         );
