@@ -26,7 +26,7 @@ class ModelPerson extends CI_Model{
         }
     }
     public function get_person_by_id($personId){
-        $this->db->select('PersonFirstName,PersonLastName,PersonNationalCode,PersonPhone');
+        $this->db->select('PersonId, PersonFirstName,PersonLastName,PersonNationalCode,PersonPhone');
         $this->db->select('PersonProvinceId,PersonCityId,PersonAddress,IsActive');
         $this->db->select('PersonType,ProvinceName,CityName');
         $this->db->from('person');
@@ -78,7 +78,55 @@ class ModelPerson extends CI_Model{
         return $this->db->get()->result_array();
     }
     
+    public function get_persons_list($inputs){
+        $limit = $inputs['page'];
+        $start = ($limit - 1) * $this->config->item('defaultPageSize');
+        $end = $this->config->item('defaultPageSize'); 
+        $this->db->select('PersonFirstName , PersonLastName , PersonNationalCode , PersonPhone');
+        $this->db->from('person');
+        $this->db->join('province', 'province.ProvinceId = person.PersonProvinceId');
+        $this->db->join('city', 'city.CityId = person.PersonCityId');
+        if ($inputs['inputPersonFirstName'] != '') {
+            $this->db->group_start();
+            $this->db->like('PersonFirstName', $inputs['inputPersonFirstName']);
+            $this->db->group_end();
+        }
+        if ($inputs['inputPersonLastName'] != '') {
+            $this->db->group_start();
+            $this->db->like('PersonLastName', $inputs['inputPersonLastName']);
+            $this->db->group_end();
+        }
+        if ($inputs['inputPersonNationalCode'] != '') {
+            $this->db->group_start();
+            $this->db->like('PersonNationalCode', $inputs['inputPersonNationalCode']);
+            $this->db->group_end();
+        }
+        if ($inputs['inputPersonPhone'] != '') {
+            $this->db->group_start();
+            $this->db->like('PersonPhone', $inputs['inputPersonPhone']); 
+            $this->db->group_end();
+        } 
+        $tempdb = clone $this->db; /* For Count Of Rows */
 
+        $this->db->limit($end, $start);
+        $this->db->order_by('person.CreateDateTime', 'DESC');
+        $query = $this->db->get()->result_array();
+        $queryCount = $tempdb->count_all_results();
+        $result['data']['content'] = $query;
+        $result['data']['count'] = $queryCount;
+        return $result;
+
+
+    }
+    
+    public function get_person_detail($personId){
+
+        $data['personInfo'] = $this->get_person_by_id($personId)[0];
+        $data['personLegalInfo'] = $this->get_person_legal_info_by_id($personId)[0];
+
+        print_r($data);
+    }
+    
  
 
 
