@@ -32,9 +32,9 @@ function getTokenInfo($return = false){
         die();
     }
     $jwt = $headers['authorization'];
-    if($jwt == null){
-        $jwt = $headers['Authorization'];
-    }
+        if($jwt == null){
+            $jwt = $headers['Authorization'];
+        }
     $jwt = str_ireplace("Bearer ", "", $jwt);
     $signer = new HS256($ci->config->item('HS256KEY'));
     try {
