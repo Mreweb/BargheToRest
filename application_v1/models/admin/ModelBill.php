@@ -666,6 +666,7 @@ class ModelBill extends CI_Model
 
 
     }
+
     public function get_bill_plans($inputs){
 
         $bill = $this->get_bill_by_guid($inputs['inputBillGUID'])['data']['content'];
@@ -762,6 +763,44 @@ class ModelBill extends CI_Model
         $nextTwoMonthPowerCost = $requestedKw * $nextTwoMonthCalculatedPrice;
 
 
+        
+        $currentBillOrders = $this->db->select('*')->from('person_orders')
+        ->where('BillGUID' , $inputs['inputBillGUID'])               
+        ->where_in('Status' , array('Done' , 'Assigned'))
+        ->get();
+
+        $currentMonthNormalHasPayed = false;
+        $currentMonthGreenHasPayed = false;
+        $nextMonthNormalHasPayed = false;
+        $nextMonthGreenHasPayed = false;
+        $nextTwoMonthNormalHasPayed = false;
+        $nextTwoMonthGreenHasPayed = false;
+        if($currentBillOrders->num_rows() > 0){
+            $prevOrders = $currentBillOrders->result_array();
+            foreach($prevOrders as $prevOrder){
+
+                if($prevOrder['FromDate'] == $currentYear . '/' . $currentMonth . '/1' && $prevOrder['ToDate'] ==  $currentYear . '/' . $currentMonth . '/' . $currentMonthTotalDays && $prevOrder['Type'] == 'Normal'){
+                    $currentMonthNormalHasPayed = true;
+                }
+                if($prevOrder['FromDate'] == $currentYear . '/' . $currentMonth . '/1' && $prevOrder['ToDate'] ==  $currentYear . '/' . $currentMonth . '/' . $currentMonthTotalDays && $prevOrder['Type'] == 'Green'){
+                    $currentMonthGreenHasPayed = true;
+                }
+
+                if($prevOrder['FromDate'] == $currentYear . '/' . $currentMonth . '/1' && $prevOrder['ToDate'] ==  $currentYear . '/' . $nextOneMonth . '/' . $nextOneMonthRealDays && $prevOrder['Type'] == 'Normal'){
+                    $nextMonthNormalHasPayed = true;
+                }
+                if($prevOrder['FromDate'] == $currentYear . '/' . $currentMonth . '/1' && $prevOrder['ToDate'] ==  $currentYear . '/' . $nextOneMonth . '/' . $nextOneMonthRealDays && $prevOrder['Type'] == 'Green'){
+                    $nextMonthGreenHasPayed = true;
+                }
+
+                if($prevOrder['FromDate'] == $currentYear . '/' . $currentMonth . '/1' && $prevOrder['ToDate'] ==  $currentYear . '/' . $nextTwoMonth . '/' . $nextTwoMonthRealDays && $prevOrder['Type'] == 'Normal'){
+                    $nextTwoMonthNormalHasPayed = true;
+                }
+                if($prevOrder['FromDate'] == $currentYear . '/' . $currentMonth . '/1' && $prevOrder['ToDate'] ==  $currentYear . '/' . $nextTwoMonth . '/' . $nextTwoMonthRealDays && $prevOrder['Type'] == 'Green'){
+                    $nextTwoMonthGreenHasPayed = true;
+                }
+            } 
+        }
 
         $plans[] = array(
             'PlanOrder' => 1,
@@ -772,31 +811,37 @@ class ModelBill extends CI_Model
             'UserRequestedKw' => $userRequestedKw,
             'PowerCost' => ($thisMonthPowerCost ),
             'PowerCostWithTax' => ($thisMonthPowerCost + taxPrice($thisMonthPowerCost) ),
-            'PricePerKW' => $thisMonthCalculatedPrice
+            'PricePerKW' => $thisMonthCalculatedPrice,
+            'CurrentMonthNormalHasPayed' => $currentMonthNormalHasPayed,
+            'CurrentMonthGreenHasPayed' => $currentMonthGreenHasPayed
         );
 
         $plans[] = array(
             'PlanOrder' => 2,
             'RemainDays' => ($nextOneMonthRealDays + $remainsDayToEndOfMonth),
-            'FromDate' => $currentYear . '/' . $nextOneMonth . '/1',
+            'FromDate' => $currentYear . '/' . $currentMonth . '/1',
             'ToDate' => $currentYear . '/' . $nextOneMonth . '/' . $nextOneMonthRealDays,
             'UserRequestedKw' => $userRequestedKw,
-            'TotalDays' => $nextOneMonthRealDays,
-            'PowerCost' => ($nextMonthPowerCost ),
+            'TotalDays' => $currentMonthTotalDays+$nextOneMonthRealDays,
+            'PowerCost' => ($thisMonthPowerCost + $nextMonthPowerCost ),
             'PowerCostWithTax' => ($nextMonthPowerCost + taxPrice($nextMonthPowerCost) ),
-            'PricePerKW' => $nextMonthCalculatedPrice
+            'PricePerKW' => $nextMonthCalculatedPrice,
+            'NextMonthNormalHasPayed' => $nextMonthNormalHasPayed,
+            'NextMonthGreenHasPayed' => $nextMonthGreenHasPayed
         );
 
         $plans[] = array(
             'PlanOrder' => 3,
             'RemainDays' => ($nextTwoMonthDays + $nextOneMonthDays + $remainsDayToEndOfMonth),
-            'FromDate' => $currentYear . '/' . $nextTwoMonth . '/1',
+            'FromDate' => $currentYear . '/' . $currentMonth . '/1',
             'ToDate' => $currentYear . '/' . $nextTwoMonth . '/' . $nextTwoMonthRealDays,
             'UserRequestedKw' => $userRequestedKw,
-            'TotalDays' => $nextTwoMonthRealDays,
-            'PowerCost' => ($nextTwoMonthPowerCost),
-            'PowerCostWithTax' => ($nextTwoMonthPowerCost + taxPrice($nextTwoMonthPowerCost) ), 
-            'PricePerKW' => $nextTwoMonthCalculatedPrice
+            'TotalDays' => $currentMonthTotalDays+$nextOneMonthRealDays+$nextTwoMonthRealDays,
+            'PowerCost' => ($thisMonthPowerCost + $nextMonthPowerCost + $nextTwoMonthPowerCost),
+            'PowerCostWithTax' => ($thisMonthPowerCost + taxPrice($thisMonthPowerCost) )+ ($nextMonthPowerCost + taxPrice($nextMonthPowerCost) ) + ($nextTwoMonthPowerCost + taxPrice($nextTwoMonthPowerCost) ), 
+            'PricePerKW' => $nextTwoMonthCalculatedPrice,
+            'NextTwoMonthNormalHasPayed' => $nextTwoMonthNormalHasPayed,
+            'NextTwoMonthGreenHasPayed' => $nextTwoMonthGreenHasPayed
         );
 
 

@@ -133,10 +133,10 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "inputPlanOrder": "2",  
+    "inputPlanOrder": "3",  
     "inputBillGUID": "b9a6f23a-524a-452e-af50-85cc6b940270",
     "inputShiftWorkId": "2",
-    "inputTotalRequestKW": "2000"
+    "inputTotalRequestKW": "1650"
 }
 ########## ثبت خرید برق سبز ###############################################
 POST   {{address}}/Profile/Bills/choose_plan_green HTTP/1.1
