@@ -278,12 +278,35 @@ class ModelBill extends CI_Model
 
 
     }
+    public function get_bill_by_id($id)
+    {
+        $this->db->select('*');
+        $this->db->from('person_bill');
+        $this->db->where('BillNumberId', $id);
+        $query = $this->db->get()->result_array()[0];
+
+        $this->db->reset_query();
+        $this->db->select('*');
+        $this->db->from('person_bill_legal_info');
+        $this->db->where('BillGUID', $query['BillGUID']);
+        $query['legalInfo'] = $this->db->get()->result_array();
+        
+        $result['data']['content'] = $query;
+        return $result;
+    }
     public function get_bill_by_guid($guid)
     {
         $this->db->select('*');
         $this->db->from('person_bill');
         $this->db->where('BillGUID', $guid);
         $query = $this->db->get()->result_array();
+
+        $this->db->reset_query();
+        $this->db->select('*');
+        $this->db->from('person_bill_legal_info');
+        $this->db->where('BillGUID', $guid);
+        $query['legalInfo'] = $this->db->get()->result_array();
+        
         $result['data']['content'] = $query;
         return $result;
     }
@@ -430,18 +453,22 @@ class ModelBill extends CI_Model
     /* Public */
     public function get_bill_power_data($inputs)
     {
-        $this->db->select('BillGUID , person_bill.BillNumberId , company_name , contract_demand , customer_name , customer_family , serial_number , payment_dead_line');
+        $this->db->select('*');
         $this->db->from('person_bill');
         $this->db->join('bill_power_data_detail', 'bill_power_data_detail.bill_identifier = person_bill.BillNumberId');
         $this->db->where('person_bill.SoftDelete', 0);
         $this->db->where('person_bill.BillGUID', $inputs['guid']);
         $this->db->where('person_bill.BillPersonId', $inputs['inputPersonId']);
-        $query = $this->db->get()->result_array();
+        $query = $this->db->get()->result_array()[0];
+        unset($query['company_phone']); 
+        unset($query['lat']); 
+        unset($query['long']); 
+        unset($query['total_bill_debt']); 
+        unset($query['payment_identifier']); 
         $result['data']['content'] = $query;
         return $result;
-    }
-    public function get_bill_sale_data($inputs)
-    {
+    }   
+     public function get_bill_sale_data($inputs){
         $this->db->select('*');
         $this->db->from('person_bill');
         $this->db->join('bill_sale_data_detail', 'bill_sale_data_detail.BillNumberId = person_bill.BillNumberId');
@@ -449,6 +476,20 @@ class ModelBill extends CI_Model
         $this->db->where('person_bill.BillGUID', $inputs['guid']);
         $this->db->where('person_bill.BillPersonId', $inputs['inputPersonId']);
         $query = $this->db->get()->result_array();
+        $result['data']['content'] = $query;
+        return $result;
+    }
+
+    public function get_bill_avg_cons($inputs) {
+
+        $query['one_month_avg'] = $this->db->query("SELECT ( (SUM(low_cons)+SUM(normal_cons)+SUM(peak_cons)) / SUM(total_days) /24) AS TotalCons FROM (SELECT * FROM bill_sale_data_detail WHERE BillNumberId = '" . $inputs['inputBillNumberId'] . "'   order by issue_date DESC LIMIT 1) AS T")->result_array()[0]['TotalCons'];
+        $this->db->reset_query();
+
+        $query['three_month_avg'] = $this->db->query("SELECT ( (SUM(low_cons)+SUM(normal_cons)+SUM(peak_cons)) / SUM(total_days) /24) AS TotalCons FROM (SELECT * FROM bill_sale_data_detail WHERE BillNumberId = '" . $inputs['inputBillNumberId'] . "'   order by issue_date DESC LIMIT 3) AS T")->result_array()[0]['TotalCons'];
+        $this->db->reset_query();
+        $query['six_month_avg'] = $this->db->query("SELECT ((SUM(low_cons)+SUM(normal_cons)+SUM(peak_cons))/SUM(total_days)/24) AS TotalCons FROM (SELECT * FROM bill_sale_data_detail WHERE BillNumberId = '" . $inputs['inputBillNumberId'] . "'   order by issue_date DESC LIMIT 6) AS T")->result_array()[0]['TotalCons'];
+        $this->db->reset_query();
+        $query['twelve_month_avg'] = $this->db->query("SELECT ((SUM(low_cons)+SUM(normal_cons)+SUM(peak_cons))/SUM(total_days)/24) AS TotalCons FROM (SELECT * FROM bill_sale_data_detail WHERE BillNumberId = '" . $inputs['inputBillNumberId'] . "'   order by issue_date DESC LIMIT 12) AS T")->result_array()[0]['TotalCons'];
         $result['data']['content'] = $query;
         return $result;
     }

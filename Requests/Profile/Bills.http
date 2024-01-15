@@ -9,7 +9,11 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 ########## دریافت جزئیات یک قبض کاربر ######################################################
-GET   {{address}}/Profile/Bills/get_by_id/b9a6f23a-524a-452e-af50-85cc6b940270 HTTP/1.1
+GET   {{address}}/Profile/Bills/get_by_id/9147666308127 HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+########## دریافت جزئیات یک قبض کاربر ######################################################
+GET   {{address}}/Profile/Bills/get_by_guid/b9a6f23a-524a-452e-af50-85cc6b940270 HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
@@ -33,7 +37,7 @@ Content-Type: application/json
     "inputBillNumberId": "1207134412221"
 }
 ########## حذف قبض ##########################################################################
-DELETE   {{address}}/Profile/Bills HTTP/1.1
+POST   {{address}}/Profile/Bills/delete_bill HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
@@ -100,12 +104,16 @@ Content-Type: application/json
     "CreateDateTime": "1699089990",
     "CreatePersonId": "1821"
 }
-##########  دریافت اطلاعات مصرف کلی قبض کاربر ####################################################
+##########  دریافت اطلاعات مصرف کلی قبض کاربر ###########################################
 GET {{address}}/Profile/Bills/power_data/b9a6f23a-524a-452e-af50-85cc6b940270 HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json 
 ##########  دریافت سابقه مصرف قبض کاربر ################################################
 GET {{address}}/Profile/Bills/sale_data/b9a6f23a-524a-452e-af50-85cc6b940270 HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+##########  دریافت میانگین مصرف قبض################################################
+GET {{address}}/Profile/Bills/avg_cons/8815739301320 HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
@@ -141,8 +149,3 @@ Content-Type: application/json
     "inputShiftWorkId": "1",
     "inputTotalRequestKW": "500"
 }
-
-#### دریافت فهرست قبض های کاربر ############################################################
-GET   {{address}}/Profile/Bills?page=1&inputBillTitle=&inputBillNumberId=&inputPersonLastName&inputPersonLastName=&inputPersonNationalCode=&inputPersonPhone= HTTP/1.1
-Authorization: Bearer {{token}}
-Content-Type: application/json 

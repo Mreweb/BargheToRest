@@ -26,7 +26,7 @@ class Bills extends CI_Controller
                 $this->edit_bill();
                 break;
             case 'DELETE':
-                $this->delete_bill();
+                //$this->delete_bill();
                 break;
             default:
                 check_request_method('NONE');
@@ -43,7 +43,16 @@ class Bills extends CI_Controller
             response(get_req_message('SuccessAction', null, $result), 200);
         }
     }
-    public function get_by_id($guid)
+    public function get_by_id($id)
+    {
+        if (check_request_method('GET')) {
+            $inputs = $this->input->get();
+            $inputs = custom_filter_input($inputs); 
+            $result = $this->ModelBill->get_bill_by_id($id);
+            response(get_req_message('SuccessAction', null, $result), 200);
+        }
+    }
+    public function get_by_guid($guid)
     {
         if (check_request_method('GET')) {
             $inputs = $this->input->get();
@@ -102,7 +111,7 @@ class Bills extends CI_Controller
     }
     public function delete_bill()
     {
-        if (check_request_method('DELETE')) {
+        if (check_request_method('POST')) {
             $inputs = json_decode($this->input->raw_input_stream, true);
             $inputs = custom_filter_input($inputs);
             $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId']; 
@@ -177,6 +186,16 @@ class Bills extends CI_Controller
             response(get_req_message('SuccessAction', null, $result), 200);
         }
     }
+    public function avg_cons($numberId)
+    {
+        if (check_request_method('GET')) {
+            $inputs['inputBillNumberId'] = $numberId;
+            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
+            $result = $this->ModelBill->get_bill_avg_cons($inputs);
+            response(get_req_message('SuccessAction', null, $result), 200);
+        }
+    }
+    
     public function get_plans(){
         if (check_request_method('POST')) {
 

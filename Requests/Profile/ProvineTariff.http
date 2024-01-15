@@ -1,0 +1,17 @@
+########## دریافت قیمت برق #################################################################################             
+GET   {{address}}/Profile/ProvinceTariff/get_electricity_price HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ 
+}
+
+########## دریافت قیمت برق سبز #################################################################################             
+GET   {{address}}/Profile/ProvinceTariff/get_electricity_green_price HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ 
+}
+
+  

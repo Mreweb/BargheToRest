@@ -21,7 +21,7 @@ Content-Type: application/json
                             {  "FromHour" : "8",  "ToHour" : "10" },
                             {  "FromHour" : "12",  "ToHour" : "14" },
                             {  "FromHour" : "16",  "ToHour" : "20" }
-                        ]
+                        ] 
             },
             {
                 "DayTitle" : "دوشنبه",
