@@ -27,7 +27,7 @@ class ModelAccount extends CI_Model{
             $userArray = array('ActivationCode' => $code);
             $this->db->where('PersonId', $result['PersonId']);
             $this->db->update('person', $userArray);
-            return get_req_message('SuccessAction' , "کد تایید ارسال شد" , ['personId' => $result['PersonId']] );
+            return get_req_message('SuccessAction' , "کد تایید ارسال شد" , ['personId' => $result['PersonId'] , 'HasAcceptedRules' => true ] );
         }
         else{
             $userArray = array(
@@ -54,7 +54,7 @@ class ModelAccount extends CI_Model{
             );
             $this->db->insert('person_legal_info', $userArray);
 
-            return get_req_message('SuccessAction' , "کد تایید ارسال شد" , ['personId' => $personId] );
+            return get_req_message('SuccessAction' , "کد تایید ارسال شد" , ['personId' => $personId , 'HasAcceptedRules' => false ] );
 
         }
     }
