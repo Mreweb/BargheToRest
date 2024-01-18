@@ -7,3 +7,8 @@ Content-Type: application/json
 GET   {{address}}/Profile/Finance/get_order_by_order_id/6 HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
+
+########## دریافت جزئیات یک قبض کاربر ######################################################
+GET   {{address}}/Profile/Finance/get_bill_orders/b9a6f23a-524a-452e-af50-85cc6b940270 HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json

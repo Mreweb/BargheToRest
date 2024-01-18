@@ -26,6 +26,13 @@ class Country extends CI_Controller{
         }
     }
 
+    public function get_current_month (){
+        if (check_request_method('GET')) {
+            $result['data']['content'] = convertDate(time(), false, 'm');
+            response(get_req_message('SuccessAction', null, $result), 200);
+        }
+    }
+
     
 
 }

@@ -1,8 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 include APPPATH . 'helpers/cors.php';
-class Finance extends CI_Controller
-{
+class Finance extends CI_Controller{
     private $loginInfo;
     private $enum;
     public function __construct(){
@@ -49,6 +48,17 @@ class Finance extends CI_Controller
             response(get_req_message('SuccessAction', null, $result), 200);
         }
     }
+
+    public function get_bill_orders($billGUID)
+    {
+        if (check_request_method('GET')) {
+            $inputs = $this->input->get();
+            $inputs = custom_filter_input($inputs); 
+            $result = $this->ModelFinance->get_bill_orders($billGUID);
+            response(get_req_message('SuccessAction', null, $result), 200);
+        }
+    }
+    
 
 
 }

@@ -9,7 +9,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 ########## دریافت جزئیات یک قبض کاربر ######################################################
-GET   {{address}}/Profile/Bills/get_by_id/9147666308127 HTTP/1.1
+GET   {{address}}/Profile/Bills/get_by_id/1207134412221 HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
 ########## دریافت جزئیات یک قبض کاربر ######################################################

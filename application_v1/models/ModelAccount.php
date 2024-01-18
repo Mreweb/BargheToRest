@@ -54,8 +54,39 @@ class ModelAccount extends CI_Model{
             );
             $this->db->insert('person_legal_info', $userArray);
 
-            return get_req_message('SuccessAction' , "کد تایید ارسال شد" , ['personId' => $personId , 'HasAcceptedRules' => false ] );
+            $userArray = array(
+                'ShiftWorkTitle' => 'شیفت کاری',
+                'ShiftWorkFromDate' => makeTimeFromDate('1402/08/01'),
+                'ShiftWorkToDate' => makeTimeFromDate('1402/08/30'),
+                'ShiftWorkPersonId' => $personId,
+                'CreateDateTime' => time(),
+                'CreatePersonId' => $personId
+            );
+            $this->db->insert('shift_work', $userArray);
+            $shift_work_id = $this->db->insert_id();
 
+            $userArray = array(
+                'ShiftWorkId' => $shift_work_id,
+                'ShiftWorkDayTitle' => 'شنبه',
+                'ShiftWorkDayValue' => 1,
+                'CreateDateTime' => time(),
+                'CreatePersonId' => $personId
+            );
+            $this->db->insert('shift_work_days', $userArray);
+            $shoft_work_day_id = $this->db->insert_id();
+            
+            $userArray = array(
+                'ShiftWorkId' => $shift_work_id,
+                'ShiftWorkDayId' => $shoft_work_day_id,
+                'FromHour' => 8,
+                'ToHour' => 14,
+                'CreateDateTime' => time(),
+                'CreatePersonId' => $personId
+            );
+            $this->db->insert('shift_work_day_hours', $userArray);
+
+
+            return get_req_message('SuccessAction' , "کد تایید ارسال شد" , ['personId' => $personId , 'HasAcceptedRules' => false ] );
         }
     }
     public function do_verify_phone($inputs){

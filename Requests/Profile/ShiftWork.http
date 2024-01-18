@@ -18,17 +18,14 @@ Content-Type: application/json
                 "DayTitle" : "شنبه",
                 "DayValue" : "1",
                 "Hour" :[
-                            {  "FromHour" : "8",  "ToHour" : "10" },
-                            {  "FromHour" : "12",  "ToHour" : "14" },
-                            {  "FromHour" : "16",  "ToHour" : "20" }
+                            {  "FromHour" : "8",  "ToHour" : "10" }
                         ] 
             },
             {
                 "DayTitle" : "دوشنبه",
                 "DayValue" : "3",
                 "Hour" :[
-                            {  "FromHour" : "8",  "ToHour" : "10" },
-                            {  "FromHour" : "12",  "ToHour" : "14" },
+                            {  "FromHour" : "8",  "ToHour" : "10" }, 
                             {  "FromHour" : "16",  "ToHour" : "20" }
                         ]
             },

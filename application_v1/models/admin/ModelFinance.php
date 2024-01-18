@@ -94,6 +94,22 @@ class ModelFinance extends CI_Model
         return $result;
     }
 
+    public function get_bill_orders($billGUID) {
+        $this->db->select(' person_orders.BillGUID ,BillNumberId  , IssueDateTime , PayDateTime , TotalRequestKW , TotalPrice');
+        $this->db->select('TaxPercent , FinalPrice , KWPerPrice , Status , Type');
+        $this->db->select('FromDate , ToDate , PlanOrder , TotalDays');
+        $this->db->select('PersonFirstName , PersonLastName , PersonNationalCode , PersonPhone');
+        $this->db->from('person_orders');
+        $this->db->join('person_bill', 'person_bill.BillGUID = person_orders.BillGUID');
+        $this->db->join('person', 'person.PersonId = person_orders.PersonId'); 
+        $this->db->where('person_orders.BillGUID', $billGUID);
+        $this->db->order_by('person_orders.CreateDateTime', 'DESC');
+        $this->db->group_by('person_orders.OrderId');
+        $query = $this->db->get()->result_array();
+        $result['data']['content'] = $query;
+        return $result;
+    }
+    
     public function get_orders_list($inputs) {
         $limit = $inputs['page'];
         $start = ($limit - 1) * $this->config->item('defaultPageSize');
