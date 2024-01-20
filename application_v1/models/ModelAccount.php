@@ -27,6 +27,67 @@ class ModelAccount extends CI_Model{
             $userArray = array('ActivationCode' => $code);
             $this->db->where('PersonId', $result['PersonId']);
             $this->db->update('person', $userArray);
+
+            $this->db->select('*');
+            $this->db->from('shift_work');
+            $this->db->where(array('ShiftWorkPersonId' => $result['PersonId']));
+            $query = $this->db->get();
+            if ($query->num_rows() <= 0) {
+                $userArray = array(
+                    'PersonPhone' => $inputs['inputPhone'],
+                    'Password' => md5($inputs['inputPhone']),
+                    'ActivationCode' => $code,
+                    'CreateDateTime' => time(),
+                    'ModifyDatetime' => time()
+                );
+                $this->db->insert('person', $userArray);
+                $personId = $this->db->insert_id();
+                $userArray = array(
+                    'PersonId' => $personId,
+                    'AccountBalance' => 0,
+                    'CreateDateTime' => time(),
+                    'CreatePersonId' => $personId
+                );
+                $this->db->insert('person_account_balance', $userArray);
+    
+                $userArray = array(
+                    'PersonId' => $personId,
+                    'CreateDateTime' => time(),
+                    'CreatePersonId' => $personId
+                );
+                $this->db->insert('person_legal_info', $userArray);
+    
+                $userArray = array(
+                    'ShiftWorkTitle' => 'شیفت کاری',
+                    'ShiftWorkFromDate' => makeTimeFromDate('1402/08/01'),
+                    'ShiftWorkToDate' => makeTimeFromDate('1402/08/30'),
+                    'ShiftWorkPersonId' => $personId,
+                    'CreateDateTime' => time(),
+                    'CreatePersonId' => $personId
+                );
+                $this->db->insert('shift_work', $userArray);
+                $shift_work_id = $this->db->insert_id();
+    
+                $userArray = array(
+                    'ShiftWorkId' => $shift_work_id,
+                    'ShiftWorkDayTitle' => 'شنبه',
+                    'ShiftWorkDayValue' => 1,
+                    'CreateDateTime' => time(),
+                    'CreatePersonId' => $personId
+                );
+                $this->db->insert('shift_work_days', $userArray);
+                $shoft_work_day_id = $this->db->insert_id();
+                
+                $userArray = array(
+                    'ShiftWorkId' => $shift_work_id,
+                    'ShiftWorkDayId' => $shoft_work_day_id,
+                    'FromHour' => 8,
+                    'ToHour' => 14,
+                    'CreateDateTime' => time(),
+                    'CreatePersonId' => $personId
+                );
+                $this->db->insert('shift_work_day_hours', $userArray);
+            }
             return get_req_message('SuccessAction' , "کد تایید ارسال شد" , ['personId' => $result['PersonId'] , 'HasAcceptedRules' => true ] );
         }
         else{
