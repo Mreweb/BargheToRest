@@ -669,16 +669,21 @@ class ModelBill extends CI_Model
 
     public function get_bill_plans($inputs){
 
+        //get Bill NumberId
         $bill = $this->get_bill_by_guid($inputs['inputBillGUID'])['data']['content'];
-     
+    
+        // Get Bill Last 1 Year Total AVG cons
         $avgKWS = $this->db->query("SELECT ((SUM(low_cons)+SUM(normal_cons)+SUM(peak_cons))/SUM(total_days)/24) AS TotalCons FROM (SELECT * FROM bill_sale_data_detail WHERE BillNumberId = '" . $bill[0]['BillNumberId'] . "'   order by issue_date DESC LIMIT 12) AS T")->result_array()[0]['TotalCons'];
         $avgKWS = round($avgKWS, 2);
 
+        //user erquested KW
         $userRequestedKw = $inputs['inputTotalRequestKW'];
 
+        //get Admin Electricity Price
         $LowPrice = $inputs['electricity_price']['LowPrice'];
         $HighPrice = $inputs['electricity_price']['HighPrice'];
         $priceGap = $HighPrice - $LowPrice;
+
 
         $todayDate = $inputs['todayDate'];
         $todayDay = explode("/", $inputs['todayDate'])[2];
@@ -735,14 +740,23 @@ class ModelBill extends CI_Model
 
         $remainsDayToEndOfMonth = $currentMonthTotalDays - $todayDay;
 
+
+        //User Requested KW is for one hour. we should mutiple in 30 days of month and erach day has 24 hour
         $requestedKw = $userRequestedKw * 30 * 24;
 
+        // Gap Between hight price and low price is discount amount s
         $thisMonthDiscount = round($priceGap / 60, 2);
+
 
         if (($remainsDayToEndOfMonth) > 60) {
             $thisMonthCalculatedPrice = $LowPrice;
         } else {
             $thisMonthCalculatedPrice = $HighPrice - ($remainsDayToEndOfMonth * $thisMonthDiscount);
+        }
+
+        // if order added in current month last 7 days then there is no discount
+        if($todayDay > 23){
+            $thisMonthCalculatedPrice = $HighPrice;
         }
         $thisMonthPowerCost = $requestedKw * $thisMonthCalculatedPrice;
 
@@ -764,10 +778,8 @@ class ModelBill extends CI_Model
 
 
         
-        $currentBillOrders = $this->db->select('*')->from('person_orders')
-        ->where('BillGUID' , $inputs['inputBillGUID'])               
-        ->where_in('Status' , array('Done' , 'Assigned'))
-        ->get();
+        //prevent duplicate buy bill
+        $currentBillOrders = $this->db->select('*')->from('person_orders')->where('BillGUID' , $inputs['inputBillGUID'])->where_in('Status' , array('Done' , 'Assigned'))->get();
 
         $currentMonthNormalHasPayed = false;
         $currentMonthGreenHasPayed = false;
@@ -800,7 +812,8 @@ class ModelBill extends CI_Model
                     $nextTwoMonthGreenHasPayed = true;
                 }
             } 
-        }
+        } 
+        //End prevent duplicate buy bill
 
         $plans[] = array(
             'PlanOrder' => 1,
