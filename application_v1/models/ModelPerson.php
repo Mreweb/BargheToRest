@@ -1,9 +1,11 @@
 <?php
 
 
-class ModelPerson extends CI_Model{
+class ModelPerson extends CI_Model
+{
 
-    public function doAdd($inputs){
+    public function doAdd($inputs)
+    {
         $this->db->select('*');
         $this->db->from('person');
         $this->db->where(array('PersonNationalCode' => $inputs['inputPersonNationalCode']));
@@ -25,44 +27,50 @@ class ModelPerson extends CI_Model{
             return $this->db->insert_id();
         }
     }
-    public function get_person_by_id($personId){
+    public function get_person_by_id($personId)
+    {
         $this->db->select('PersonId, PersonFirstName,PersonLastName,PersonNationalCode,PersonPhone');
         $this->db->select('PersonProvinceId,PersonCityId,PersonAddress,IsActive');
         $this->db->select('PersonType,ProvinceName,CityName');
         $this->db->from('person');
-        $this->db->join('province' , 'province.ProvinceId = person.PersonProvinceId' , 'left');
-        $this->db->join('city' , 'city.CityId = person.PersonCityId' , 'left');
+        $this->db->join('province', 'province.ProvinceId = person.PersonProvinceId', 'left');
+        $this->db->join('city', 'city.CityId = person.PersonCityId', 'left');
         $this->db->where(array('PersonId' => $personId));
         return $this->db->get()->result_array();
     }
-    public function get_person_legal_info_by_id($personId){
+    public function get_person_legal_info_by_id($personId)
+    {
         $this->db->select('PersonId,LegalOrganizationName,LegalFinanceCode,LegalCompanyId,LegalRegisterNumber,LegalPhone');
         $this->db->select('LegalProvinceId,LegalCityId,LegalAddress');
-        $this->db->from('person_legal_info'); 
+        $this->db->from('person_legal_info');
         $this->db->where(array('PersonId' => $personId));
         return $this->db->get()->result_array();
     }
-    public function get_person_by_national_code($NationalCode){
+    public function get_person_by_national_code($NationalCode)
+    {
         $this->db->select('*');
         $this->db->from('person');
         $this->db->where(array('PersonNationalCode' => $NationalCode));
         return $this->db->get()->result_array();
     }
-    public function get_person_roles($personId){
+    public function get_person_roles($personId)
+    {
         $this->db->select('Role');
         $this->db->from('person_roles');
         $this->db->where(array('PersonId' => $personId));
         return $this->db->get()->result_array();
     }
-    public function get_person_legal_info($personId){
+    public function get_person_legal_info($personId)
+    {
         $this->db->select('*');
         $this->db->from('person_legal_info');
-        $this->db->join('province' , 'province.ProvinceId = person_legal_info.LegalProvinceId');
-        $this->db->join('city' , 'city.CityId  = person_legal_info.LegalCityId');
-        $this->db->where(array('PersonId' => $personId)); 
+        $this->db->join('province', 'province.ProvinceId = person_legal_info.LegalProvinceId');
+        $this->db->join('city', 'city.CityId  = person_legal_info.LegalCityId');
+        $this->db->where(array('PersonId' => $personId));
         return $this->db->get()->result_array();
     }
-    public function getAddressByAddressPersonId($addressId, $personId){
+    public function getAddressByAddressPersonId($addressId, $personId)
+    {
         $this->db->select('*');
         $this->db->from('person_address');
         $this->db->where(array('AddressId' => $addressId));
@@ -70,18 +78,20 @@ class ModelPerson extends CI_Model{
         return $this->db->get()->result_array();
     }
 
-    public function get_person_all_info_by_person_id($addressId, $personId){
+    public function get_person_all_info_by_person_id($addressId, $personId)
+    {
         $this->db->select('*');
         $this->db->from('person_address');
         $this->db->where(array('AddressId' => $addressId));
         $this->db->where(array('PersonId' => $personId));
         return $this->db->get()->result_array();
     }
-    
-    public function get_persons_list($inputs){
+
+    public function get_persons_list($inputs)
+    {
         $limit = $inputs['page'];
         $start = ($limit - 1) * $this->config->item('defaultPageSize');
-        $end = $this->config->item('defaultPageSize'); 
+        $end = $this->config->item('defaultPageSize');
         $this->db->select('PersonFirstName , PersonLastName , PersonNationalCode , PersonPhone');
         $this->db->from('person');
         $this->db->join('province', 'province.ProvinceId = person.PersonProvinceId');
@@ -103,9 +113,9 @@ class ModelPerson extends CI_Model{
         }
         if ($inputs['inputPersonPhone'] != '') {
             $this->db->group_start();
-            $this->db->like('PersonPhone', $inputs['inputPersonPhone']); 
+            $this->db->like('PersonPhone', $inputs['inputPersonPhone']);
             $this->db->group_end();
-        } 
+        }
         $tempdb = clone $this->db; /* For Count Of Rows */
 
         $this->db->limit($end, $start);
@@ -118,16 +128,28 @@ class ModelPerson extends CI_Model{
 
 
     }
-    
-    public function get_person_detail($personId){
+
+    public function get_person_detail($personId)
+    {
 
         $data['personInfo'] = $this->get_person_by_id($personId)[0];
         $data['personLegalInfo'] = $this->get_person_legal_info_by_id($personId)[0];
 
         print_r($data);
     }
-    
- 
+
+
+    public function do_set_person_lock_status($inputs)
+    {
+
+        $this->db->where('PersonId' , $inputs['inputPersonId']);
+        $this->db->update('person', array('IsLock' => $inputs['inputLock']));
+         return get_req_message('SuccessAction');
+
+    }
+
+
+
 
 
 }

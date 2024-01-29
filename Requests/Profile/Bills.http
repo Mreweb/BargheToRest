@@ -149,3 +149,13 @@ Content-Type: application/json
     "inputShiftWorkId": "1",
     "inputTotalRequestKW": "500"
 }
+
+########## ثبت سفارش جهت پرداخت ###############################################
+POST   {{address}}/Profile/Bills/start_payment HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "inputOrderId": "9"
+}
+

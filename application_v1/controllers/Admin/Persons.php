@@ -63,6 +63,30 @@ class Persons extends CI_Controller{
             response(get_req_message('SuccessAction', null, $result), 200);
         }
     }
+
+    public function set_person_lock_status()
+    {
+         
+        if (check_request_method('PUT')) {
+            $inputs = json_decode($this->input->raw_input_stream, true);
+            $inputs = custom_filter_input($inputs);
+            $inputs['inputAdminPersonId'] = $this->loginInfo['Info']['PersonId'];
+            $this->form_validation->set_data($inputs);
+            $this->form_validation->set_rules('inputPersonId', 'شناسه فرد', 'trim|required');
+            $this->form_validation->set_rules('inputLock', 'وضعیت قفل بودن', 'trim|required');
+            if ($this->form_validation->run() == FALSE) {
+                response(get_req_message('ErrorAction', validation_errors()), 400);
+                die();
+            } else {
+                $result = $this->ModelPerson->do_set_person_lock_status($inputs);
+                response($result, 200);
+                die();
+            }
+        }
+    }
+    
+
+
     
 
 }

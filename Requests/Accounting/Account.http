@@ -10,9 +10,9 @@ POST   {{address}}/Account/submit_phone HTTP/1.1
 Content-Type: application/json
 
 {
-    "inputPhone": "06120572107",
-    "inputCaptchaId": "9bf4a57b-3699-4d48-a2dc-fd8eb44cff3c",
-    "inputCaptchaCode" : "13678"
+    "inputPhone": "09120572107",
+    "inputCaptchaId": "c76ea039-6e76-4416-a97d-101fdf136c0b",
+    "inputCaptchaCode" : "76800"
 }
 ########## تایید کد ارسال شده ########################################################################
 POST {{address}}/Account/verify_phone

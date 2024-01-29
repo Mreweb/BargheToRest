@@ -19,11 +19,16 @@ class GetCaptcha extends CI_Controller{
       require './vendor/autoload.php';
       $builder = new CaptchaBuilder($random_alpha);
       $builder->build(200,50);   
-      $data['content'] = array(
+     /* $data['content'] = array(
         'captchaImage' => $builder->inline(),
         'success'=> true,
         'captcha_id'=> $uuid,
         'code' => $random_alpha
+      );*/
+      $data['content'] = array(
+        'captchaImage' => $builder->inline(),
+        'success'=> true,
+        'captcha_id'=> $uuid
       );
       echo json_encode($data, JSON_UNESCAPED_SLASHES);
       /*$random_alpha = mb_strtoupper(rand(11111, 99999));

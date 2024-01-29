@@ -24,6 +24,13 @@ class ModelAccount extends CI_Model{
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             $result = $query->result_array()[0];
+
+            if($result['IsLock'] == 1){
+                return get_req_message('ErrorAction' , "کاربری شما مسدود شده است" );
+            }
+
+
+
             $userArray = array('ActivationCode' => $code);
             $this->db->where('PersonId', $result['PersonId']);
             $this->db->update('person', $userArray);

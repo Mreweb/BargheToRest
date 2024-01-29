@@ -17,3 +17,13 @@ Content-Type: application/json
 GET   {{address}}/Admin/Persons/get_person_orders/1823 HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
+
+########## قفل کردن / باز کردن کاربر #################################################################################             
+PUT   {{address}}/Admin/Persons/set_person_lock_status HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "inputPersonId" : "1823",
+    "inputLock": "1"
+}

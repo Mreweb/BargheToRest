@@ -16,10 +16,14 @@ class GetCaptchaNew extends CI_Controller
       $builder->build(200,50); 
       $this->session->set_userdata('CaptchaCode',  $builder->getPhrase()); 
 
-      $data['content'] = array(
+      /*$data['content'] = array(
         'captchaImage' => $builder->inline(),
         'success'=> true,
         'code' => $builder->getPhrase()
+      );*/
+      $data['content'] = array(
+        'captchaImage' => $builder->inline(),
+        'success'=> true
       );
       echo json_encode($data, JSON_UNESCAPED_SLASHES);
 

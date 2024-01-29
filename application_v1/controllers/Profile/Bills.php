@@ -10,6 +10,7 @@ class Bills extends CI_Controller
         $this->loginInfo = getTokenInfo(true);
         $this->enum = $this->config->item('Enum');
         $this->load->model('admin/ModelBill');
+        $this->load->model('admin/ModelFinance');
         $this->load->model('ModelPerson');
         $this->load->model('admin/ModelProvince');
     }
@@ -195,7 +196,6 @@ class Bills extends CI_Controller
             response(get_req_message('SuccessAction', null, $result), 200);
         }
     }
-    
     public function get_plans(){
         if (check_request_method('POST')) {
 
@@ -231,6 +231,68 @@ class Bills extends CI_Controller
 
         }
     }
+ 
+    public function start_payment(){
+        if (check_request_method('POST')) {
+            $inputs = json_decode($this->input->raw_input_stream, true);
+            $inputs = custom_filter_input($inputs);
+            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
+            $this->form_validation->set_data($inputs);
+            $this->form_validation->set_rules('inputOrderId', 'شناسه سفارش', 'trim|required');
+            if ($this->form_validation->run() == FALSE) {
+                response(get_req_message('ErrorAction', validation_errors()), 400);
+                die();
+            } else { 
+
+                $personInfo = $this->loginInfo;
+                $order = $this->ModelFinance->get_order_by_order_id($inputs['inputOrderId']);
+                if(empty($order['data']['content'])) {
+                    response(get_req_message('ErrorAction', 'سفارش مورد نظر یافت نشد'), 400);
+                    die();
+                }
+                if($order['data']['content'][0]['Status'] != 'Pend' && $order['data']['content'][0]['Status'] != 'Failed') {
+                    response(get_req_message('ErrorAction', 'سفارش قبلا پردازش شده است'), 400);
+                    die();
+                } 
+                $order = $order['data']['content'][0]; 
+                $this->load->helper('payment/behpardakht/bpm');
+                $p = new bpPayRequest();
+                $p->terminalId = $this->config->item('TerminalId');
+                $p->userName = $this->config->item('TerminaUserName');
+                $p->userPassword = $this->config->item('TerminalPassword');
+                $p->orderId = $order['OrderId'];
+                $p->amount = $order['FinalPrice'];
+                $p->localDate = date('Ymd');
+                $p->localTime = date('His');
+                $p->additionalData = "";
+                $p->callBackUrl = 'https://pay.bargheto.com/Pay/pay_result';
+                $p->payerId = 0;
+                $c = new BPM();
+                $bpPayRequestResponse = $c->bpPayRequest($p);
+                if (isset($bpPayRequestResponse->return)) {
+                    $res = explode(',', $bpPayRequestResponse->return);
+                    $ResCode = $res[0];
+                    if ($ResCode == "0") {
+                        if($order['data']['content'][0]['Status'] != 'Pend' && $order['data']['content'][0]['Status'] != 'Failed') {
+                            response(get_req_message('SuccessAction', null , array(
+                                'ResCode' => $res[1] ,
+                                'OrderId' => $order['OrderId']
+                            ) ), 200);
+                            die();
+                        } 
+                    } else {
+                        response(get_req_message('ErrorAction', 'خطای اتصال به درگاه'), 400);
+                        die();
+                    }
+                } else {
+                    response(get_req_message('ErrorAction', 'خطای اتصال به درگاه'), 400);
+                    die();
+                }
+ 
+            }
+        }
+    }
+
     public function choose_plan()
     {
         if (check_request_method('POST')) {

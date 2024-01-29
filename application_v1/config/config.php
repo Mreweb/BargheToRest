@@ -52,7 +52,9 @@ $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';   
 $config['HS256KEY'] = '5HFQjMFJe9bn0u6lZzAo_IY1GOSk1Q5b18fFtitXNfc';
 $config['defaultPageSize'] = 10;
-
+$config['TerminalId'] = '7133463';
+$config['TerminaUserName'] = '7133463';
+$config['TerminalPassword'] = '74889427';
 $config['SMSAPI'] = '644751304D5155772B626847312B637A4862343438472B766C6762456841316C7A7A656F6B7757432B61633D';
 $config['DBMessages'] = array(
     'SuccessAction' => array(
@@ -96,6 +98,13 @@ $config['ENUM'] = [
         'NORMAL' => 'عادی',
         'ORGANIZATION' => 'سازمانی'
     ],
+    'OrderStatus'=> [
+        'Pend' => 'در انتظار پرداخت',
+        'Failed' => 'پرداخت ناموفق',
+        'Done' => 'پرداخت موفق',
+        'Reject' => 'برگشت واحد مالی',
+        'Assigned' => 'تخصیص داده شده',
+    ],
     'WeekDays'=> [
         '1' => 'شنبه',
         '2' => 'یکشنبه',
@@ -104,5 +113,5 @@ $config['ENUM'] = [
         '5' => 'چهارشنبه',
         '6' => 'پنجشنبه',
         '7' => 'جمعه'
-    ]
+    ],
 ];
