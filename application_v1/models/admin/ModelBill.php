@@ -184,7 +184,6 @@ class ModelBill extends CI_Model
     }
     public function do_edit_legal_info($inputs)
     {
-
         $this->db->select('*');
         $this->db->from('person_bill_legal_info');
         $this->db->where('BillGUID', $inputs['inputBillGUID']);
@@ -218,6 +217,33 @@ class ModelBill extends CI_Model
         }
 
     }
+
+
+    public function set_factor_type($inputs)
+    {
+        $this->db->select('*');
+        $this->db->from('person_bill_legal_info');
+        $this->db->where('BillGUID', $inputs['inputBillGUID']);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            if ($query->result_array()[0]['BillFactorPrintType'] == 'NotSetted') {
+                $userArray = array(
+                    'BillFactorPrintType' => $inputs['inputBillFactorPrintType'],
+                    'CreatePersonId' => $inputs['inputPersonId'],
+                    'CreateDateTime' => time()
+                );
+                $this->db->where('BillGUID', $inputs['inputBillGUID']);
+                $this->db->update('person_bill_legal_info', $userArray);
+                return get_req_message('SuccessAction');
+            } else{
+                return get_req_message('ErrorAction' , 'قبلا نحوه صدور فاکتور انتخاب شده است.جهت تغییر تیکت ثبت کنید');
+            }
+        } else {
+            return get_req_message('NOTFOUND', null);
+        }
+
+    }
+
     /* End For Single User */
 
 
@@ -290,7 +316,7 @@ class ModelBill extends CI_Model
         $this->db->from('person_bill_legal_info');
         $this->db->where('BillGUID', $query['BillGUID']);
         $query['legalInfo'] = $this->db->get()->result_array();
-        
+
         $result['data']['content'] = $query;
         return $result;
     }
@@ -306,7 +332,7 @@ class ModelBill extends CI_Model
         $this->db->from('person_bill_legal_info');
         $this->db->where('BillGUID', $guid);
         $query['legalInfo'] = $this->db->get()->result_array();
-        
+
         $result['data']['content'] = $query;
         return $result;
     }
@@ -460,15 +486,16 @@ class ModelBill extends CI_Model
         $this->db->where('person_bill.BillGUID', $inputs['guid']);
         $this->db->where('person_bill.BillPersonId', $inputs['inputPersonId']);
         $query = $this->db->get()->result_array()[0];
-        unset($query['company_phone']); 
-        unset($query['lat']); 
-        unset($query['long']); 
-        unset($query['total_bill_debt']); 
-        unset($query['payment_identifier']); 
+        unset($query['company_phone']);
+        unset($query['lat']);
+        unset($query['long']);
+        unset($query['total_bill_debt']);
+        unset($query['payment_identifier']);
         $result['data']['content'] = $query;
         return $result;
-    }   
-     public function get_bill_sale_data($inputs){
+    }
+    public function get_bill_sale_data($inputs)
+    {
         $this->db->select('*');
         $this->db->from('person_bill');
         $this->db->join('bill_sale_data_detail', 'bill_sale_data_detail.BillNumberId = person_bill.BillNumberId');
@@ -480,7 +507,8 @@ class ModelBill extends CI_Model
         return $result;
     }
 
-    public function get_bill_avg_cons($inputs) {
+    public function get_bill_avg_cons($inputs)
+    {
 
         $query['one_month_avg'] = $this->db->query("SELECT ( (SUM(low_cons)+SUM(normal_cons)+SUM(peak_cons)) / SUM(total_days) /24) AS TotalCons FROM (SELECT * FROM bill_sale_data_detail WHERE BillNumberId = '" . $inputs['inputBillNumberId'] . "'   order by issue_date DESC LIMIT 1) AS T")->result_array()[0]['TotalCons'];
         $this->db->reset_query();
@@ -494,7 +522,8 @@ class ModelBill extends CI_Model
         return $result;
     }
 
-    public function get_bill_plans_with_print($inputs){
+    public function get_bill_plans_with_print($inputs)
+    {
         $bill = $this->get_bill_by_guid($inputs['guid']);
         $avgKWS = $this->db->query("SELECT ((SUM(low_cons)+SUM(normal_cons)+SUM(peak_cons))/SUM(total_days)/24) AS TotalCons FROM (SELECT * FROM bill_sale_data_detail WHERE BillNumberId = '" . $bill[0]['BillNumberId'] . "'   order by issue_date DESC LIMIT 12) AS T")->result_array()[0]['TotalCons'];
         $avgKWS = round($avgKWS, 2);
@@ -667,11 +696,12 @@ class ModelBill extends CI_Model
 
     }
 
-    public function get_bill_plans($inputs){
+    public function get_bill_plans($inputs)
+    {
 
         //get Bill NumberId
         $bill = $this->get_bill_by_guid($inputs['inputBillGUID'])['data']['content'];
-    
+
         // Get Bill Last 1 Year Total AVG cons
         $avgKWS = $this->db->query("SELECT ((SUM(low_cons)+SUM(normal_cons)+SUM(peak_cons))/SUM(total_days)/24) AS TotalCons FROM (SELECT * FROM bill_sale_data_detail WHERE BillNumberId = '" . $bill[0]['BillNumberId'] . "'   order by issue_date DESC LIMIT 12) AS T")->result_array()[0]['TotalCons'];
         $avgKWS = round($avgKWS, 2);
@@ -755,7 +785,7 @@ class ModelBill extends CI_Model
         }
 
         // if order added in current month last 7 days then there is no discount
-        if($todayDay > 23){
+        if ($todayDay > 23) {
             $thisMonthCalculatedPrice = $HighPrice;
         }
         $thisMonthPowerCost = $requestedKw * $thisMonthCalculatedPrice;
@@ -777,9 +807,9 @@ class ModelBill extends CI_Model
         $nextTwoMonthPowerCost = $requestedKw * $nextTwoMonthCalculatedPrice;
 
 
-        
+
         //prevent duplicate buy bill
-        $currentBillOrders = $this->db->select('*')->from('person_orders')->where('BillGUID' , $inputs['inputBillGUID'])->where_in('Status' , array('Done' , 'Assigned'))->get();
+        $currentBillOrders = $this->db->select('*')->from('person_orders')->where('BillGUID', $inputs['inputBillGUID'])->where_in('Status', array('Done', 'Assigned'))->get();
 
         $currentMonthNormalHasPayed = false;
         $currentMonthGreenHasPayed = false;
@@ -787,32 +817,32 @@ class ModelBill extends CI_Model
         $nextMonthGreenHasPayed = false;
         $nextTwoMonthNormalHasPayed = false;
         $nextTwoMonthGreenHasPayed = false;
-        if($currentBillOrders->num_rows() > 0){
+        if ($currentBillOrders->num_rows() > 0) {
             $prevOrders = $currentBillOrders->result_array();
-            foreach($prevOrders as $prevOrder){
+            foreach ($prevOrders as $prevOrder) {
 
-                if($prevOrder['FromDate'] == $currentYear . '/' . $currentMonth . '/1' && $prevOrder['ToDate'] ==  $currentYear . '/' . $currentMonth . '/' . $currentMonthTotalDays && $prevOrder['Type'] == 'Normal'){
+                if ($prevOrder['FromDate'] == $currentYear . '/' . $currentMonth . '/1' && $prevOrder['ToDate'] == $currentYear . '/' . $currentMonth . '/' . $currentMonthTotalDays && $prevOrder['Type'] == 'Normal') {
                     $currentMonthNormalHasPayed = true;
                 }
-                if($prevOrder['FromDate'] == $currentYear . '/' . $currentMonth . '/1' && $prevOrder['ToDate'] ==  $currentYear . '/' . $currentMonth . '/' . $currentMonthTotalDays && $prevOrder['Type'] == 'Green'){
+                if ($prevOrder['FromDate'] == $currentYear . '/' . $currentMonth . '/1' && $prevOrder['ToDate'] == $currentYear . '/' . $currentMonth . '/' . $currentMonthTotalDays && $prevOrder['Type'] == 'Green') {
                     $currentMonthGreenHasPayed = true;
                 }
 
-                if($prevOrder['FromDate'] == $currentYear . '/' . $currentMonth . '/1' && $prevOrder['ToDate'] ==  $currentYear . '/' . $nextOneMonth . '/' . $nextOneMonthRealDays && $prevOrder['Type'] == 'Normal'){
+                if ($prevOrder['FromDate'] == $currentYear . '/' . $currentMonth . '/1' && $prevOrder['ToDate'] == $currentYear . '/' . $nextOneMonth . '/' . $nextOneMonthRealDays && $prevOrder['Type'] == 'Normal') {
                     $nextMonthNormalHasPayed = true;
                 }
-                if($prevOrder['FromDate'] == $currentYear . '/' . $currentMonth . '/1' && $prevOrder['ToDate'] ==  $currentYear . '/' . $nextOneMonth . '/' . $nextOneMonthRealDays && $prevOrder['Type'] == 'Green'){
+                if ($prevOrder['FromDate'] == $currentYear . '/' . $currentMonth . '/1' && $prevOrder['ToDate'] == $currentYear . '/' . $nextOneMonth . '/' . $nextOneMonthRealDays && $prevOrder['Type'] == 'Green') {
                     $nextMonthGreenHasPayed = true;
                 }
 
-                if($prevOrder['FromDate'] == $currentYear . '/' . $currentMonth . '/1' && $prevOrder['ToDate'] ==  $currentYear . '/' . $nextTwoMonth . '/' . $nextTwoMonthRealDays && $prevOrder['Type'] == 'Normal'){
+                if ($prevOrder['FromDate'] == $currentYear . '/' . $currentMonth . '/1' && $prevOrder['ToDate'] == $currentYear . '/' . $nextTwoMonth . '/' . $nextTwoMonthRealDays && $prevOrder['Type'] == 'Normal') {
                     $nextTwoMonthNormalHasPayed = true;
                 }
-                if($prevOrder['FromDate'] == $currentYear . '/' . $currentMonth . '/1' && $prevOrder['ToDate'] ==  $currentYear . '/' . $nextTwoMonth . '/' . $nextTwoMonthRealDays && $prevOrder['Type'] == 'Green'){
+                if ($prevOrder['FromDate'] == $currentYear . '/' . $currentMonth . '/1' && $prevOrder['ToDate'] == $currentYear . '/' . $nextTwoMonth . '/' . $nextTwoMonthRealDays && $prevOrder['Type'] == 'Green') {
                     $nextTwoMonthGreenHasPayed = true;
                 }
-            } 
-        } 
+            }
+        }
         //End prevent duplicate buy bill
 
         $plans[] = array(
@@ -822,8 +852,8 @@ class ModelBill extends CI_Model
             'ToDate' => $currentYear . '/' . $currentMonth . '/' . $currentMonthTotalDays,
             'TotalDays' => $currentMonthTotalDays,
             'UserRequestedKw' => $userRequestedKw,
-            'PowerCost' => ($thisMonthPowerCost ),
-            'PowerCostWithTax' => ($thisMonthPowerCost + taxPrice($thisMonthPowerCost) ),
+            'PowerCost' => ($thisMonthPowerCost),
+            'PowerCostWithTax' => ($thisMonthPowerCost + taxPrice($thisMonthPowerCost)),
             'PricePerKW' => $thisMonthCalculatedPrice,
             'CurrentMonthNormalHasPayed' => $currentMonthNormalHasPayed,
             'CurrentMonthGreenHasPayed' => $currentMonthGreenHasPayed
@@ -835,9 +865,9 @@ class ModelBill extends CI_Model
             'FromDate' => $currentYear . '/' . $currentMonth . '/1',
             'ToDate' => $currentYear . '/' . $nextOneMonth . '/' . $nextOneMonthRealDays,
             'UserRequestedKw' => $userRequestedKw,
-            'TotalDays' => $currentMonthTotalDays+$nextOneMonthRealDays,
-            'PowerCost' => ($thisMonthPowerCost + $nextMonthPowerCost ),
-            'PowerCostWithTax' => ($nextMonthPowerCost + taxPrice($nextMonthPowerCost) ),
+            'TotalDays' => $currentMonthTotalDays + $nextOneMonthRealDays,
+            'PowerCost' => ($thisMonthPowerCost + $nextMonthPowerCost),
+            'PowerCostWithTax' => ($nextMonthPowerCost + taxPrice($nextMonthPowerCost)),
             'PricePerKW' => $nextMonthCalculatedPrice,
             'NextMonthNormalHasPayed' => $nextMonthNormalHasPayed,
             'NextMonthGreenHasPayed' => $nextMonthGreenHasPayed
@@ -849,9 +879,9 @@ class ModelBill extends CI_Model
             'FromDate' => $currentYear . '/' . $currentMonth . '/1',
             'ToDate' => $currentYear . '/' . $nextTwoMonth . '/' . $nextTwoMonthRealDays,
             'UserRequestedKw' => $userRequestedKw,
-            'TotalDays' => $currentMonthTotalDays+$nextOneMonthRealDays+$nextTwoMonthRealDays,
+            'TotalDays' => $currentMonthTotalDays + $nextOneMonthRealDays + $nextTwoMonthRealDays,
             'PowerCost' => ($thisMonthPowerCost + $nextMonthPowerCost + $nextTwoMonthPowerCost),
-            'PowerCostWithTax' => ($thisMonthPowerCost + taxPrice($thisMonthPowerCost) )+ ($nextMonthPowerCost + taxPrice($nextMonthPowerCost) ) + ($nextTwoMonthPowerCost + taxPrice($nextTwoMonthPowerCost) ), 
+            'PowerCostWithTax' => ($thisMonthPowerCost + taxPrice($thisMonthPowerCost)) + ($nextMonthPowerCost + taxPrice($nextMonthPowerCost)) + ($nextTwoMonthPowerCost + taxPrice($nextTwoMonthPowerCost)),
             'PricePerKW' => $nextTwoMonthCalculatedPrice,
             'NextTwoMonthNormalHasPayed' => $nextTwoMonthNormalHasPayed,
             'NextTwoMonthGreenHasPayed' => $nextTwoMonthGreenHasPayed
@@ -865,7 +895,8 @@ class ModelBill extends CI_Model
     }
     /* End Public */
 
-    public function choose_plan($inputs) {
+    public function choose_plan($inputs)
+    {
         $data = $this->get_bill_plans($inputs);
 
         $PersonId = $inputs['inputPersonId'];
@@ -883,7 +914,7 @@ class ModelBill extends CI_Model
             if ($item['PlanOrder'] == $PlanOrder) {
                 $selectedPlan = $item;
             }
-        } 
+        }
         $TotalDays = $selectedPlan['TotalDays'];
         $PlanOrder = $inputs['inputPlanOrder'];
 
@@ -912,7 +943,8 @@ class ModelBill extends CI_Model
         return array('orderId' => $inserId);
 
     }
-    public function choose_plan_green($inputs) {
+    public function choose_plan_green($inputs)
+    {
 
         $userRequestedKw = $inputs['inputTotalRequestKW'];
 
@@ -921,7 +953,7 @@ class ModelBill extends CI_Model
         $currentMonth = intval($inputs['currentMonth']);
         $currentYear = intval(explode("/", $inputs['todayDate'])[0]);
 
-        $requestedKw = $userRequestedKw * 30 * 24; 
+        $requestedKw = $userRequestedKw * 30 * 24;
 
         $currentMonthTotalDays = 0;
         if ($currentMonth <= 6) {
@@ -934,12 +966,12 @@ class ModelBill extends CI_Model
 
         $remainsDayToEndOfMonth = $currentMonthTotalDays - $todayDay;
 
-        $currentMonthGreenPrice  = 0;
-        foreach($inputs['electricity_green_price'] as $row){
-            if($currentMonth == $row['Month']){
+        $currentMonthGreenPrice = 0;
+        foreach ($inputs['electricity_green_price'] as $row) {
+            if ($currentMonth == $row['Month']) {
                 $currentMonthGreenPrice = $row;
             }
-        } 
+        }
 
         $LowPrice = $currentMonthGreenPrice['GreenLowPrice'];
         $HighPrice = $currentMonthGreenPrice['GreenHighPrice'];
@@ -954,7 +986,7 @@ class ModelBill extends CI_Model
             $thisMonthCalculatedPrice = $HighPrice - ($remainsDayToEndOfMonth * $thisMonthDiscount);
         }
         $thisMonthPowerCost = $requestedKw * $thisMonthCalculatedPrice;
-  
+
 
         $PersonId = $inputs['inputPersonId'];
         $BillGUID = $inputs['inputBillGUID'];
@@ -979,9 +1011,9 @@ class ModelBill extends CI_Model
                 'Status' => $Status,
                 'TotalDays' => $currentMonthTotalDays,
                 'PlanOrder' => 0,
-                'KWPerPrice' =>$thisMonthCalculatedPrice,
+                'KWPerPrice' => $thisMonthCalculatedPrice,
                 'Type' => 'Green',
-                'TotalPrice' => $thisMonthCalculatedPrice * $userRequestedKw, 
+                'TotalPrice' => $thisMonthCalculatedPrice * $userRequestedKw,
                 'FinalPrice' => $thisMonthCalculatedPrice * $userRequestedKw + (taxPrice($thisMonthCalculatedPrice * $userRequestedKw)),
                 'FromDate' => $currentYear . '/' . $currentMonth . '/1',
                 'ToDate' => $currentYear . '/' . $currentMonth . '/' . $currentMonthTotalDays

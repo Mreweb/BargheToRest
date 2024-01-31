@@ -104,6 +104,18 @@ Content-Type: application/json
     "CreateDateTime": "1699089990",
     "CreatePersonId": "1821"
 }
+
+########## ثبت نوع اطلاعات موجود در پیش فاکتور ###############################################
+POST   {{address}}/Profile/Bills/set_factor_type HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "inputBillGUID": "b9a6f23a-524a-452e-af50-85cc6b940270",
+    "inputBillFactorPrintType": "Legal"
+}
+
+
 ##########  دریافت اطلاعات مصرف کلی قبض کاربر ###########################################
 GET {{address}}/Profile/Bills/power_data/b9a6f23a-524a-452e-af50-85cc6b940270 HTTP/1.1
 Authorization: Bearer {{token}}

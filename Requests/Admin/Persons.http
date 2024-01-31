@@ -25,5 +25,5 @@ Content-Type: application/json
 
 {
     "inputPersonId" : "1823",
-    "inputLock": "1"
+    "inputLock": "0"
 }
