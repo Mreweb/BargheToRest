@@ -130,7 +130,7 @@ function response($array, $code = null){
     if($code != null){
         http_response_code($code);
     }
-    echo json_encode($array, JSON_UNESCAPED_UNICODE);
+    echo json_encode($array, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_UNESCAPED_SLASHES  );
 }
 
 function get_req_message($key , $custom_message = null , $additionalArray = array()){

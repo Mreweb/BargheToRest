@@ -6,8 +6,7 @@ class Bills extends CI_Controller
 
     private $loginInfo;
     private $enum;
-    public function __construct()
-    {
+    public function __construct(){
         parent::__construct();
         $this->loginInfo = getTokenInfo(true);
         $this->enum = $this->config->item('Enum');

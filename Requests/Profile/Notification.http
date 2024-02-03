@@ -1,0 +1,16 @@
+ ########## دریافت اعلانات #################################################################################
+GET   {{address}}/Profile/Notification HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+}
+
+########## ثبت مشاهده اعلان ###########################################################################
+POST   {{address}}/Profile/Notification HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "inputNotificationId": "1"
+} 

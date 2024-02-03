@@ -1,0 +1,33 @@
+  ########## دریافت فهرست اعلانات   ##########################################################          
+GET   {{address}}/Admin/Notification?page=1&inputNotificationTitle= HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+########## افزودن اعلان #######################################################################       
+POST   {{address}}/Admin/Notification HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "inputNotificationTitle": "اعلان شماره 1",
+    "inputNotificationContent" : "این یک متن تست است",
+    "inputNotificationMediaId" : "1"
+}
+########## ویرایش اعلان #######################################################################          
+PUT   {{address}}/Admin/Notification HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "inputNotificationId" : "5",
+    "inputNotificationTitle": "تغییر اعلان شماره 5",
+    "inputNotificationContent" : "این یک متن تست  تغییر داده شده است",
+    "inputNotificationMediaId" : "24"
+}
+##########  حذف اعلان #########################################################################          
+DELETE   {{address}}/Admin/Notification/3 HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+}
