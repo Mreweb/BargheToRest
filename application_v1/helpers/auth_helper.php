@@ -6,7 +6,7 @@ use MiladRahimi\Jwt\Exceptions\ValidationException;
 use MiladRahimi\Jwt\Validator\DefaultValidator;
 use MiladRahimi\Jwt\Validator\Rules\EqualsTo;
 use MiladRahimi\Jwt\Validator\Rules\NewerThan;
-function getTokenInfo($return = false){
+function getTokenInfo($return = false , $role=null){
     require 'vendor/autoload.php';
     $ci =& get_instance();
     $headers = $ci->input->request_headers(); 
@@ -23,7 +23,8 @@ function getTokenInfo($return = false){
             ], 401);
             die();
         }
-    } else {
+    }
+     else {
         response([
             'code' => 'SERVICE.NOTFOUNDTOKEN',
             'success' => false,
@@ -40,6 +41,17 @@ function getTokenInfo($return = false){
     try {
         $parser = new Parser($signer);
         $claims = $parser->parse($jwt);
+ 
+        if($role != null){
+            if($claims['Info']['PersonType'] != $role){
+                response([
+                    'code' => 'SERVICE.INVALIDTOKEN',
+                    'success' => false,
+                    'message' => 'احراز نامعتبر است'
+                ], 401);
+                die();
+            }
+        }
         /*if(time() > $claims['expire_time']){
             response([
                 'code' => 'SERVICE.EXPIRED',

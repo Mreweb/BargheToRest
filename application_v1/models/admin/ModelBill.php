@@ -253,7 +253,8 @@ class ModelBill extends CI_Model
         $limit = $inputs['page'];
         $start = ($limit - 1) * $this->config->item('defaultPageSize');
         $end = $this->config->item('defaultPageSize');
-        $this->db->select('*');
+        $this->db->select('BillGUID,BillTitle,BillGUID,PersonId');
+        $this->db->select('PersonFirstName,PersonLastName,PersonNationalCode');
         $this->db->from('person_bill');
         $this->db->join('person', 'person.PersonId = person_bill.BillPersonId');
 

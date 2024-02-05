@@ -6,7 +6,7 @@ class CrawlToken extends CI_Controller{
     private $enum;
     public function __construct(){
         parent::__construct();
-        $this->loginInfo = getTokenInfo(true);
+        $this->loginInfo = getTokenInfo(true  , 'ADMIN'); 
         $this->enum = $this->config->item('Enum');
         $this->load->model('admin/ModelCrawl');
     }

@@ -1,11 +1,11 @@
 ##########  دریافت فهرست تعرفه استان ها #################################################################################             
 GET   {{address}}/Admin/ProvinceTariff?page=1&inputProvinceName=&inputProvinceId= HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{token_admin}}
 Content-Type: application/json
 
 ##########  درج تعرفه یک استان #################################################################################             
 POST   {{address}}/Admin/ProvinceTariff HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{token_admin}}
 Content-Type: application/json
 
 { 
@@ -19,7 +19,7 @@ Content-Type: application/json
 }
 ########## ویرایش تعرفه یک استان #################################################################################             
 PUT   {{address}}/Admin/ProvinceTariff HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{token_admin}}
 Content-Type: application/json
 
 {
@@ -33,7 +33,7 @@ Content-Type: application/json
 }
 ########## حذف تعرفه استان #################################################################################             
 DELETE   {{address}}/Admin/ProvinceTariff HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{token_admin}}
 Content-Type: application/json
 
 {
@@ -42,7 +42,7 @@ Content-Type: application/json
 
 ########## ثبت قیمت برق #################################################################################             
 POST   {{address}}/Admin/ProvinceTariff/add_electricity_price HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{token_admin}}
 Content-Type: application/json
 
 { 
@@ -52,7 +52,7 @@ Content-Type: application/json
 
 ########## ثبت قیمت برق سبز #################################################################################             
 POST   {{address}}/Admin/ProvinceTariff/do_update_electricity_green_price HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{token_admin}}
 Content-Type: application/json
 
 { 
@@ -63,7 +63,7 @@ Content-Type: application/json
 }
 ########## دریافت قیمت برق #################################################################################             
 GET   {{address}}/Admin/ProvinceTariff/get_electricity_price HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{token_admin}}
 Content-Type: application/json
 
 { 
@@ -71,7 +71,7 @@ Content-Type: application/json
 
 ########## دریافت قیمت برق سبز #################################################################################             
 GET   {{address}}/Admin/ProvinceTariff/get_electricity_green_price HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{token_admin}}
 Content-Type: application/json
 
 { 

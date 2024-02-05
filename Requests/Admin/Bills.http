@@ -1,11 +1,11 @@
-  ########## دریافت فهرست تمامی قبض   #################################################################################             
+########## دریافت فهرست تمامی قبض   #################################################################################             
 GET   {{address}}/Admin/Bills?page=1&inputBillTitle=&inputBillNumberId=&inputPersonLastName&inputPersonLastName=&inputPersonNationalCode=&inputPersonPhone=&inputShowDeleted= HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{token_admin}}
 Content-Type: application/json
 
 ########## افزودن قبض برای کاربر #################################################################################             
 POST   {{address}}/Admin/Bills HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{token_admin}}
 Content-Type: application/json
 
 {
@@ -15,7 +15,7 @@ Content-Type: application/json
 }
 ########## ویرایش قبض برای کاربر #################################################################################             
 PUT   {{address}}/Admin/Bills HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{token_admin}}
 Content-Type: application/json
 
 {
@@ -26,7 +26,7 @@ Content-Type: application/json
 }
 ##########  حذف قبض برای کاربر #################################################################################             
 DELETE   {{address}}/Admin/Bills HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{token_admin}}
 Content-Type: application/json
 
 {
@@ -36,7 +36,7 @@ Content-Type: application/json
 
 ########## درج اطلاعات حقوقی و حقیقی قبض برای کاربر #################################################################################             
 POST   {{address}}/Profile/Bills/add_legal_info HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{token_admin}}
 Content-Type: application/json
 
 {

@@ -6,7 +6,7 @@ class Bills extends CI_Controller{
     private $enum;
     public function __construct(){  
         parent::__construct();
-        $this->loginInfo = getTokenInfo(true);
+        $this->loginInfo = getTokenInfo(true  , 'ADMIN'); 
         $this->enum = $this->config->item('Enum');
         $this->load->model('admin/ModelBill');
     }
@@ -33,7 +33,6 @@ class Bills extends CI_Controller{
         if (check_request_method('GET')) {
             $inputs = $this->input->get();
             $inputs = custom_filter_input($inputs);
-            $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
             $result = $this->ModelBill->get_bill_list($inputs);
             response(get_req_message('SuccessAction', null, $result), 200);
         }
