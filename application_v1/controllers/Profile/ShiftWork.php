@@ -10,10 +10,8 @@ class ShiftWork extends CI_Controller{
         $this->enum = $this->config->item('Enum');
         $this->load->model('admin/ModelShiftWork');
     }
-    function _remap($param) {
-        $this->index($param);
-    }
-    public function index($shiftWorkId=null){ 
+
+    public function index(){ 
         switch ($this->input->server('REQUEST_METHOD')) {
             case 'GET':
                 $this->get_shift_work_list();
@@ -25,7 +23,7 @@ class ShiftWork extends CI_Controller{
                 //$this->edit_whift_work();
                 break;
             case 'DELETE': 
-                $this->delete_shift_work($shiftWorkId);
+                $this->delete_shift_work();
                 break;
             default:
                 check_request_method('NONE');
@@ -61,11 +59,12 @@ class ShiftWork extends CI_Controller{
             }
         }
     }
-    public function delete_shift_work($shiftWorkId){
+    public function delete_shift_work(){
         if (check_request_method('DELETE')) {
+            $inputs = json_decode($this->input->raw_input_stream, true); 
+            $inputs = custom_filter_input($inputs);
             $inputs['inputPersonId'] = $this->loginInfo['Info']['PersonId'];
-            $inputs['inputShiftWorkId'] = $shiftWorkId;
-            $result = $this->ModelShiftWork->do_delete_shift_work($inputs);
+             $result = $this->ModelShiftWork->do_delete_shift_work($inputs);
             response($result, 200);
             die();
         }

@@ -1,26 +1,26 @@
   ########## دریافت فهرست تمامی قبض   #################################################################################             
 GET   {{address}}/Admin/Persons?page=1&inputPersonFirstName=&inputPersonLastName&inputPersonNationalCode=&inputPersonPhone HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{token_admin}}
 Content-Type: application/json
 
 ########## دریافت جزئیات کاربر  #################################################################################             
 GET   {{address}}/Admin/Persons/get_person_detail/1823 HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{token_admin}}
 Content-Type: application/json
 
 ########## دریافت قبض های کاربر  #################################################################################             
 GET   {{address}}/Admin/Persons/get_person_bills/1823 HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{token_admin}}
 Content-Type: application/json
 
 ########## دریافت سفارشات کاربر  #################################################################################             
 GET   {{address}}/Admin/Persons/get_person_orders/1823 HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{token_admin}}
 Content-Type: application/json
 
 ########## قفل کردن / باز کردن کاربر #################################################################################             
 PUT   {{address}}/Admin/Persons/set_person_lock_status HTTP/1.1
-Authorization: Bearer {{token}}
+Authorization: Bearer {{token_admin}}
 Content-Type: application/json
 
 {

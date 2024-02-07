@@ -2,6 +2,7 @@
 class ModelBill extends CI_Model
 {
 
+
     /* For Single User */
     public function get_user_bill_list($inputs)
     {
@@ -326,7 +327,7 @@ class ModelBill extends CI_Model
         $this->db->select('*');
         $this->db->from('person_bill');
         $this->db->where('BillGUID', $guid);
-        $query = $this->db->get()->result_array();
+        $query = $this->db->get()->result_array()[0];
 
         $this->db->reset_query();
         $this->db->select('*');

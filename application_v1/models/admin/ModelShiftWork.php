@@ -6,7 +6,7 @@ class ModelShiftWork extends CI_Model
         $limit = $inputs['page'];
         $start = ($limit - 1) * $this->config->item('defaultPageSize');
         $end = $this->config->item('defaultPageSize');
-        $this->db->select('ShiftWorkTitle , ShiftWorkFromDate , ShiftWorkToDate , ');
+        $this->db->select('ShiftWorkId , ShiftWorkTitle , ShiftWorkFromDate , ShiftWorkToDate , ');
         $this->db->from('shift_work');
         $this->db->join('person', 'person.PersonId = shift_work.ShiftWorkPersonId');
         $this->db->where('shift_work.SoftDelete', 0);
@@ -77,7 +77,8 @@ class ModelShiftWork extends CI_Model
             'ModifyPersonId' => $inputs['inputPersonId']
         ); 
         $this->db->where('ShiftWorkId', $inputs['inputShiftWorkId']);
-        $this->db->update('shift_work', $userArray);
+        $this->db->where('ShiftWorkPersonId', $inputs['inputPersonId']);
+        $this->db->update('shift_work', $userArray); 
         if ($this->db->affected_rows() > 0) {
             return get_req_message('SuccessAction');
         } else {

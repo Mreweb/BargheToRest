@@ -129,7 +129,8 @@ function getSMSAPI()
 function response($array, $code = null){
     if($code != null){
         http_response_code($code);
-    }
+    } 
+	header('Content-Type: application/json; charset=utf-8');
     echo json_encode($array, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK | JSON_UNESCAPED_SLASHES  );
 }
 

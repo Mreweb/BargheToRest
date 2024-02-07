@@ -58,7 +58,6 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "inputPersonId": "1821",
     "inputBillGUID": "b9a6f23a-524a-452e-af50-85cc6b940270",
     "inputRealName": "پدرام",
     "inputRealLastName": "محمدی",
@@ -74,17 +73,14 @@ Content-Type: application/json
     "inputLegalPhone": "02155442211",
     "inputLegalProvinceId": "1",
     "inputLegalCityId": "459", 
-    "inputLegalAddress": "تهران شهریار خیابان ", 
-    "CreateDateTime": "1699089990",
-    "CreatePersonId": "1821"
+    "inputLegalAddress": "تهران شهریار خیابان "
 }
 ########## ویرایش اطلاعات حقوقی و حقیقی قبض ###############################################
 PUT   {{address}}/Profile/Bills/edit_legal_info HTTP/1.1
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
-{
-    "inputPersonId": "1821",
+{ 
     "inputBillGUID": "b9a6f23a-524a-452e-af50-85cc6b940270",
     "inputRealName": "مهسا",
     "inputRealLastName": "محمدی",
@@ -100,9 +96,7 @@ Content-Type: application/json
     "inputLegalPhone": "02155442211",
     "inputLegalProvinceId": "1",
     "inputLegalCityId": "459", 
-    "inputLegalAddress": "تهران شهریار خیابان ", 
-    "CreateDateTime": "1699089990",
-    "CreatePersonId": "1821"
+    "inputLegalAddress": "تهران شهریار خیابان "
 }
 
 ########## ثبت نوع اطلاعات موجود در پیش فاکتور ###############################################

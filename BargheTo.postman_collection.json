@@ -1,0 +1,2442 @@
+{
+	"info": {
+		"_postman_id": "22940621-4f68-472e-85d0-818033358315",
+		"name": "BargheTo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2574484"
+	},
+	"item": [
+		{
+			"name": "کشور و استان ها",
+			"item": [
+				{
+					"name": "دریافت فهرست تمامی استان ها",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{address}}/Country/get_province_list",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"Country",
+								"get_province_list"
+							]
+						},
+						"description": "دریافت فهرست استان ها"
+					},
+					"response": []
+				},
+				{
+					"name": "دریافت یک استان",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{address}}/Country/get_province_list/10",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"Country",
+								"get_province_list",
+								"10"
+							]
+						},
+						"description": "دریافت فهرست استان ها"
+					},
+					"response": []
+				},
+				{
+					"name": "دریافت فهرست شهرها",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{address}}/Country/get_city_list",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"Country",
+								"get_city_list"
+							]
+						},
+						"description": "دریافت فهرست استان ها"
+					},
+					"response": []
+				},
+				{
+					"name": "دریافت یک شهر",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{address}}/Country/get_city_list/450",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"Country",
+								"get_city_list",
+								"450"
+							]
+						},
+						"description": "دریافت فهرست استان ها"
+					},
+					"response": []
+				},
+				{
+					"name": "دریافت فهرست شهرهای یک استان",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{address}}/Country/get_city_by_province_id/10",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"Country",
+								"get_city_by_province_id",
+								"10"
+							]
+						},
+						"description": "دریافت فهرست استان ها"
+					},
+					"response": []
+				},
+				{
+					"name": "دریافت ماه فعلی",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{address}}/Country/get_current_month",
+							"host": [
+								"{{address}}"
+							],
+							"path": [
+								"Country",
+								"get_current_month"
+							]
+						},
+						"description": "دریافت فهرست استان ها"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "پروفایل کاربر",
+			"item": [
+				{
+					"name": "قبوض",
+					"item": [
+						{
+							"name": "دریافت فهرست قبض ها",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Profile/Bills?page=1&inputBillTitle=&inputBillNumberId=&inputPersonLastName&inputPersonPhone=&inputPersonNationalCode",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Bills"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"description": "شماره صفحه"
+										},
+										{
+											"key": "inputBillTitle",
+											"value": "",
+											"description": "عنوان قبض"
+										},
+										{
+											"key": "inputBillNumberId",
+											"value": "",
+											"description": "شماره قبض"
+										},
+										{
+											"key": "inputPersonLastName",
+											"value": null,
+											"description": "نام خانوادگی\n"
+										},
+										{
+											"key": "inputPersonPhone",
+											"value": "",
+											"description": "تلفن"
+										},
+										{
+											"key": "inputPersonNationalCode",
+											"value": null,
+											"description": "کد ملی"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "دریافت همه قبض های کاربر",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Profile/Bills/get_all",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Bills",
+										"get_all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "دریافت جزئیات یک قبض با شناسه یکتا",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Profile/Bills/get_by_guid/b9a6f23a-524a-452e-af50-85cc6b940270",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Bills",
+										"get_by_guid",
+										"b9a6f23a-524a-452e-af50-85cc6b940270"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "دریافت جزئیات یک قبض با شماره قبض",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Profile/Bills/get_by_id/1207134412221",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Bills",
+										"get_by_id",
+										"1207134412221"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "افزودن قبض",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputBillTitle\": \"قبض کارخانه\", /*عنوان قبض*/\r\n    \"inputBillNumberId\": \"8815529501320\" /*شماره قبض*/\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Profile/Bills",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Bills"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ویرایش قبض",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputBillGUID\": \"b9a6f23a-524a-452e-af50-85cc6b940270\", /*شناسه یکتای قبض*/\r\n    \"inputBillTitle\": \"قبض کارخانه زنجان\", /* عنوان قبض */\r\n    \"inputBillNumberId\": \"1207134412221\" /* شماره قبض */\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Profile/Bills",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Bills"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "حذف قبض",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputBillGUID\": \"b9a6f23a-524a-452e-af50-85cc6b940270\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Profile/Bills/delete_bill",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Bills",
+										"delete_bill"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "فعالسازی /  عدم خذف قبض",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputBillGUID\": \"b9a6f23a-524a-452e-af50-85cc6b940270\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Profile/Bills/active_bill",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Bills",
+										"active_bill"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "درج اطلاعات حقیقی و حقوقی قبض",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputBillGUID\": \"b9a6f23a-524a-452e-af50-85cc6b940270\",\r\n    \"inputRealName\": \"پدرام\", /* نام */\r\n    \"inputRealLastName\": \"محمدی\", /*نام خانوادگی*/\r\n    \"inputRealNationalCode\": \"2541224518\", /*کد ملی*/\r\n    \"inputRealPhone\": \"09125745214\", /*تلفن همراه*/\r\n    \"inputRealProvinceId\": \"8\", /*استان*/\r\n    \"inputRealCityId\": \"450\", /* شهر */\r\n    \"inputRealAddress\": \"تهران شهریار خیابان ولیعصر عج الله تعالی فرجه الشریف\", /*آدرس*/\r\n    \"inputLegalOrganizationName\": \"سازمان آب و فاضله ی آب\", /*عنوان سازمان*/\r\n    \"inputLegalFinanceCode\": \"5541245\", /*کد اقتصادی*/\r\n    \"inputLegalCompanyId\": \"12355001\", /*شناسه ملی*/\r\n    \"inputLegalRegisterNumber\": \"2258\", /*شماره ثبت*/\r\n    \"inputLegalPhone\": \"02155442211\", /* تلفن ثابت*/\r\n    \"inputLegalProvinceId\": \"1\", /*استان*/\r\n    \"inputLegalCityId\": \"459\",  /*شهر*/\r\n    \"inputLegalAddress\": \"تهران شهریار خیابان \" /*آدرس*/\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Profile/Bills/add_legal_info",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Bills",
+										"add_legal_info"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ویرایش اطلاعات حقیقی و حقوقی کاربر",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputBillGUID\": \"b9a6f23a-524a-452e-af50-85cc6b940270\",\r\n    \"inputRealName\": \"پدرام\",\r\n    \"inputRealLastName\": \"محمدی\",\r\n    \"inputRealNationalCode\": \"2541224518\",\r\n    \"inputRealPhone\": \"09125745214\",\r\n    \"inputRealProvinceId\": \"8\",\r\n    \"inputRealCityId\": \"450\",\r\n    \"inputRealAddress\": \"تهران شهریار خیابان ولیعصر عج الله تعالی فرجه الشریف\",\r\n    \"inputLegalOrganizationName\": \"سازمان آب و فاضله ی آب\",\r\n    \"inputLegalFinanceCode\": \"5541245\",\r\n    \"inputLegalCompanyId\": \"12355001\",\r\n    \"inputLegalRegisterNumber\": \"2258\",\r\n    \"inputLegalPhone\": \"02155442211\",\r\n    \"inputLegalProvinceId\": \"1\",\r\n    \"inputLegalCityId\": \"459\", \r\n    \"inputLegalAddress\": \"تهران شهریار خیابان \"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Profile/Bills/edit_legal_info",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Bills",
+										"edit_legal_info"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ثبت نوع اطلاعات جهت صدور پیش فاکتور",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputBillGUID\": \"b9a6f23a-524a-452e-af50-85cc6b940270\",\r\n    \"inputBillFactorPrintType\": \"Legal\" /*نوع فاکتور حهت صدور*/\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Profile/Bills/set_factor_type",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Bills",
+										"set_factor_type"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "دریافت اطلاعات مصرف کلی قبض",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Profile/Bills/power_data/b9a6f23a-524a-452e-af50-85cc6b940270 ",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Bills",
+										"power_data",
+										"b9a6f23a-524a-452e-af50-85cc6b940270 "
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "دریافت سابقه مصرف قبض",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Profile/Bills/sale_data/b9a6f23a-524a-452e-af50-85cc6b940270 ",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Bills",
+										"sale_data",
+										"b9a6f23a-524a-452e-af50-85cc6b940270 "
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "دریافت میانگین مصرف قبض",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Profile/Bills/avg_cons/8815739301320",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Bills",
+										"avg_cons",
+										"8815739301320"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "دریافت پلن های خرید",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputBillGUID\": \"b9a6f23a-524a-452e-af50-85cc6b940270\",\r\n    \"inputShiftWorkId\": \"9\",\r\n    \"inputTotalRequestKW\": \"35\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Profile/Bills/get_plans",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Bills",
+										"get_plans"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ثبت خرید برق عادی",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputPlanOrder\": \"3\",   /*شناسه پلن*/\r\n    \"inputBillGUID\": \"b9a6f23a-524a-452e-af50-85cc6b940270\",\r\n    \"inputShiftWorkId\": \"2\", /*شناسه شیفت کاری*/\r\n    \"inputTotalRequestKW\": \"1650\" /*مجموع برق درخواستی بر حسب کیلووات بر ساعت*/\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Profile/Bills/choose_plan",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Bills",
+										"choose_plan"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ثبت خرید برق سبز",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputPlanOrder\": \"4\", \r\n    \"inputBillGUID\": \"b9a6f23a-524a-452e-af50-85cc6b940270\",\r\n    \"inputShiftWorkId\": \"1\",\r\n    \"inputTotalRequestKW\": \"500\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Profile/Bills/choose_plan_green",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Bills",
+										"choose_plan_green"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "درگاه پرداخت",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputOrderId\": \"9\" /*شناسه سیفارش دریافتی از ثبت خرید برق*/\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Profile/Bills/start_payment",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Bills",
+										"start_payment"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "دریافت فهرست خریدها",
+					"item": [
+						{
+							"name": "دریافت فهرست سفارش های کاربر",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Profile/Finance?page=1&inputBillTitle=&inputBillNumberId=&inputPersonLastName&inputPersonLastName=&inputPersonNationalCode=&inputPersonPhone=&inputStatus=",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Finance"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "inputBillTitle",
+											"value": ""
+										},
+										{
+											"key": "inputBillNumberId",
+											"value": ""
+										},
+										{
+											"key": "inputPersonLastName",
+											"value": null
+										},
+										{
+											"key": "inputPersonLastName",
+											"value": ""
+										},
+										{
+											"key": "inputPersonNationalCode",
+											"value": ""
+										},
+										{
+											"key": "inputPersonPhone",
+											"value": ""
+										},
+										{
+											"key": "inputStatus",
+											"value": "",
+											"description": "وضعیت"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "دریافت جزئیات یک سفارش",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Profile/Finance/get_order_by_order_id/6",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Finance",
+										"get_order_by_order_id",
+										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "دریافت خرید های انجام شده یک قبض",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Profile/Finance/get_bill_orders/b9a6f23a-524a-452e-af50-85cc6b940270",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Finance",
+										"get_bill_orders",
+										"b9a6f23a-524a-452e-af50-85cc6b940270"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "اخبار",
+					"item": [
+						{
+							"name": "دریافت آخرین اخبار و اعلانات",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://bargheto.com/wp-json/wp/v2/posts?categories=87",
+									"protocol": "https",
+									"host": [
+										"bargheto",
+										"com"
+									],
+									"path": [
+										"wp-json",
+										"wp",
+										"v2",
+										"posts"
+									],
+									"query": [
+										{
+											"key": "categories",
+											"value": "87",
+											"description": "شناسه دسته بندی اخبار در وردپرس"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "اعلانات",
+					"item": [
+						{
+							"name": "دریافت اعلانات",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Profile/Notification",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Notification"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ثبت مشاهده اعلان",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputNotificationId\": \"1\" /*شناسه اعلان*/\r\n} ",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Profile/Notification",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Notification"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "تعرفه استان ها",
+					"item": [
+						{
+							"name": "دریافت قیمت برق",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Profile/ProvinceTariff/get_electricity_price",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"ProvinceTariff",
+										"get_electricity_price"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "دریافت قیمت برق سبز",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputNotificationId\": \"1\"\r\n} ",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Profile/ProvinceTariff/get_electricity_green_price",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"ProvinceTariff",
+										"get_electricity_green_price"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "اطلاعات کاربری",
+					"item": [
+						{
+							"name": "ویرایش اطلاعات",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputFirstName\": \"محمد\",\r\n    \"inputLastName\": \"تاجیک\",\r\n    \"inputNationalCode\": \"2500354216\", /*کد ملی*/\r\n    \"inputAddress\": \"تهران خیابان ولیعصر روبروی ملت\",\r\n    \"inputPersonProvinceId\": \"1\", /*شناسه استان*/\r\n    \"inputPersonCityId\": \"444\" /*شناسه شهر*/\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Profile/Setting/change_user_info",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Setting",
+										"change_user_info"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ویرایش اطلاعات حقوقی کاربر",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputLegalOrganizationName\": \"سازمان شماره 1 \",  /*عنوان سازمان*/     \r\n    \"inputLegalFinanceCode\": \"1258003\",             /*کد اقتصادی*/\r\n    \"inputLegalCompanyId\": \"215002100\",            /*شناسه ملی*/\r\n    \"inputLegalRegisterNumber\": \"13548\",           /*شماره ثبت*/\r\n    \"inputLegalPhone\": \"02165225522\",                 /*تلفن همراه*/\r\n    \"inputLegalProvinceId\": \"1\",            /*شناسه استان*/\r\n    \"inputLegalCityId\": \"459\",                  /*شناسه شهر*/\r\n    \"inputLegalAddress\": \"تهران خیابان نیایش جنب پاساژ مرکزی\"  /*آدرس دفتر مرکزی*/\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Profile/Setting/change_user_legal_info",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Setting",
+										"change_user_legal_info"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ثبت تلفن همراه جدید",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputPhone\": \"091205721070\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Profile/Setting/submit_new_phone",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Setting",
+										"submit_new_phone"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "تایید کد تلفن همراه",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputPhone\": \"09120570000\",\r\n    \"inputVerifyCode\": \"2196\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Profile/Setting/verify_new_phone",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Setting",
+										"verify_new_phone"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "دریافت اطلاعات کاربر",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Profile/Setting/get_user_info",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Setting",
+										"get_user_info"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "آپلو فایل",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/Administrator/Downloads/card-to-card-receipt.pdf"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{address}}/Upload/file",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Upload",
+										"file"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "شیفت های کاری",
+					"item": [
+						{
+							"name": "دریافت شیفت های کاری",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Profile/ShiftWork?page=1&inputShiftWorkTitle=&inputShiftWorkBillGUID=",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"ShiftWork"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "inputShiftWorkTitle",
+											"value": "",
+											"description": "عنوان شیفت کاری"
+										},
+										{
+											"key": "inputShiftWorkBillGUID",
+											"value": "",
+											"description": "شناسه قبض "
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ثبت شیفت کاری",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputShiftWorkTitle\": \"شیفت کاری شماره 1\",\r\n    \"inputShiftWorkFromDate\": \"1402/08/01\",\r\n    \"inputShiftWorkToDate\": \"1402/09/01\", \r\n    \"inputShiftWorkDays\": \r\n    [\r\n            {\r\n                \"DayTitle\" : \"شنبه\",\r\n                \"DayValue\" : \"1\",\r\n                \"Hour\" :[\r\n                            {  \"FromHour\" : \"8\",  \"ToHour\" : \"10\" } /* از ساعت تا ساعت */\r\n                        ] \r\n            },\r\n            {\r\n                \"DayTitle\" : \"دوشنبه\",\r\n                \"DayValue\" : \"3\",\r\n                \"Hour\" :[\r\n                            {  \"FromHour\" : \"8\",  \"ToHour\" : \"10\" }, \r\n                            {  \"FromHour\" : \"16\",  \"ToHour\" : \"20\" }\r\n                        ]\r\n            },\r\n            {\r\n                \"DayTitle\" : \"چهارشنبه\",\r\n                \"DayValue\" : \"5\",\r\n                \"Hour\" :[\r\n                            {  \"FromHour\" : \"8\",  \"ToHour\" : \"10\" },\r\n                            {  \"FromHour\" : \"12\",  \"ToHour\" : \"14\" },\r\n                            {  \"FromHour\" : \"16\",  \"ToHour\" : \"20\" }\r\n                        ]\r\n            }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Profile/ShiftWork",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"ShiftWork"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "حذف شیفت کاری",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputLegalOrganizationName\": \"سازمان شماره 1 \",       \r\n    \"inputLegalFinanceCode\": \"1258003\",             \r\n    \"inputLegalCompanyId\": \"215002100\",            \r\n    \"inputLegalRegisterNumber\": \"13548\",           \r\n    \"inputLegalPhone\": \"02165225522\",                 \r\n    \"inputLegalProvinceId\": \"1\",            \r\n    \"inputLegalCityId\": \"459\",                  \r\n    \"inputLegalAddress\": \"تهران خیابان نیایش جنب پاساژ مرکزی\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Profile/ShiftWork/2",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"ShiftWork",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "دریافت یک شیفت کاری",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Profile/ShiftWork/get_shift_work/2",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"ShiftWork",
+										"get_shift_work",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "پنل ادمین",
+			"item": [
+				{
+					"name": "قبوض",
+					"item": [
+						{
+							"name": "دریافت فهرست قبض ها",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Admin/Bills?page=1&inputBillTitle=&inputBillNumberId=&inputPersonLastName&inputPersonNationalCode=&inputPersonPhone=&inputShowDeleted=",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Admin",
+										"Bills"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "inputBillTitle",
+											"value": "",
+											"description": "عنوان قبض"
+										},
+										{
+											"key": "inputBillNumberId",
+											"value": "",
+											"description": "شماره قبض\n"
+										},
+										{
+											"key": "inputPersonLastName",
+											"value": null,
+											"description": "نام خانوادگی"
+										},
+										{
+											"key": "inputPersonNationalCode",
+											"value": "",
+											"description": "کد ملی"
+										},
+										{
+											"key": "inputPersonPhone",
+											"value": "",
+											"description": "تلفن همراه"
+										},
+										{
+											"key": "inputShowDeleted",
+											"value": "",
+											"description": "نمایش حذف شده ها؟"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "افزودن قبض برای کاربر",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputBillTitle\": \"قبض دستی\", /*عنوان قبض*/\r\n    \"inputPersonId\" : \"1823\", /*شناسه فرد*/\r\n    \"inputBillNumberId\": \"22542210234\" /*شماره قبض*/\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Admin/Bills",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Admin",
+										"Bills"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ویرایش قبض کاربر",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputPersonId\" : \"1820\", /*شناسه فرد*/\r\n    \"inputBillGUID\": \"98461e6f-cf9d-49a5-bc7e-2fc097dd507b\", /*شناسه قبض*/\r\n    \"inputBillTitle\": \"قبض خانه شماره 21\", /*عنوان قبض*/\r\n    \"inputBillNumberId\": \"2254210234\" /*شماره قبض*/\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Admin/Bills",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Admin",
+										"Bills"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "حذف قبض کاربر",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputPersonId\" : \"1820\",\r\n    \"inputBillGUID\": \"3302d7e2-0717-405b-9367-60fadf46a573\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Admin/Bills",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Admin",
+										"Bills"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "درج اطلاعات حقیقی و حقوقی برای کاربر",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputPersonId\": \"1821\",\r\n    \"inputBillGUID\": \"3302d7e2-0717-405b-9367-60fadf46a573\",\r\n    \"inputRealName\": \"پدرام\",\r\n    \"inputRealLastName\": \"محمدی\",\r\n    \"inputRealNationalCode\": \"2541224518\",\r\n    \"inputRealPhone\": \"09125745214\",\r\n    \"inputRealProvinceId\": \"8\",\r\n    \"inputRealCityId\": \"450\",\r\n    \"inputRealAddress\": \"تهران شهریار خیابان ولیعصر عج الله تعالی فرجه الشریف\",\r\n    \"inputLegalOrganizationName\": \"سازمان آب و فاضله ی آب\",\r\n    \"inputLegalFinanceCode\": \"5541245\",\r\n    \"inputLegalCompanyId\": \"12355001\",\r\n    \"inputLegalRegisterNumber\": \"2258\",\r\n    \"inputLegalPhone\": \"02155442211\",\r\n    \"inputLegalProvinceId\": \"1\",\r\n    \"inputLegalCityId\": \"459\", \r\n    \"inputLegalAddress\": \"تهران شهریار خیابان \"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Profile/Bills/add_legal_info",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Profile",
+										"Bills",
+										"add_legal_info"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "توکن  کراول",
+					"item": [
+						{
+							"name": "دریافت توکن ادمین",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Admin/CrawlToken",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Admin",
+										"CrawlToken"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "افزودن توکن جدید",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputToken\": \"eyJjbGllbnRfaWQiOiJZekV6TUdkb01ISm5PSEJpT0cxaWJEaHlOVEE9IiwicmVzcG9uc2VfdHlwZSI6ImNvZGUiLCJzY29wZSI6ImludHJvc2NwZWN0X3Rva2VucywgcmV2b2tlX3Rva2VucyIsImlzcyI6ImJqaElSak0xY1hwYWEyMXpkV3RJU25wNmVqbE1iazQ0YlRsTlpqazNkWEU9Iiwic3ViIjoiWXpFek1HZG9NSEpuT0hCaU9HMWliRGh5TlRBPSIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0Ojg0NDMve3RpZH0ve2FpZH0vb2F1dGgyL2F1dGhvcml6ZSIsImp0aSI6IjE1MTYyMzkwMjIiLCJleHAiOiIyMDIxLTA1LTE3VDA3OjA5OjQ4LjAwMCswNTQ1In0\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Admin/CrawlToken",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Admin",
+										"CrawlToken"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "مالی",
+					"item": [
+						{
+							"name": "دریافت جزئیات یک سفارش",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Admin/Finance/get_order_by_order_id/6",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Admin",
+										"Finance",
+										"get_order_by_order_id",
+										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "دریافت خریدهای یک قبض",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Admin/Finance/get_bill_orders/b9a6f23a-524a-452e-af50-85cc6b940270",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Admin",
+										"Finance",
+										"get_bill_orders",
+										"b9a6f23a-524a-452e-af50-85cc6b940270"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "اعلانات",
+					"item": [
+						{
+							"name": "دریافت فهرست اعلانات",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Admin/Notification?page=1&inputNotificationTitle=",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Admin",
+										"Notification"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "inputNotificationTitle",
+											"value": "",
+											"description": "عنوان اعلان"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "درج اعلان",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputNotificationTitle\": \"اعلان شماره 1\",\r\n    \"inputNotificationContent\" : \"این یک متن تست است\",\r\n    \"inputNotificationMediaId\" : \"1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Admin/Notification",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Admin",
+										"Notification"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ویرایش اعلان",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputNotificationId\" : \"5\",\r\n    \"inputNotificationTitle\": \"تغییر اعلان شماره 5\", /*عنوان اعلان*/\r\n    \"inputNotificationContent\" : \"این یک متن تست  تغییر داده شده است\", /*محتوای اعلان*/\r\n    \"inputNotificationMediaId\" : \"24\" /*شناسه فایل آپلود شده*/\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Admin/Notification",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Admin",
+										"Notification"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "حذف اعلان",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputNotificationId\" : \"5\",\r\n    \"inputNotificationTitle\": \"تغییر اعلان شماره 5\",\r\n    \"inputNotificationContent\" : \"این یک متن تست  تغییر داده شده است\",\r\n    \"inputNotificationMediaId\" : \"24\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Admin/Notification/4",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Admin",
+										"Notification",
+										"4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "فهرست خریدها",
+					"item": [
+						{
+							"name": "دریافت تمامی خریدها",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Admin/Orders?page=1&inputPersonFirstName=&inputPersonLastName&inputPersonNationalCode=&inputPersonPhone&inputOrderStatus=&inputBillTitle=&inputBillNumberId&inputStatus=",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Admin",
+										"Orders"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "inputPersonFirstName",
+											"value": ""
+										},
+										{
+											"key": "inputPersonLastName",
+											"value": null
+										},
+										{
+											"key": "inputPersonNationalCode",
+											"value": ""
+										},
+										{
+											"key": "inputPersonPhone",
+											"value": null
+										},
+										{
+											"key": "inputOrderStatus",
+											"value": ""
+										},
+										{
+											"key": "inputBillTitle",
+											"value": "",
+											"description": "عنوان قبض"
+										},
+										{
+											"key": "inputBillNumberId",
+											"value": null,
+											"description": "شماره قبض"
+										},
+										{
+											"key": "inputStatus",
+											"value": "",
+											"description": "وضعیت خرید"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "دریافت جزئیات یک خرید",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputNotificationTitle\": \"اعلان شماره 1\",\r\n    \"inputNotificationContent\" : \"این یک متن تست است\",\r\n    \"inputNotificationMediaId\" : \"1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Admin/Orders/get_order_detail/6",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Admin",
+										"Orders",
+										"get_order_detail",
+										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "تغییر وضعیت یک خرید",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputOrderId\": \"6\", /*شماره سفارش*/\r\n    \"inputBillGUID\": \"b9a6f23a-524a-452e-af50-85cc6b940270\", /*شناسه قبض*/\r\n    \"inputPersonId\": \"1823\", /*شناسه فرد*/\r\n    \"inputStatus\": \"Assigned\" /*وضعیت جدید خرید*/\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Admin/Orders",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Admin",
+										"Orders"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "تعرفه استان ها",
+					"item": [
+						{
+							"name": "فهرست تعرفه استان ها",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Admin/ProvinceTariff?page=1&inputProvinceName=&inputProvinceId=",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Admin",
+										"ProvinceTariff"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "inputProvinceName",
+											"value": "",
+											"description": "عنوان استان"
+										},
+										{
+											"key": "inputProvinceId",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "افزودن تعرفه استان",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n    \"inputProvinceId\": \"8\", /*شناسه استان*/\r\n    \"inputLowPowerFromHour\": \"7\", /*ساعت کم باری از ساعت*/\r\n    \"inputLowPowerToHour\": \"10\", /*کم باری تا ساعت*/\r\n    \"inputMiddlePowerFromHour\": \"14\", /*میان باری از ساعت*/\r\n    \"inputMiddlePowerToHour\": \"17\", /*میان باری تا ساعت*/\r\n    \"inputPeakPowerFromHour\": \"20\", /*اوج باری از ساعت*/\r\n    \"inputPeakPowerToHour\": \"22\" /*اوج باری تا ساعت*/\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Admin/ProvinceTariff",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Admin",
+										"ProvinceTariff"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ویرایش تعرفه استان",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputProvinceTariffId\": \"1\", /*شناسه تعرفه استان*/\r\n    \"inputLowPowerFromHour\": \"7\",\r\n    \"inputLowPowerToHour\": \"100\",\r\n    \"inputMiddlePowerFromHour\": \"140\",\r\n    \"inputMiddlePowerToHour\": \"170\",\r\n    \"inputPeakPowerFromHour\": \"200\",\r\n    \"inputPeakPowerToHour\": \"220\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Admin/ProvinceTariff",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Admin",
+										"ProvinceTariff"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "حذف تعرفه استان",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"inputProvinceTariffId\" : \"11\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Admin/ProvinceTariff",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Admin",
+										"ProvinceTariff"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ثبت قیمت برق",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n    \"inputHighPrice\" : \"960\", /*قیمت بالا*/\r\n    \"inputLowPrice\" : \"880\" /*قیمت پایین*/\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Admin/ProvinceTariff/add_electricity_price",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Admin",
+										"ProvinceTariff",
+										"add_electricity_price"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ثبت قیمت برق سبز",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n    \"inputMonth\" : \"10\", /*ماه*/\r\n    \"inputGreenHighPrice\" : \"980\", /*قیمت بالا*/\r\n    \"inputGreenLowPrice\" : \"890\", /*قیمت پایین*/\r\n    \"inputGreenInventory\" : \"1800\" /*موجودی*/\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{address}}/Admin/ProvinceTariff/do_update_electricity_green_price",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Admin",
+										"ProvinceTariff",
+										"do_update_electricity_green_price"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "دریافت قیمت برق",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Admin/ProvinceTariff/get_electricity_price",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Admin",
+										"ProvinceTariff",
+										"get_electricity_price"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "دریافت قیمت برق سبز",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token_admin}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{address}}/Admin/ProvinceTariff/get_electricity_green_price",
+									"host": [
+										"{{address}}"
+									],
+									"path": [
+										"Admin",
+										"ProvinceTariff",
+										"get_electricity_green_price"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
